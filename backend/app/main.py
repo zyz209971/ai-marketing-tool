@@ -1,6 +1,6 @@
 import os
 import base64
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile, Header, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -9,8 +9,8 @@ from pathlib import Path
 
 from .pipeline import run_pipeline
 from .providers import revise, image, copywriting, vision
-from .config import USE_MOCK
-from . import db, rag
+from .config import USE_MOCK, APP_ACCESS_KEY, ADMIN_RESET_KEY
+from . import db, rag, quota
 
 app = FastAPI(title="AI 营销素材生成工具")
 
@@ -22,6 +22,23 @@ app.add_middleware(
 )
 
 
+def _visitor_id(x_forwarded_for: str = Header(None), x_visitor_id: str = Header(None)) -> str:
+    """识别访客：优先用前端传来的 X-Visitor-Id，否则用 IP。"""
+    if x_visitor_id:
+        return x_visitor_id
+    if x_forwarded_for:
+        return x_forwarded_for.split(",")[0].strip()
+    return "unknown"
+
+
+def require_quota(visitor: str = Depends(_visitor_id)):
+    """额度校验依赖：生成接口统一调用。"""
+    result = quota.check_quota(visitor)
+    if not result["allowed"]:
+        raise HTTPException(status_code=429, detail=result["reason"])
+    return visitor
+
+
 class GenerateRequest(BaseModel):
     product_name: str
     selling_points: str
@@ -29,9 +46,44 @@ class GenerateRequest(BaseModel):
     poster_url: str = ""
 
 
+class AccessRequest(BaseModel):
+    key: str = ""
+
+
+class AdminResetRequest(BaseModel):
+    admin_key: str = ""
+
+
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "mock": USE_MOCK}
+    return {"status": "ok", "mock": USE_MOCK, "need_key": bool(APP_ACCESS_KEY)}
+
+
+@app.post("/api/admin/reset_quota")
+def reset_quota(req: AdminResetRequest):
+    """管理员重置额度：需要正确的管理密钥。"""
+    if not ADMIN_RESET_KEY:
+        raise HTTPException(status_code=403, detail="未配置管理密钥")
+    if req.admin_key != ADMIN_RESET_KEY:
+        raise HTTPException(status_code=403, detail="管理密钥错误")
+    quota.reset_all()
+    return {"ok": True, "message": "额度已重置"}
+
+
+@app.post("/api/verify_key")
+def verify_key(req: AccessRequest):
+    """校验访问密码。返回剩余额度信息。"""
+    if not APP_ACCESS_KEY:
+        return {"ok": True}
+    if req.key.strip() == APP_ACCESS_KEY:
+        return {"ok": True}
+    return {"ok": False, "reason": "密码错误"}
+
+
+@app.get("/api/quota")
+def get_quota(visitor: str = Depends(_visitor_id)):
+    """查看当前额度状态。"""
+    return quota.check_quota(visitor)
 
 
 @app.get("/api/lookup")
@@ -62,6 +114,7 @@ async def generate(
     price: str = Form(""),
     poster_url: str = Form(""),
     poster: UploadFile = File(None),
+    visitor: str = Depends(require_quota),
 ):
     poster_bytes = None
     if poster is not None:
@@ -79,6 +132,7 @@ async def generate(
         db.upsert_product(name=product_name, selling_points=selling_points, price=price)
     except Exception:
         pass
+    quota.consume(visitor)
     return result
 
 
@@ -87,6 +141,7 @@ async def copywriting_only(
     product_name: str = Form(...),
     selling_points: str = Form(...),
     price: str = Form(""),
+    visitor: str = Depends(require_quota),
 ):
     """只生成文案（不触发生图，速度快）。RAG 检索营销案例作为参照。"""
     references = []
@@ -101,6 +156,7 @@ async def copywriting_only(
         db.upsert_product(name=product_name, selling_points=selling_points, price=price)
     except Exception:
         pass
+    quota.consume(visitor)
     return {"copywriting": copies, "references": references}
 
 
@@ -111,6 +167,7 @@ async def image_only(
     price: str = Form(""),
     poster_url: str = Form(""),
     poster: UploadFile = File(None),
+    visitor: str = Depends(require_quota),
 ):
     """只生图（不生成文案）。返回图片 + 提示词，供后续多轮改图使用。"""
     poster_bytes = None
@@ -128,6 +185,7 @@ async def image_only(
         db.upsert_product(name=product_name, selling_points=selling_points, price=price)
     except Exception:
         pass
+    quota.consume(visitor)
     return {"parsed_prompt": parsed, "final_prompt": prompt, "image": img}
 
 
@@ -137,10 +195,11 @@ class ReviseRequest(BaseModel):
 
 
 @app.post("/api/revise")
-async def revise_image(req: ReviseRequest):
+async def revise_image(req: ReviseRequest, visitor: str = Depends(require_quota)):
     """多轮改图：根据上一版提示词 + 用户修改意见，生成新提示词并重新出图。"""
     new_prompt = revise.revise_prompt(req.original_prompt, req.feedback)
     img = image.generate_image(new_prompt)
+    quota.consume(visitor)
     return {"new_prompt": new_prompt, "image": img}
 
 

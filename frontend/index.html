@@ -166,6 +166,7 @@
       <h1 data-page-node-id="pfzXe7OkjYYcHgrJ8RlTY1">AI 营销素材生成工具</h1>
       <p data-page-node-id="HuILrNMc0ws1HJrn1j3jIy">上传产品信息 + 参考海报 → 一键生成新海报与营销文案</p>
       <span class="badge off" id="modeBadge" data-page-node-id="KY8GBwuFvEYhxJmDqdwAno">检测中…</span>
+      <div class="hint" id="quotaHint" style="display:none;margin-top:8px"></div>
     </header>
 
     <!-- 输入区 -->
@@ -237,12 +238,59 @@
     let currentPrompt = '';  // 当前海报的提示词，用于多轮修改
     let genAbort = null;     // 用于取消正在进行的生成请求
 
-    // 检测 mock 模式
+    // 访客 ID：浏览器本地持久化，用于额度计数
+    function visitorId() {
+      let id = localStorage.getItem('visitor_id');
+      if (!id) {
+        id = 'v_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        localStorage.setItem('visitor_id', id);
+      }
+      return id;
+    }
+    const VID = visitorId();
+
+    // 是否已通过密码校验
+    let accessOk = false;
+
+    // 检测 mock 模式 + 是否需要密码
     fetch('/api/health').then(r => r.json()).then(d => {
       const b = $('modeBadge');
       if (d.mock) { b.textContent = '演示模式（未配置 API Key）'; b.className = 'badge off'; }
       else { b.textContent = '已接入真实生图 API'; b.className = 'badge on'; }
+      if (d.need_key) {
+        askKey();
+      } else {
+        accessOk = true;
+        refreshQuota();
+      }
     }).catch(() => { const b = $('modeBadge'); b.textContent = '后端未连接'; b.className = 'badge off'; });
+
+    // 访问密码弹层
+    function askKey() {
+      const key = prompt('此应用需要访问密码，请输入：');
+      if (!key) { alert('未输入密码，无法使用'); askKey(); return; }
+      fetch('/api/verify_key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: key.trim() })
+      }).then(r => r.json()).then(d => {
+        if (d.ok) { accessOk = true; refreshQuota(); }
+        else { alert(d.reason || '密码错误'); askKey(); }
+      }).catch(() => alert('网络错误，请重试'));
+    }
+
+    // 刷新额度显示
+    async function refreshQuota() {
+      try {
+        const r = await fetch('/api/quota', { headers: { 'X-Visitor-Id': VID } });
+        const d = await r.json();
+        const el = $('quotaHint');
+        if (d.remaining !== undefined && d.remaining !== null) {
+          el.style.display = 'block';
+          el.textContent = '今日剩余生成次数：' + d.remaining;
+        }
+      } catch (e) {}
+    }
 
     // 产品名联想补全（从知识库检索）
     const nameInput = $('name'), suggest = $('suggest'), lookupHint = $('lookupHint');
@@ -351,13 +399,15 @@
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>生成文案中…';
       try {
-        const resp = await fetch('/api/copywriting', { method: 'POST', body: fd });
+        const resp = await fetch('/api/copywriting', { method: 'POST', body: fd, headers: { 'X-Visitor-Id': VID } });
         const data = await resp.json();
+        if (!resp.ok) { alert(data.detail || '生成失败'); return; }
         $('imgCol').style.display = 'none';
         renderCopies(data);
         const pd = $('parsedDetail'); pd.innerHTML = '';
         $('resultWrap').style.display = 'block';
         $('resultWrap').scrollIntoView({ behavior: 'smooth' });
+        refreshQuota();
       } catch (err) {
         alert('生成文案失败：' + err.message);
       } finally {
@@ -373,13 +423,15 @@
       btn.disabled = true;
       btn.innerHTML = '<span class="spinner"></span>生成图片中…';
       try {
-        const resp = await fetch('/api/image', { method: 'POST', body: fd });
+        const resp = await fetch('/api/image', { method: 'POST', body: fd, headers: { 'X-Visitor-Id': VID } });
         const data = await resp.json();
+        if (!resp.ok) { alert(data.detail || '生成失败'); return; }
         $('copyCol').style.display = 'none';
         renderImage(data);
         renderParsed(data);
         $('resultWrap').style.display = 'block';
         $('resultWrap').scrollIntoView({ behavior: 'smooth' });
+        refreshQuota();
       } catch (err) {
         alert('生成图片失败：' + err.message);
       } finally {
@@ -411,8 +463,9 @@
       btn.innerHTML = '<span class="spinner"></span>生成中，点击取消…';
 
       try {
-        const resp = await fetch('/api/generate', { method: 'POST', body: fd, signal: genAbort.signal });
+        const resp = await fetch('/api/generate', { method: 'POST', body: fd, signal: genAbort.signal, headers: { 'X-Visitor-Id': VID } });
         const data = await resp.json();
+        if (!resp.ok) { alert(data.detail || '生成失败'); return; }
 
         renderImage(data);
         renderCopies(data);
@@ -420,6 +473,7 @@
 
         $('resultWrap').style.display = 'block';
         $('resultWrap').scrollIntoView({ behavior: 'smooth' });
+        refreshQuota();
       } catch (err) {
         if (err.name === 'AbortError') {
           // 用户主动取消，静默处理
@@ -446,10 +500,11 @@
       try {
         const resp = await fetch('/api/revise', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-Visitor-Id': VID },
           body: JSON.stringify({ original_prompt: currentPrompt, feedback: feedback })
         });
         const data = await resp.json();
+        if (!resp.ok) { alert(data.detail || '修改失败'); return; }
 
         if (data.image.base64) {
           $('resultImg').src = `data:image/${data.image.format};base64,${data.image.base64}`;

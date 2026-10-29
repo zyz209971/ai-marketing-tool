@@ -23,6 +23,16 @@ VISION_MODEL = os.getenv("VISION_MODEL", "qwen-vl-max")
 # 是否强制 mock
 USE_MOCK = os.getenv("USE_MOCK", "").lower() == "true" or not QWEN_API_KEY
 
+# 线上访问密码（为空则不启用密码校验）
+APP_ACCESS_KEY = os.getenv("APP_ACCESS_KEY", "")
+
+# 管理员重置密钥（用于重置额度）
+ADMIN_RESET_KEY = os.getenv("ADMIN_RESET_KEY", "")
+
+# 额度限制：每人最多次数 / 总共最多次数
+QUOTA_PER_USER = int(os.getenv("QUOTA_PER_USER", "7"))
+QUOTA_TOTAL = int(os.getenv("QUOTA_TOTAL", "50"))
+
 
 def has_api_key() -> bool:
     return bool(QWEN_API_KEY)
