@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="tqjgnvYR2WItW9ygHW7FR5">
+<head data-page-node-id="LHcqAwrfTRf1r4Q4Lx7Tpt">
+  <meta charset="UTF-8" data-page-node-id="JxJDB768FQsbAcQ7Uml4je" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="YFNd4QvWjGp1hP8PYRQ39c" />
+  <title>AI 营销素材生成工具</title>
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --card: #ffffff;
+      --ink: #2d2a26;
+      --muted: #a39a8e;
+      --accent: #cd785c;
+      --accent-2: #3d4d6b;
+      --accent-soft: #f7ece5;
+      --ok: #5aae72;
+      --warn: #cd785c;
+      --border: #ece5da;
+      --shadow: 0 1px 3px rgba(45,42,38,.04), 0 8px 24px rgba(45,42,38,.05);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Yuanti SC", "YouYuan",
+                   "Microsoft YaHei", "Noto Sans SC", -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.85;
+      letter-spacing: .2px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1020px; margin: 0 auto; padding: 48px 20px 96px; }
+
+    header { text-align: center; margin-bottom: 40px; }
+    header .logo {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 8px;
+    }
+    header .logo .dot {
+      width: 38px; height: 38px; border-radius: 14px;
+      background: linear-gradient(135deg, #cd785c, #d98e6a);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 20px;
+    }
+    header h1 { font-size: 26px; letter-spacing: 1px; font-weight: 700; }
+    header p { color: var(--muted); margin-top: 8px; font-size: 14.5px; }
+    .badge {
+      display: inline-block; padding: 4px 12px; border-radius: 999px;
+      font-size: 12px; margin-top: 12px; font-weight: 500;
+    }
+    .badge.on { background: var(--accent-2); color: #fff; }
+    .badge.off { background: #f7ece5; color: var(--warn); }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px; margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .card h2 {
+      font-size: 17px; font-weight: 600; margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .card h2 .step {
+      width: 28px; height: 28px; background: var(--accent); color: #fff;
+      border-radius: 9px; display: inline-flex; align-items: center;
+      justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0;
+    }
+    .card h2 .step.plain { background: var(--accent-2); }
+
+    label { font-size: 13.5px; color: var(--muted); display: block; margin: 18px 0 8px; font-weight: 500; }
+    label .req { color: var(--accent); }
+    input[type="text"], textarea {
+      width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
+      border-radius: 12px; font-size: 15px; font-family: inherit;
+      transition: border-color .15s, box-shadow .15s; background: #fff;
+    }
+    input:focus, textarea:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    textarea { resize: vertical; min-height: 72px; }
+
+    .file-drop {
+      border: 2px dashed var(--border); border-radius: 16px;
+      padding: 36px; text-align: center; color: var(--muted); cursor: pointer;
+      transition: all .2s; background: #f7f2ea;
+    }
+    .file-drop:hover, .file-drop.drag { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+    .file-drop img { max-width: 100%; max-height: 200px; margin-top: 12px; border-radius: 10px; }
+
+    .row { display: flex; gap: 16px; }
+    .row > div { flex: 1; }
+
+    .btn-group { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+    button.primary {
+      flex: 1; min-width: 170px; padding: 15px 18px;
+      color: #fff; border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      letter-spacing: .5px;
+      transition: transform .08s, opacity .2s;
+    }
+    button.primary:hover { opacity: .92; }
+    button.primary:active { transform: translateY(1px); }
+    button.primary:disabled { opacity: .5; cursor: not-allowed; }
+    #copyBtn { background: #e0a183; }
+    #imgBtn { background: #d98e6a; }
+    #genBtn { background: linear-gradient(135deg, #cd785c, #d98e6a); }
+
+    .spinner {
+      display: inline-block; width: 16px; height: 16px; border: 2.5px solid #fff;
+      border-top-color: transparent; border-radius: 50%;
+      animation: spin .8s linear infinite; vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 760px) { .grid, .row, .btn-group { grid-template-columns: 1fr; flex-direction: column; } }
+
+    .result-img {
+      width: 100%; border-radius: 16px; border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .copy-block {
+      background: #f9f5ee; border: 1px solid var(--border); border-radius: 16px;
+      padding: 18px; margin-bottom: 14px;
+    }
+    .copy-block h4 {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--accent); font-size: 13px; margin-bottom: 8px; font-weight: 600;
+    }
+    .copy-block h4::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .copy-block p { font-size: 14px; white-space: pre-wrap; color: var(--ink); }
+
+    .revise-bar {
+      display: flex; gap: 10px; align-items: center;
+      margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border);
+    }
+    .revise-bar input { flex: 1; }
+    .revise-bar button { width: auto; padding: 12px 22px; margin: 0; background: var(--accent-2); }
+
+    .prompt-box {
+      background: #f9f5ee; border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px; font-size: 12.5px; color: var(--muted); margin-top: 14px;
+      white-space: pre-wrap; word-break: break-all; font-family: ui-monospace, monospace;
+    }
+    .kv { margin: 6px 0; font-size: 13px; }
+    .kv b { color: var(--accent); font-weight: 600; }
+
+    .suggest {
+      position: absolute; top: 100%; left: 0; right: 0; z-index: 10;
+      background: #fff; border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 12px 32px rgba(16,24,40,.14); max-height: 260px; overflow-y: auto;
+    }
+    .suggest-item { padding: 11px 14px; cursor: pointer; border-bottom: 1px solid var(--border); }
+    .suggest-item:last-child { border-bottom: none; }
+    .suggest-item:hover { background: var(--accent-soft); }
+    .suggest-item .name { font-weight: 600; font-size: 14px; }
+    .suggest-item .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  </style>
+</head>
+<body data-page-node-id="VDzYnFzK70F7DHwQDM030G">
+  <div class="wrap" data-page-node-id="67E8GRBGDPbVh9IDKJDhGh">
+    <header data-page-node-id="FapqsL4pATcvDzBCt0t7P9">
+      <div class="logo" data-page-node-id="MUxJZJFSqBlkCUbN1tFQBa"><span class="dot" data-page-node-id="uAEMVTU4whWesk1QFBSX57">✦</span></div>
+      <h1 data-page-node-id="pfzXe7OkjYYcHgrJ8RlTY1">AI 营销素材生成工具</h1>
+      <p data-page-node-id="HuILrNMc0ws1HJrn1j3jIy">上传产品信息 + 参考海报 → 一键生成新海报与营销文案</p>
+      <span class="badge off" id="modeBadge" data-page-node-id="KY8GBwuFvEYhxJmDqdwAno">检测中…</span>
+    </header>
+
+    <!-- 输入区 -->
+    <div class="card" id="inputCard" data-page-node-id="Z60ssbtd97ZzTDMN0U0czZ">
+      <h2 data-page-node-id="UNFbFQRURCiDMdtGIsHXhM"><span class="step" data-page-node-id="mmBPGxjQRzWgvg4dsWFH2s">1</span> 填写产品信息</h2>
+      <div class="row" data-page-node-id="cfcJuzurCXuuA4eC15j893">
+        <div style="position:relative" data-page-node-id="OYEtVvINlCuFATLfFjAPbl">
+          <label data-page-node-id="wuDo712j56opmVUc53pPC0">产品名称 <span class="req" data-page-node-id="0KptKAzJUxu0mVo4I27eRS">*</span></label>
+          <input type="text" id="name" placeholder="例如：招牌珍珠奶茶" autocomplete="off" data-page-node-id="sFbJLrJxQyV9GVPbZzWOX0" />
+          <div class="suggest" id="suggest" style="display:none" data-page-node-id="ebFaolQdlTckzREfQwM1AQ"></div>
+        </div>
+        <div data-page-node-id="Mxlj9CjHkrQiBfCG81vteZ">
+          <label data-page-node-id="JWx1DQvC9PmAUXmbcEV4Oi">价格</label>
+          <input type="text" id="price" placeholder="例如：15 元" data-page-node-id="6CM5r7hnMaQ2MzMfAjPmKL" />
+        </div>
+      </div>
+      <label data-page-node-id="fKuAgXS5aHwIR5hDXukFjr">产品卖点 <span class="req" data-page-node-id="m2Z1UP1gtvHFFpWlqg6mJ5">*</span></label>
+      <textarea id="points" placeholder="例如：现煮珍珠、低糖健康、奶香浓郁、第二杯半价"></textarea>
+      <div class="hint" id="lookupHint" style="display:none" data-page-node-id="oVPE6h8YIbeNJAWcGvh9oz"></div>
+
+      <h2 style="margin-top:28px" data-page-node-id="uC5LkOn4EgXWBfykStidH4"><span class="step plain" data-page-node-id="ASkYNXZ76LgW9mLKad2AOY">2</span> 上传参考海报（可选）</h2>
+      <div class="file-drop" id="drop" data-page-node-id="NsUGUprRPFalfD7bQxqr2b">
+        <div id="dropText" data-page-node-id="dOySTkVZVBn2y0NNsraTFq">点击或拖拽上传参考海报图片<br  data-page-node-id="Jbr8ftJ7oijn3K0eJdxwc2"/><span style="font-size:12px" data-page-node-id="mAZZNinpdnLARjzWTYJLTM">不传则使用默认风格模板</span></div>
+        <img id="preview" style="display:none" data-page-node-id="nk6J3HgUuCbRK6HowAv4J6" />
+      </div>
+      <input type="file" id="fileInput" accept="image/*" style="display:none" data-page-node-id="Oc5IJ8bxdFAPrAwlmreyPK" />
+
+      <div class="btn-group" data-page-node-id="KliNjBwsMiH6tvJ09h65J1">
+        <button class="primary" id="copyBtn" data-page-node-id="hRjwWQbnwfHrplXkk7QsS6">只生成文案</button>
+        <button class="primary" id="imgBtn" data-page-node-id="6icCF1Cyr4AQEyRCarJH1c">只生成图片</button>
+        <button class="primary" id="genBtn" data-page-node-id="eIC2eEMZLYD5J5Fy8Zq6Pp">图文一起生成</button>
+      </div>
+      <div class="hint" data-page-node-id="GBO4EmpZpGXbBo7ZW2zqAH">只想要文案时无需等待生图；生图较慢，可按需选择。</div>
+    </div>
+
+    <!-- 结果区 -->
+    <div id="resultWrap" style="display:none" data-page-node-id="rh3ZgVWxVpVHhqDtiWxDAW">
+      <div class="card" data-page-node-id="vcJSbpWmR9idGazesAgFQS">
+        <h2 data-page-node-id="s7DtB4JGZpkVprnHJNGyIw"><span class="step" data-page-node-id="PY7RHBtS4Wk2s9xQRDgIB9">✓</span> 生成结果</h2>
+        <div class="grid" data-page-node-id="wGUTImmM9BTBZKfYux6fAg">
+          <div id="imgCol" style="display:none" data-page-node-id="Si1HzPsnj5ShK7Ut4VYuaZ">
+            <label style="margin-top:0" data-page-node-id="0HA16dMSfAlDfV1xdH9Zru">生成海报</label>
+            <img class="result-img" id="resultImg" data-page-node-id="N8UwkWzffDcBxwnDb9MK9a" />
+          </div>
+          <div id="copyCol" style="display:none" data-page-node-id="bQwOFF7Uja5hvnDXogRyye">
+            <label style="margin-top:0" data-page-node-id="xNZdOJ7qBeNlRyqZ3vsgFt">营销文案</label>
+            <div id="copies" data-page-node-id="lxz7TCSFcH9BotbIWMN9v4"></div>
+          </div>
+        </div>
+        <!-- 多轮改图 -->
+        <div style="margin-top:24px; padding-top:18px; border-top:1px solid var(--border)" data-page-node-id="cjD14UrSTwOAB1lZ2pIF1O">
+          <label style="margin-top:0" data-page-node-id="0XYR3UkmDGC3ChHJB0yy8o">继续修改图片（多轮改图）</label>
+          <div class="revise-bar" data-page-node-id="lEGvs32oWIsB6wfeC7OurO">
+            <input type="text" id="reviseInput" placeholder="例如：去掉柿子和橘子，背景改成绿色调" data-page-node-id="vZ8REzfLFTv8GU5WFhIsyx" />
+            <button class="primary" id="reviseBtn" data-page-node-id="KkNFqZgXLGizb3Novurqi9">修改图片</button>
+          </div>
+          <div class="hint" data-page-node-id="dg2KUgqSl5ZWvC15GPKCfG">不满意可反复修改：去掉多余元素、换背景色、换构图等，每次基于上一版重新生成</div>
+        </div>
+      </div>
+      <div class="card" data-page-node-id="J6Q66FAzshqHLfrZnITL2u">
+        <h2 data-page-node-id="Hi54lxqfWXYTrjkMHjDNo5"><span class="step plain" data-page-node-id="koNHoHJmfQFqXUR9gYCCAh">i</span> 提示词解析详情</h2>
+        <div id="parsedDetail" data-page-node-id="L2PZTRy6CMf98pI2DlED0h"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let currentPrompt = '';  // 当前海报的提示词，用于多轮修改
+    let genAbort = null;     // 用于取消正在进行的生成请求
+
+    // 检测 mock 模式
+    fetch('/api/health').then(r => r.json()).then(d => {
+      const b = $('modeBadge');
+      if (d.mock) { b.textContent = '演示模式（未配置 API Key）'; b.className = 'badge off'; }
+      else { b.textContent = '已接入真实生图 API'; b.className = 'badge on'; }
+    }).catch(() => { const b = $('modeBadge'); b.textContent = '后端未连接'; b.className = 'badge off'; });
+
+    // 产品名联想补全（从知识库检索）
+    const nameInput = $('name'), suggest = $('suggest'), lookupHint = $('lookupHint');
+    let suggestTimer = null;
+    nameInput.addEventListener('input', () => {
+      clearTimeout(suggestTimer);
+      const q = nameInput.value.trim();
+      if (!q) { suggest.style.display = 'none'; lookupHint.style.display = 'none'; return; }
+      suggestTimer = setTimeout(async () => {
+        try {
+          const r = await fetch('/api/search?q=' + encodeURIComponent(q));
+          const d = await r.json();
+          if (d.results && d.results.length) {
+            suggest.innerHTML = d.results.map(p =>
+              `<div class="suggest-item" data-name="${p.name}" data-price="${p.price}" data-points="${p.selling_points}">
+                <div class="name">${p.name}${p.brand ? ` <span style="font-size:12px;color:var(--muted);font-weight:400">${p.brand}</span>` : ''}</div>
+                <div class="meta">${p.price || '价格待填'}${p.selling_points && p.selling_points !== (p.brand+'在售产品') ? ' · ' + p.selling_points : ''}</div>
+              </div>`
+            ).join('');
+            suggest.style.display = 'block';
+            suggest.querySelectorAll('.suggest-item').forEach(el => {
+              el.addEventListener('click', () => {
+                nameInput.value = el.dataset.name;
+                $('price').value = el.dataset.price;
+                $('points').value = el.dataset.points;
+                suggest.style.display = 'none';
+                lookupHint.style.display = 'block';
+                lookupHint.textContent = '已从知识库填入「' + el.dataset.name + '」的价格和卖点，可自行修改';
+              });
+            });
+          } else {
+            suggest.style.display = 'none';
+            lookupHint.style.display = 'none';
+          }
+        } catch (e) { /* 忽略 */ }
+      }, 250);
+    });
+    document.addEventListener('click', e => {
+      if (!suggest.contains(e.target) && e.target !== nameInput) suggest.style.display = 'none';
+    });
+
+    // 文件上传
+    let file = null;
+    const drop = $('drop'), fileInput = $('fileInput'), preview = $('preview');
+    drop.addEventListener('click', () => fileInput.click());
+    drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+    drop.addEventListener('drop', e => {
+      e.preventDefault(); drop.classList.remove('drag');
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+    function handleFile(f) {
+      file = f;
+      const reader = new FileReader();
+      reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; $('dropText').style.display = 'none'; };
+      reader.readAsDataURL(f);
+    }
+
+    // 生成
+    function collectForm() {
+      const name = $('name').value.trim();
+      const points = $('points').value.trim();
+      if (!name || !points) { alert('请填写产品名称和卖点'); return null; }
+      const fd = new FormData();
+      fd.append('product_name', name);
+      fd.append('selling_points', points);
+      fd.append('price', $('price').value.trim());
+      if (file) fd.append('poster', file);
+      return fd;
+    }
+
+    function renderImage(data) {
+      $('imgCol').style.display = 'block';
+      if (data.image.base64) {
+        $('resultImg').src = `data:image/${data.image.format};base64,${data.image.base64}`;
+      } else if (data.image.url) {
+        $('resultImg').src = data.image.url;
+      }
+      if (data.final_prompt) currentPrompt = data.final_prompt;
+    }
+
+    function renderCopies(data) {
+      $('copyCol').style.display = 'block';
+      const copies = $('copies');
+      copies.innerHTML = '';
+      for (const [platform, text] of Object.entries(data.copywriting)) {
+        copies.innerHTML += `<div class="copy-block"><h4>${platform}</h4><p>${text}</p></div>`;
+      }
+    }
+
+    function renderParsed(data) {
+      if (!data.parsed_prompt) return;
+      const pd = $('parsedDetail');
+      pd.innerHTML = '';
+      for (const [k, v] of Object.entries(data.parsed_prompt)) {
+        pd.innerHTML += `<div class="kv"><b>${k}</b>：${v}</div>`;
+      }
+      if (data.final_prompt) pd.innerHTML += `<div class="prompt-box">最终提示词：${data.final_prompt}</div>`;
+    }
+
+    async function doCopy() {
+      const fd = collectForm();
+      if (!fd) return;
+      const btn = $('copyBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>生成文案中…';
+      try {
+        const resp = await fetch('/api/copywriting', { method: 'POST', body: fd });
+        const data = await resp.json();
+        $('imgCol').style.display = 'none';
+        renderCopies(data);
+        const pd = $('parsedDetail'); pd.innerHTML = '';
+        $('resultWrap').style.display = 'block';
+        $('resultWrap').scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        alert('生成文案失败：' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '只生成文案';
+      }
+    }
+
+    async function doImage() {
+      const fd = collectForm();
+      if (!fd) return;
+      const btn = $('imgBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>生成图片中…';
+      try {
+        const resp = await fetch('/api/image', { method: 'POST', body: fd });
+        const data = await resp.json();
+        $('copyCol').style.display = 'none';
+        renderImage(data);
+        renderParsed(data);
+        $('resultWrap').style.display = 'block';
+        $('resultWrap').scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        alert('生成图片失败：' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '只生成图片';
+      }
+    }
+
+    $('copyBtn').addEventListener('click', doCopy);
+    $('imgBtn').addEventListener('click', doImage);
+
+    $('genBtn').addEventListener('click', async () => {
+      const btn = $('genBtn');
+
+      // 如果正在生成，点击 = 取消
+      if (genAbort) {
+        genAbort.abort();
+        genAbort = null;
+        btn.disabled = false;
+        btn.innerHTML = '图文一起生成';
+        return;
+      }
+
+      const fd = collectForm();
+      if (!fd) return;
+
+      genAbort = new AbortController();
+      btn.disabled = false;
+      btn.innerHTML = '<span class="spinner"></span>生成中，点击取消…';
+
+      try {
+        const resp = await fetch('/api/generate', { method: 'POST', body: fd, signal: genAbort.signal });
+        const data = await resp.json();
+
+        renderImage(data);
+        renderCopies(data);
+        renderParsed(data);
+
+        $('resultWrap').style.display = 'block';
+        $('resultWrap').scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          // 用户主动取消，静默处理
+        } else {
+          alert('生成失败：' + err.message);
+        }
+      } finally {
+        genAbort = null;
+        btn.disabled = false;
+        btn.innerHTML = '图文一起生成';
+      }
+    });
+
+    // 多轮改图
+    $('reviseBtn').addEventListener('click', async () => {
+      const feedback = $('reviseInput').value.trim();
+      if (!feedback) { alert('请输入修改意见'); return; }
+      if (!currentPrompt) { alert('请先生成一张图再修改'); return; }
+
+      const btn = $('reviseBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>修改中…';
+
+      try {
+        const resp = await fetch('/api/revise', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ original_prompt: currentPrompt, feedback: feedback })
+        });
+        const data = await resp.json();
+
+        if (data.image.base64) {
+          $('resultImg').src = `data:image/${data.image.format};base64,${data.image.base64}`;
+        } else if (data.image.url) {
+          $('resultImg').src = data.image.url;
+        }
+
+        currentPrompt = data.new_prompt;
+        const pd = $('parsedDetail');
+        const box = pd.querySelector('.prompt-box');
+        if (box) box.textContent = `最终提示词：${data.new_prompt}`;
+
+        $('reviseInput').value = '';
+        $('resultImg').scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        alert('修改失败：' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '修改图片';
+      }
+    });
+  </script>
+</body>
+</html>
