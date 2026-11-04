@@ -1,19 +1,7 @@
-"""RAG 营销知识库更新脚本（面向团队同学，简化入口）。
+"""重建或增量更新产品与营销 RAG 索引。
 
-把营销案例放进 `marketing/` 文件夹，一条命令重新 embedding 入库。
-
-支持的文件格式（放一起也可以）：
-  1. *.txt        纯文本，整个文件算一篇案例
-  2. *.json        结构化案例，可选字段：brand / title / content
-  3. *.jsonl       与之前 marketing.jsonl 同格式（含 brand/title/chunks）
-
-用法（在 backend 目录下）：
-    python scripts/update_marketing.py
-    python scripts/update_marketing.py marketing/    # 指定案例文件夹
-    python scripts/update_marketing.py --append       # 增量追加（不清空旧数据）
-
-默认行为是「全量重建」：先清空向量库，再把 marketing/ 里的全部案例重新入库。
-想只加新案例、保留旧的，加 --append 即可。
+默认读取 backend/data 下的三份标准数据；也可传入任意文件或文件夹。
+支持 txt/json/jsonl，保留原始中文字段并由 app.rag 统一规范化。
 """
 import argparse
 import json
@@ -24,84 +12,107 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app import rag  # noqa: E402
 
-DEFAULT_DIR = Path(__file__).resolve().parent.parent.parent / "marketing"
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BACKEND_DIR / "data"
+DEFAULT_INPUTS = [DATA_DIR / "产品.jsonl", DATA_DIR / "推文.jsonl", DATA_DIR / "小红书推文.jsonl"]
+MARKETING_DIR = BACKEND_DIR.parent / "marketing"
 
 
-def load_cases(folder: Path) -> list[dict]:
-    """把文件夹里的 txt/json/jsonl 统一解析成案例列表 [{brand,title,content}]。"""
-    cases = []
-    for f in sorted(folder.iterdir()):
-        if not f.is_file():
-            continue
+def _load_file(path: Path) -> list[dict]:
+    records = []
+    suffix = path.suffix.lower()
+    if suffix == ".txt":
+        records.append({
+            "title": path.stem,
+            "content": path.read_text(encoding="utf-8"),
+            "_source_file": str(path),
+        })
+    elif suffix == ".json":
+        data = json.loads(path.read_text(encoding="utf-8"))
+        items = data if isinstance(data, list) else [data]
+        for item in items:
+            if isinstance(item, dict):
+                item = dict(item)
+                item["_source_file"] = str(path)
+                records.append(item)
+    elif suffix == ".jsonl":
+        with path.open(encoding="utf-8") as handle:
+            for line_number, line in enumerate(handle, 1):
+                if not line.strip():
+                    continue
+                try:
+                    item = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    raise ValueError(f"{path.name}:{line_number} JSON 格式错误: {exc}") from exc
+                if isinstance(item, dict):
+                    item["_source_file"] = str(path)
+                    records.append(item)
+    return records
+
+
+def load_records(inputs: list[Path]) -> tuple[list[dict], list[Path]]:
+    files = []
+    for item in inputs:
+        if item.is_dir():
+            files.extend(
+                path for path in sorted(item.rglob("*"))
+                if path.is_file() and path.suffix.lower() in {".txt", ".json", ".jsonl"}
+                and not path.name.startswith("_")
+            )
+        elif item.is_file():
+            files.append(item)
+        else:
+            print(f"[WARN] 跳过不存在的路径: {item}")
+
+    records = []
+    for path in files:
         try:
-            if f.suffix.lower() == ".txt":
-                cases.append({"brand": "", "title": f.stem, "content": f.read_text(encoding="utf-8")})
-            elif f.suffix.lower() == ".json":
-                d = json.loads(f.read_text(encoding="utf-8"))
-                # 兼容单个对象或对象列表
-                items = d if isinstance(d, list) else [d]
-                for it in items:
-                    cases.append({
-                        "brand": it.get("brand", ""),
-                        "title": it.get("title", f.stem),
-                        "content": it.get("content", it.get("text", "")),
-                    })
-            elif f.suffix.lower() == ".jsonl":
-                for line in f.read_text(encoding="utf-8").splitlines():
-                    line = line.strip()
-                    if not line:
-                        continue
-                    d = json.loads(line)
-                    cases.append({
-                        "brand": d.get("brand", ""),
-                        "title": d.get("title", f.stem),
-                        "content": d.get("content", ""),
-                        "_chunks": d.get("chunks", []),
-                    })
-        except Exception as e:
-            print(f"  ⚠️ 跳过无法解析的文件 {f.name}: {e}")
-    return cases
+            loaded = _load_file(path)
+            records.extend(loaded)
+            print(f"  {path.name}: {len(loaded)} 条")
+        except Exception as exc:
+            print(f"[ERROR] 读取失败 {path}: {exc}")
+            raise
+    return records, files
 
 
 def main():
-    parser = argparse.ArgumentParser(description="RAG 营销知识库更新")
-    parser.add_argument("folder", nargs="?", default=str(DEFAULT_DIR), help="案例文件夹路径")
-    parser.add_argument("--append", action="store_true", help="增量追加，不清空旧数据")
+    parser = argparse.ArgumentParser(description="重建产品与营销 RAG 混合索引")
+    parser.add_argument("inputs", nargs="*", help="JSONL/JSON/TXT 文件或文件夹；不填则读取 backend/data 三份标准数据")
+    parser.add_argument("--append", action="store_true", help="增量更新；同 document_id/chunk_id 自动覆盖，不产生重复")
+    parser.add_argument("--include-marketing-dir", action="store_true", help="同时导入项目根目录 marketing/ 中的案例")
     args = parser.parse_args()
 
-    folder = Path(args.folder)
-    if not folder.exists():
-        print(f"案例文件夹不存在: {folder}")
-        print("请创建该文件夹，并把营销案例 txt/json/jsonl 放进去。")
+    inputs = [Path(value).resolve() for value in args.inputs] if args.inputs else list(DEFAULT_INPUTS)
+    if args.include_marketing_dir and MARKETING_DIR.exists():
+        inputs.append(MARKETING_DIR)
+
+    print("读取数据源：")
+    records, files = load_records(inputs)
+    if not records:
+        print("[ERROR] 没有读取到有效记录")
         sys.exit(1)
-
-    cases = load_cases(folder)
-    if not cases:
-        print("没找到任何有效案例文件（支持 .txt / .json / .jsonl）。")
-        sys.exit(1)
-
-    print(f"读取到 {len(cases)} 篇案例，开始 embedding…")
-
-    # 组装成 rag.ingest_marketing 需要的 jsonl 临时文件
-    tmp = folder / "_cases_tmp.jsonl"
-    with open(tmp, "w", encoding="utf-8") as f:
-        for c in cases:
-            f.write(json.dumps(c, ensure_ascii=False) + "\n")
-
-    if not args.append:
-        # 全量重建：ingest_marketing 内部会先清空
-        pass
+    print(f"共 {len(files)} 个文件、{len(records)} 条记录，开始构建索引……")
 
     def progress(i, n):
-        if i % 10 == 0 or i == n:
-            print(f"  进度 {i}/{n}")
+        if i % 100 == 0 or i == n:
+            print(f"  规范化进度 {i}/{n}")
 
-    total = rag.ingest_marketing(str(tmp), progress, append=args.append)
-    tmp.unlink(missing_ok=True)
-
-    mode = "增量追加" if args.append else "全量重建"
-    print(f"✅ 完成（{mode}），共 {total} 个 chunk 入库")
-    print(f"   向量库路径: {rag.DB_PATH}")
+    stats = rag.ingest_records(records, progress=progress, append=args.append)
+    index = rag.index_stats()
+    mode = "增量更新" if args.append else "全量重建"
+    print(f"[OK] {mode}完成")
+    print(f"   输入记录: {stats['records']}")
+    print(f"   写入 chunk: {stats['chunks']}")
+    print(f"   重复/覆盖: {stats['duplicates']}")
+    print(f"   Embedding 已启用: {stats['embedding_enabled']}")
+    print(f"   向量化成功: {stats['embedded']}")
+    print(f"   向量化失败: {stats['embedding_failed']}")
+    print(f"   当前索引: {json.dumps(index, ensure_ascii=False)}")
+    print(f"   数据库: {rag.DB_PATH}")
+    if stats["chunks"] == 0:
+        print("[ERROR] 没有任何 chunk 入库，请检查数据字段和日志")
+        sys.exit(2)
 
 
 if __name__ == "__main__":

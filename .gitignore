@@ -1,5 +1,7 @@
 # 环境变量（含敏感 API key，禁止提交）
 .env
+.env.*
+!.env.example
 
 # Python
 __pycache__/
@@ -8,6 +10,13 @@ __pycache__/
 
 # 数据库文件（本地生成物，不进版本库；更新请改源文件后重新导入）
 *.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+# 系统缓存和运行日志
+.DS_Store
+*.log
 
 # 工作目录（本机记忆文件，不进版本库）
 .workbuddy/

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="700" viewBox="0 0 1280 700">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffaf5"/>
+      <stop offset="1" stop-color="#f3f6fb"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#61708a"/>
+    </marker>
+    <style>
+      .title{font:700 28px 'Microsoft YaHei',sans-serif;fill:#23324a}
+      .subtitle{font:400 15px 'Microsoft YaHei',sans-serif;fill:#64748b}
+      .box{fill:#fff;stroke:#d7dfeb;stroke-width:2;rx:16}
+      .boxA{fill:#fff4ed;stroke:#e79773;stroke-width:2;rx:16}
+      .boxB{fill:#eef5ff;stroke:#789bd4;stroke-width:2;rx:16}
+      .boxC{fill:#eefaf4;stroke:#67a986;stroke-width:2;rx:16}
+      .label{font:700 18px 'Microsoft YaHei',sans-serif;fill:#26364f}
+      .text{font:400 14px 'Microsoft YaHei',sans-serif;fill:#4f6078}
+      .small{font:400 12px 'Microsoft YaHei',sans-serif;fill:#718096}
+      .arrow{stroke:#61708a;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1280" height="700" fill="url(#bg)"/>
+  <text x="640" y="48" text-anchor="middle" class="title">AI 营销工具 · 优化后 RAG 架构</text>
+  <text x="640" y="76" text-anchor="middle" class="subtitle">向量语义 + 中文 FTS5 + n-gram + 元数据加权 + 平台化检索</text>
+
+  <rect x="45" y="120" width="220" height="190" class="boxA"/>
+  <text x="155" y="155" text-anchor="middle" class="label">数据源</text>
+  <text x="70" y="195" class="text">• 产品.jsonl：680 条</text>
+  <text x="70" y="225" class="text">• 推文.jsonl：164 条</text>
+  <text x="70" y="255" class="text">• 小红书推文：6 条</text>
+  <text x="70" y="285" class="small">共 850 条原始记录</text>
+
+  <rect x="330" y="105" width="255" height="220" class="box"/>
+  <text x="457" y="140" text-anchor="middle" class="label">数据治理与切块</text>
+  <text x="355" y="180" class="text">中文/英文字段统一映射</text>
+  <text x="355" y="210" class="text">document_id / hash 去重</text>
+  <text x="355" y="240" class="text">营销文本 420 字切块</text>
+  <text x="355" y="270" class="text">60 字重叠 + 标点边界</text>
+  <text x="355" y="300" class="small">生成 1793 个 chunk</text>
+
+  <rect x="650" y="105" width="260" height="220" class="boxB"/>
+  <text x="780" y="140" text-anchor="middle" class="label">混合索引</text>
+  <text x="675" y="180" class="text">Qwen3-VL Embedding</text>
+  <text x="675" y="210" class="text">1024 维 × 1793 chunk</text>
+  <text x="675" y="240" class="text">SQLite FTS5 trigram</text>
+  <text x="675" y="270" class="text">中文 2/3-gram 匹配</text>
+  <text x="675" y="300" class="small">向量失败时自动关键词降级</text>
+
+  <rect x="975" y="105" width="260" height="220" class="boxC"/>
+  <text x="1105" y="140" text-anchor="middle" class="label">SQLite RAG 库</text>
+  <text x="1000" y="180" class="text">产品 / 营销内容分离</text>
+  <text x="1000" y="210" class="text">平台 / 品牌 / 类别过滤</text>
+  <text x="1000" y="240" class="text">来源层级与质量字段</text>
+  <text x="1000" y="270" class="text">向量、全文索引、原文</text>
+  <text x="1000" y="300" class="small">marketing.db ≈ 48 MB</text>
+
+  <path d="M265 215 L325 215" class="arrow"/>
+  <path d="M585 215 L645 215" class="arrow"/>
+  <path d="M910 215 L970 215" class="arrow"/>
+
+  <rect x="100" y="410" width="250" height="160" class="boxA"/>
+  <text x="225" y="445" text-anchor="middle" class="label">用户查询</text>
+  <text x="125" y="485" class="text">产品名、卖点、价格</text>
+  <text x="125" y="515" class="text">目标平台与任务类型</text>
+  <text x="125" y="545" class="small">例：珍珠奶茶 / 低糖 / 小红书</text>
+
+  <rect x="440" y="385" width="400" height="210" class="boxB"/>
+  <text x="640" y="420" text-anchor="middle" class="label">混合评分与结果治理</text>
+  <text x="470" y="462" class="text">语义向量分数 + FTS5 + n-gram</text>
+  <text x="470" y="495" class="text">产品名 / 品牌 / 类别精确加权</text>
+  <text x="470" y="528" class="text">阈值过滤、文档去重、品牌多样性</text>
+  <text x="470" y="561" class="small">小红书优先同平台，不足时补充行业案例</text>
+
+  <rect x="930" y="410" width="250" height="160" class="boxC"/>
+  <text x="1055" y="445" text-anchor="middle" class="label">文案生成</text>
+  <text x="955" y="485" class="text">小红书 / 抖音 / 公众号</text>
+  <text x="955" y="515" class="text">分别注入各自 RAG 参考</text>
+  <text x="955" y="545" class="small">禁止照抄、虚构销量与功效</text>
+
+  <path d="M350 490 L435 490" class="arrow"/>
+  <path d="M840 490 L925 490" class="arrow"/>
+  <path d="M1105 325 C1105 355 850 355 800 380" class="arrow"/>
+
+  <text x="640" y="650" text-anchor="middle" class="subtitle">验收：1793/1793 向量化成功 · 50 条固定评测基线 · 支持 API 统计与在线检索调试</text>
+</svg>

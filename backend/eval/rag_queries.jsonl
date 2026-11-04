@@ -1,0 +1,50 @@
+{"id":"product_exact_001","group":"产品精确","query":"瑞幸陨石拿铁价格和热量","kind":"product","relevant_document_ids":["PROD_24C080244A64"],"required_terms":["瑞幸","陨石拿铁"]}
+{"id":"product_exact_002","group":"产品精确","query":"瑞幸橙C美式首创","kind":"product","relevant_document_ids":["PROD_19DDFD631F79"],"required_terms":["橙C美式"]}
+{"id":"product_exact_003","group":"产品精确","query":"瑞幸丝绒拿铁多少热量","kind":"product","relevant_document_ids":["PROD_6CAF9580A98C"],"required_terms":["丝绒拿铁"]}
+{"id":"product_exact_004","group":"产品精确","query":"瑞幸生椰拿铁首创价格","kind":"product","relevant_document_ids":["PROD_02D7775FEDF3"],"required_terms":["生椰拿铁"]}
+{"id":"product_exact_005","group":"产品精确","query":"星巴克摩卡星冰乐多少钱","kind":"product","relevant_document_ids":["PROD_E2BA2BD60ABE"],"required_terms":["摩卡星冰乐"]}
+{"id":"product_exact_006","group":"产品精确","query":"星巴克冷萃冰咖啡热量","kind":"product","relevant_document_ids":["PROD_9B9715CC1B39"],"required_terms":["冷萃冰咖啡"]}
+{"id":"product_exact_007","group":"产品精确","query":"星巴克馥芮白价格","kind":"product","relevant_document_ids":["PROD_07F9D69650CF"],"required_terms":["馥芮白"]}
+{"id":"product_exact_008","group":"产品精确","query":"星巴克焦糖玛奇朵","kind":"product","relevant_document_ids":["PROD_71A3CE664AF7"],"required_terms":["焦糖玛奇朵"]}
+{"id":"product_exact_009","group":"产品精确","query":"库迪生椰拿铁多少钱","kind":"product","relevant_document_ids":["PROD_2AA15D65AC22"],"required_terms":["库迪","生椰拿铁"]}
+{"id":"product_exact_010","group":"产品精确","query":"库迪海盐焦糖陨石拿铁","kind":"product","relevant_document_ids":["PROD_A82CD119A1DB"],"required_terms":["海盐焦糖陨石拿铁"]}
+{"id":"product_exact_011","group":"产品精确","query":"库迪月下金桂拿铁热量","kind":"product","relevant_document_ids":["PROD_8A0E36CCBA24"],"required_terms":["月下金桂拿铁"]}
+{"id":"product_exact_012","group":"产品精确","query":"喜茶多肉葡萄首创价格","kind":"product","relevant_document_ids":["PROD_38AEF608E26B"],"required_terms":["多肉葡萄"]}
+{"id":"product_exact_013","group":"产品精确","query":"喜茶芒芒甘露","kind":"product","relevant_document_ids":["PROD_41756E5F0FE9"],"required_terms":["芒芒甘露"]}
+{"id":"product_exact_014","group":"产品精确","query":"奈雪霸气杨枝甘露多少钱","kind":"product","relevant_document_ids":["PROD_311F3CACC555"],"required_terms":["霸气杨枝甘露"]}
+{"id":"product_exact_015","group":"产品精确","query":"奈雪草莓法式可可","kind":"product","relevant_document_ids":["PROD_4A8C77BF3582"],"required_terms":["草莓法式可可"]}
+{"id":"product_exact_016","group":"产品精确","query":"霸王茶姬伯牙绝弦","kind":"product","relevant_document_ids":["PROD_075E7864A45F"],"required_terms":["伯牙绝弦"]}
+{"id":"product_exact_017","group":"产品精确","query":"霸王茶姬青青糯山价格","kind":"product","relevant_document_ids":["PROD_96FC525FEA19"],"required_terms":["青青糯山"]}
+{"id":"product_exact_018","group":"产品精确","query":"霸王茶姬白雾红尘热量","kind":"product","relevant_document_ids":["PROD_57BA08F967AE"],"required_terms":["白雾红尘"]}
+{"id":"product_exact_019","group":"产品精确","query":"沪上阿姨血糯米奶茶","kind":"product","relevant_document_ids":["PROD_377C07A63280"],"required_terms":["血糯米奶茶"]}
+{"id":"product_exact_020","group":"产品精确","query":"沪上阿姨桃桃蜜柚价格","kind":"product","relevant_document_ids":["PROD_B20064E71053"],"required_terms":["桃桃蜜柚"]}
+{"id":"product_hard_021","group":"产品易混淆","query":"瑞幸首创橙子美式 122大卡","kind":"product","relevant_document_ids":["PROD_19DDFD631F79"],"required_terms":["橙C美式"]}
+{"id":"product_hard_022","group":"产品易混淆","query":"星巴克零热量冷咖啡","kind":"product","relevant_document_ids":["PROD_9B9715CC1B39"],"required_terms":["冷萃冰咖啡"]}
+{"id":"product_hard_023","group":"产品易混淆","query":"生椰拿铁 瑞幸 首创","kind":"product","relevant_document_ids":["PROD_02D7775FEDF3"],"required_terms":["瑞幸","生椰拿铁"]}
+{"id":"product_hard_024","group":"产品易混淆","query":"库迪海盐焦糖口味的陨石拿铁","kind":"product","relevant_document_ids":["PROD_A82CD119A1DB"],"required_terms":["库迪","海盐焦糖陨石拿铁"]}
+{"id":"product_hard_025","group":"产品易混淆","query":"喜茶葡萄果茶奶盖","kind":"product","relevant_document_ids":["PROD_38AEF608E26B"],"required_terms":["多肉葡萄"]}
+{"id":"product_hard_026","group":"产品易混淆","query":"奈雪十九元橙子茶","kind":"product","relevant_document_ids":["PROD_066662B93BDA"],"required_terms":["霸气橙子"]}
+{"id":"product_hard_027","group":"产品易混淆","query":"霸王茶姬经典伯牙茶饮","kind":"product","relevant_document_ids":["PROD_075E7864A45F"],"required_terms":["伯牙绝弦"]}
+{"id":"product_hard_028","group":"产品易混淆","query":"沪上阿姨红豆抹茶饮品","kind":"product","relevant_document_ids":["PROD_2A726199F998"],"required_terms":["一抹相思"]}
+{"id":"product_hard_029","group":"产品易混淆","query":"库迪桂花咖啡 252卡","kind":"product","relevant_document_ids":["PROD_8A0E36CCBA24"],"required_terms":["月下金桂拿铁"]}
+{"id":"product_hard_030","group":"产品易混淆","query":"星巴克抹茶冰沙饮品","kind":"product","relevant_document_ids":["PROD_C9265F907CE7"],"required_terms":["抹茶星冰乐"]}
+{"id":"marketing_031","group":"营销案例","query":"喜茶去火纤体瓶新品原料卖点","kind":"marketing","relevant_document_ids":["BMC_D1FE687F9D3E4DFC"],"required_terms":["纤体瓶"]}
+{"id":"marketing_032","group":"营销案例","query":"喜茶奇兰苹果特调上新","kind":"marketing","relevant_document_ids":["BMC_137621C87E7A95A3"],"required_terms":["奇兰苹果特调"]}
+{"id":"marketing_033","group":"营销案例","query":"头部茶饮品牌新品上新逻辑和报告","kind":"marketing","relevant_document_ids":["BMC_EAFFAB27BEE44B54","BMC_71DDE037DFA8E1E2"],"required_terms":["上新"]}
+{"id":"marketing_034","group":"营销案例","query":"瑞幸 KPL 十周年联名周边","kind":"marketing","relevant_document_ids":["BMC_B066A3C2AEAE486F"],"required_terms":["KPL"]}
+{"id":"marketing_035","group":"营销案例","query":"沪上阿姨香蕉新品健身场景营销","kind":"marketing","relevant_document_ids":["BMC_2213B5D1AB9890CC"],"required_terms":["超级快乐蕉"]}
+{"id":"marketing_036","group":"营销案例","query":"沪上阿姨秋冬板栗系列回归","kind":"marketing","relevant_document_ids":["BMC_86A47C205FF2073E"],"required_terms":["板栗"]}
+{"id":"marketing_037","group":"营销案例","query":"瑞幸秋季密集上新茶咖融合","kind":"marketing","relevant_document_ids":["BMC_25FE2C0C6F6F1D52"],"required_terms":["秋季","茶咖"]}
+{"id":"marketing_038","group":"营销案例","query":"星巴克高蛋白咖啡奶咖营养创新","kind":"marketing","relevant_document_ids":["BMC_E06CB8DC201AC50F"],"required_terms":["高蛋白咖啡"]}
+{"id":"marketing_039","group":"营销案例","query":"星巴克无糖太妃榛果拿铁新品","kind":"marketing","relevant_document_ids":["BMC_6BFCFB1E13F2F825"],"required_terms":["太妃榛果拿铁"]}
+{"id":"marketing_040","group":"营销案例","query":"星巴克哈利波特冬日联名营销","kind":"marketing","relevant_document_ids":["BMC_60A88C1AB78461DA"],"required_terms":["哈利·波特"]}
+{"id":"xiaohongshu_041","group":"小红书平台","query":"办公室茶咖特调种草文案","kind":"marketing","platform":"小红书","relevant_document_ids":["XHS_6ABA6A2A0000"],"required_terms":["办公室","茶咖"]}
+{"id":"xiaohongshu_042","group":"小红书平台","query":"咖啡配方和冲煮方法干货笔记","kind":"marketing","platform":"小红书","relevant_document_ids":["XHS_68EC6E420000"],"required_terms":["咖啡配方"]}
+{"id":"xiaohongshu_043","group":"小红书平台","query":"瑞幸全冰黑巧美式热量测评","kind":"marketing","platform":"小红书","relevant_document_ids":["XHS_6A1CECEE0000"],"required_terms":["全冰黑巧美式"]}
+{"id":"xiaohongshu_044","group":"小红书平台","query":"喜茶茉荔鲜买一送一新品测评","kind":"marketing","platform":"小红书","relevant_document_ids":["XHS_6A389BD50000"],"required_terms":["茉荔鲜"]}
+{"id":"xiaohongshu_045","group":"小红书平台","query":"喜茶苦巧咸酪真实点单测评","kind":"marketing","platform":"小红书","relevant_document_ids":["XHS_6979A3600000"],"required_terms":["苦巧咸酪"]}
+{"id":"xiaohongshu_046","group":"小红书平台","query":"瑞幸瓶装咖啡拍照种草","kind":"marketing","platform":"小红书","relevant_document_ids":["XHS_6ACE027900"],"required_terms":["即享瓶装咖啡"]}
+{"id":"negative_047","group":"跨领域负例","query":"汽车保险理赔流程和事故定损","kind":"marketing","relevant_document_ids":[],"max_top_score":0.35}
+{"id":"negative_048","group":"跨领域负例","query":"Python asyncio 异步编程教程","kind":"marketing","relevant_document_ids":[],"max_top_score":0.35}
+{"id":"negative_049","group":"跨领域负例","query":"火星探测器轨道设计和推进系统","kind":"marketing","relevant_document_ids":[],"max_top_score":0.35}
+{"id":"negative_050","group":"跨领域负例","query":"小学三年级数学作业解题方法","kind":"marketing","relevant_document_ids":[],"max_top_score":0.35}
