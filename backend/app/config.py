@@ -34,6 +34,23 @@ IMAGE_MODEL = os.getenv("IMAGE_MODEL", "qwen-image-3.0-pro")
 # 文案生成模型（DeepSeek，如已配置）
 COPY_MODEL = os.getenv("COPY_MODEL", "deepseek-chat")
 
+# 文案多平台/多产品并发生成配置。
+# 并发默认 3，与平台数量一致；多产品分别生成时可适当调大，但不要超过平台限流。
+def _env_int(name: str, default: int, minimum: int, maximum: int) -> int:
+    try:
+        value = int(os.getenv(name, str(default)))
+    except (TypeError, ValueError):
+        value = default
+    return max(minimum, min(maximum, value))
+
+
+COPY_CONCURRENCY = _env_int("COPY_CONCURRENCY", 3, 1, 8)
+COPY_MAX_RETRIES = _env_int("COPY_MAX_RETRIES", 1, 0, 3)
+try:
+    COPY_TIMEOUT = max(1.0, float(os.getenv("COPY_TIMEOUT", "120")))
+except (TypeError, ValueError):
+    COPY_TIMEOUT = 120.0
+
 # 反向解析模型（多模态视觉）
 VISION_MODEL = os.getenv("VISION_MODEL", "qwen-vl-max")
 

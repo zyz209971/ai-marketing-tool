@@ -1,5 +1,6 @@
 import os
 import base64
+import logging
 import re
 from fastapi import FastAPI, File, Form, UploadFile, Header, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +14,14 @@ from .providers import revise, image, copywriting, vision
 from .config import USE_MOCK, USE_IMAGE_MOCK, APP_ACCESS_KEY, ADMIN_RESET_KEY
 from . import db, rag, quota
 from .v2 import create_router
+
+app_logger = logging.getLogger("app")
+app_logger.setLevel(logging.INFO)
+if not app_logger.handlers:
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s"))
+    app_logger.addHandler(handler)
+app_logger.propagate = False
 
 app = FastAPI(title="AI 营销素材生成工具")
 

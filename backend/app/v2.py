@@ -192,7 +192,6 @@ def create_router(legacy_search, hit_to_suggestion, quota_dependency):
             if value:
                 prompt += "；" + label + "：" + value
         prompt += "；配图用途：" + ("公众号文章封面" if req.purpose == "article_cover" else "社交平台配图")
-        prompt += "；内容主题：" + req.content.title + "；文案参考（不需要把全文绘入图片）：" + req.content.body[:1000]
         response = _image_response(image.generate_image(prompt), prompt, parsed)
         if not response["mock"]:
             quota.consume(visitor)

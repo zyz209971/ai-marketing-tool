@@ -11,6 +11,31 @@ from ..config import (
 )
 
 
+def _clean_text_zone(text_zone: str) -> str:
+    """把「左上角留白区域」这类描述清洗成「左上角」，用于拼排版位置。"""
+    position = (text_zone or "").strip()
+    for label in ("文案位：", "文案位:"):
+        if position.startswith(label):
+            position = position[len(label):]
+            break
+    for token in ("留白区域", "留白", "区域"):
+        position = position.replace(token, "")
+    position = position.strip()
+    return position or "画面顶部"
+
+
+def build_text_instruction(display_name: str, selling_points: str, price: str, text_zone: str) -> str:
+    """显式给出要渲染的文字内容、位置，并负向禁止其它文字。"""
+    position = _clean_text_zone(text_zone)
+    segments = [f"文案位：在{position}排版文案", f"标题「{display_name}」"]
+    if selling_points:
+        segments.append(f"卖点「{selling_points}」")
+    if price:
+        segments.append(f"价格「{price}」")
+    segments.append("其余区域禁止出现任何文字、标签、图标、logo、数字")
+    return "，".join(segments)
+
+
 def build_prompt(
     parsed: dict,
     product_name: str,
@@ -28,6 +53,7 @@ def build_prompt(
         subject += f"，产品类别为{category}"
     if price:
         subject += f"，售价 {price}"
+    text_instruction = build_text_instruction(display_name, selling_points, price, parsed.get("text_zone", ""))
     parts = {
         "subject": subject,
         "scene": parsed.get("scene", "场景：简洁背景"),
@@ -35,7 +61,7 @@ def build_prompt(
         "style": parsed.get("style", "风格：现代简约"),
         "lighting": parsed.get("lighting", "光影：柔光"),
         "color": parsed.get("color", "色彩：暖色系"),
-        "text_zone": parsed.get("text_zone", "文案位：预留留白"),
+        "text_zone": text_instruction,
     }
     labels = {
         "subject": "主体",
