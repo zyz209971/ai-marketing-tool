@@ -13,6 +13,8 @@ __pycache__/
 *.db-wal
 *.db-shm
 *.db-journal
+backend/data/brand-files/
+.local-data/
 
 # 系统缓存和运行日志
 .DS_Store

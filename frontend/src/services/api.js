@@ -92,3 +92,37 @@ export async function rewriteContent(content,instruction,options={}) {
   return adaptContents({contents:[data.content]})[0];
 }
 export const searchProducts = (brandId,query,semantic=false,options={})=>post(endpoints.search,{client_brand_id:brandId,query,limit:10,semantic},options);
+
+// Brand sessions use an HttpOnly cookie; file requests do not set a JSON content type.
+export async function knowledge(path,{method='GET',body,signal}={}) {
+  const headers={'X-Access-Key':sessionStorage.getItem('marketing_access_key')||''};
+  if (body && !(body instanceof FormData)) { headers['Content-Type']='application/json'; body=JSON.stringify(body); }
+  const response=await fetch(config.apiBaseUrl.replace(/\/$/,'')+'/api/knowledge'+path,{method,body,headers,signal,credentials:'same-origin'});
+  const data=await response.json();
+  if (!response.ok) { const error=Error(typeof data.detail==='string'?data.detail:'品牌资料请求失败。'); error.status=response.status; throw error; }
+  return data;
+}
+
+export async function waitJob(id,{signal}={}) {
+  while(true) {
+    if(signal?.aborted) throw new DOMException('已停止等待','AbortError');
+    const job=await knowledge('/jobs/'+encodeURIComponent(id),{signal});
+    if(job.status==='succeeded') return job;
+    if(job.status==='failed') throw Error(job.error||'任务失败，可在任务记录中重试。');
+    await new Promise((resolve,reject)=>{const timer=setTimeout(done,1000);function done(){signal?.removeEventListener('abort',abort);resolve();}function abort(){clearTimeout(timer);signal?.removeEventListener('abort',abort);reject(new DOMException('已停止等待','AbortError'));}signal?.addEventListener('abort',abort,{once:true});});
+  }
+}
+export async function startJob(brand_id,kind,payload,context={},options={}) {
+  const job=await knowledge('/jobs',{method:'POST',body:{brand_id,kind,payload,context,request_key:uid()},signal:options.signal});
+  return waitJob(job.id,options);
+}
+export async function generateCampaignJob(draft,options={}) {
+  if(mode==='mock')return generateCampaign(draft,options);
+  const job=await startJob(draft.brand.id,'copy',toRequest(draft),{draft},options);
+  return adaptContents(job.result);
+}
+export async function generateImageJob(content,draft,options={}) {
+  const payload={campaign:toRequest(draft),content:{id:content.id,platform:platformIds[content.platform],title:content.title,body:content.body,summary:content.summary||'',product_ids:content.productIds||[]},image_mode:draft.imageMode||'photo',image_count:Number(draft.imageCount||3)};
+  const job=await startJob(draft.brand.id,'image',payload,{draft,content},options);
+  return {imageUrl:job.result.image.url,gallery:job.result.gallery,imageStatus:'succeeded',imageError:'',finalPrompt:job.result.final_prompt,parsedPrompt:{method:job.result.method}};
+}

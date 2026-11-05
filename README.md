@@ -1,5 +1,9 @@
 # AI 营销素材生成工具
 
+品牌知识库本地开发、配置和使用说明见 [品牌知识库-本地开发说明](品牌知识库-本地开发说明.md)。
+
+当前功能分支提供单个共享品牌工作空间，无注册、登录、短信或成员权限。品牌可搜索并补充知识，产品库支持筛选分页，营销创作通过选择器添加产品；支持资料确认入库、草稿、任务记录、实拍排版及素材导出。默认仅允许本机直接访问，此版本尚未完成真实模型与公网部署验收。
+
 面向电商运营 / 校园奶茶商家的一键营销素材生成工具：上传产品信息 + 参考海报，自动生成新海报与多平台营销文案（小红书 / 抖音 / 公众号）。
 
 2026-11-03 合并：默认入口已采用 frontend-v2 的品牌工作空间界面，并接入现有后端和 RAG。
@@ -12,9 +16,9 @@
 
 ## ⚡ 一句话操作速查（团队同学看这里）
 
-- **改产品（价格/卖点）**：改 `产品知识库.csv` → 跑 `python scripts/import_csv.py ../产品知识库.csv`
+- **改产品（价格/卖点）**：在产品库搜索产品 → 编辑并保存；参考目录的历史价格需核对
 - **重建 RAG（标准数据）**：在 `backend/` 跑 `python scripts/update_marketing.py`
-- **导入额外案例**：跑 `python scripts/update_marketing.py ../marketing --append`
+- **补充品牌资料**：品牌知识页 → 补充资料 → 核对并确认
 - **只加新案例不清旧**：上面命令末尾加 `--append`
 - **改代码**：创建功能分支 → 修改并检查差异 → 提交并推送该分支 → 创建 PR 审核合并
 
@@ -43,8 +47,20 @@ python -m pip install -r requirements.txt
 if [ ! -f .env ]; then cp .env.example .env; fi
 # 仅新克隆且没有 data/marketing.db 时初始化；已有索引不必重建
 if [ ! -f data/marketing.db ]; then python scripts/update_marketing.py; fi
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000 --no-proxy-headers
 ```
+
+首次启动的品牌工作空间为空，不会自动植入示例产品。若要使用仓库已有资料建立与本地预览一致的品牌目录，可在安装依赖后、从 `backend/` 执行：
+
+```bash
+# 只初始化数据结构，不启动服务器；已有环境先备份。
+python -c "from app.main import app; from app import rag; rag.init_db()"
+python scripts/prepare_production_data.py --output ../.local-data/production-data-001
+python scripts/prepare_local_workspace.py --source ../.local-data/production-data-001/production --runtime ../.local-data/workspace-001 --backup ../.local-data/before-import-001
+python scripts/run_local_preview.py --runtime ../.local-data/workspace-001 --port 8018
+```
+
+以上目录必须是尚未使用的新目录，脚本拒绝覆盖已有内容。可给第二条准备工作空间的命令增加 `--fetch-images`，从原记录的品牌 CDN 下载产品图；缺图时可手动上传。备份、数据库、图片与生成物均不进入 Git。`.env` 中与 `APP_DATA_DIR`、`BRAND_DATABASE_URL`、`BRAND_STORAGE_DIR` 冲突的值需要先移除；本地启动器会拒绝使用错误的数据目录。
 
 浏览器打开 `http://127.0.0.1:8000` 即可使用。
 此仓库保留原始 JSONL，但不提交本机 `.env` 和 SQLite 数据库；新克隆需要按上述步骤初始化索引。

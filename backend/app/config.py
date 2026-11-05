@@ -7,6 +7,10 @@ from dotenv import load_dotenv
 ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(dotenv_path=ENV_PATH, override=True)
 
+# Optional isolated runtime directory; local previews need not overwrite source databases.
+DATA_DIR = Path(os.getenv('APP_DATA_DIR') or str(Path(__file__).resolve().parent.parent / 'data')).resolve()
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
 # 阿里云百炼 MaaS 专属端点（OpenAI 兼容协议）
 QWEN_BASE_URL = os.getenv(
     "QWEN_BASE_URL",

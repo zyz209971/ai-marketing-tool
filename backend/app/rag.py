@@ -13,10 +13,10 @@ from typing import Iterable
 
 from openai import OpenAI
 
-from .config import EMBED_API_KEY, EMBED_BASE_URL, EMBED_DIMENSIONS, EMBED_MODEL
+from .config import DATA_DIR, EMBED_API_KEY, EMBED_BASE_URL, EMBED_DIMENSIONS, EMBED_MODEL
 
 logger = logging.getLogger(__name__)
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "marketing.db"
+DB_PATH = DATA_DIR / "marketing.db"
 MIN_CHUNK_CHARS = 20
 TARGET_CHUNK_CHARS = 420
 CHUNK_OVERLAP_CHARS = 60

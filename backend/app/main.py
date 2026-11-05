@@ -2,10 +2,10 @@ import os
 import base64
 import logging
 import re
-from fastapi import FastAPI, File, Form, UploadFile, Header, HTTPException, Depends
+from fastapi import FastAPI, File, Form, UploadFile, Header, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 from pathlib import Path
 
@@ -14,6 +14,10 @@ from .providers import revise, image, copywriting, vision
 from .config import USE_MOCK, USE_IMAGE_MOCK, APP_ACCESS_KEY, ADMIN_RESET_KEY
 from . import db, rag, quota
 from .v2 import create_router
+from . import knowledge
+from . import studio
+from . import materials, jobs
+from . import workspace
 
 app_logger = logging.getLogger("app")
 app_logger.setLevel(logging.INFO)
@@ -25,12 +29,33 @@ app_logger.propagate = False
 
 app = FastAPI(title="AI 营销素材生成工具")
 
+app.include_router(knowledge.router)
+app.include_router(studio.router)
+app.include_router(materials.router)
+app.include_router(jobs.router)
+app.include_router(workspace.router)
+workspace.migrate_legacy()
+app.add_event_handler('startup', jobs.start)
+app.add_event_handler('shutdown', jobs.stop)
+
+@app.middleware('http')
+async def check_knowledge_origin(request: Request, call_next):
+    if request.method not in ('GET', 'HEAD', 'OPTIONS') and request.url.path.startswith(('/api/knowledge', '/api/v2')):
+        origin = request.headers.get('origin')
+        if origin:
+            from urllib.parse import urlsplit
+            parsed = urlsplit(origin)
+            if parsed.netloc != request.headers.get('host') or parsed.scheme not in ('http', 'https'):
+                return JSONResponse({'detail': '请求来源不匹配。'}, status_code=403)
+    return await call_next(request)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.middleware('http')(workspace.middleware)
 
 
 def _visitor_id(x_forwarded_for: str = Header(None), x_visitor_id: str = Header(None)) -> str:

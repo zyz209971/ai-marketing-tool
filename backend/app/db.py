@@ -1,12 +1,14 @@
 """SQLite 知识库：商家产品库。
 
 存储商家产品信息（品牌 / 名称 / 卖点 / 价格 / 行业），支撑"输入产品名 → 自动补全"。
-首次运行自动建表并预置示例数据；真实数据由 scripts/import_jsonl.py 导入。
+首次运行自动建表；仅 SEED_DEMO_DATA=true 时写入示例。真实资料由导入流程提供。
 """
 import sqlite3
+import os
 from pathlib import Path
+from .config import DATA_DIR
 
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "products.db"
+DB_PATH = DATA_DIR / "products.db"
 
 # 预置示例商家产品（演示用，后续可替换成真实数据）
 SEED_PRODUCTS = [
@@ -26,7 +28,7 @@ def _connect() -> sqlite3.Connection:
 
 
 def init_db():
-    """建表 + 首次预置示例数据。"""
+    """建表，并在显式启用开发示例时为新空库植入数据。"""
     conn = _connect()
     conn.execute(
         """
@@ -41,9 +43,9 @@ def init_db():
         )
         """
     )
-    # 首次预置
+    # 生产环境默认禁止自动植入示例。
     count = conn.execute("SELECT COUNT(*) FROM products").fetchone()[0]
-    if count == 0:
+    if count == 0 and os.getenv('SEED_DEMO_DATA', '').lower() == 'true':
         conn.executemany(
             "INSERT INTO products (name, brand, selling_points, price, category) VALUES (?,?,?,?,?)",
             SEED_PRODUCTS,

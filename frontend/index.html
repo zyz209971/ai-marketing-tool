@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>灵感引擎 · 品牌营销创作</title><link rel="stylesheet" href="./src/styles.css"></head>
 <body>
-  <aside><div class="brand"><span>✳</span> 灵感引擎<small>把品牌灵感，变成好内容</small></div><nav class="nav" id="nav"></nav><div class="asidefoot"><span class="badge" id="modeStatus">正在连接后端…</span><p class="note" id="quotaStatus"></p><button onclick="initialize()">重新连接</button><p class="note">资料保存在当前浏览器</p></div></aside>
-  <main><header><span id="crumb">品牌工作空间</span><span class="badge">品牌营销工作空间</span></header><div class="wrap" id="app"></div></main>
+  <aside><div class="brand"><span>✳</span> 灵感引擎<small>把品牌灵感，变成好内容</small></div><nav class="nav" id="nav"></nav><div class="asidefoot"><span class="badge" id="modeStatus">正在连接后端…</span><p class="note" id="quotaStatus"></p><button onclick="initialize()">重新连接</button><p class="note" id="workspaceStatus">共享品牌工作空间</p></div></aside>
+  <main><header><span id="crumb">品牌工作空间</span><button id="workspaceButton" onclick="showPreviewInfo()">工作空间</button></header><div class="wrap" id="app"></div></main>
   <div id="modal"></div><div id="toast" hidden class="toast" role="status"></div><script type="module" src="./src/app.js"></script>
 </body></html>

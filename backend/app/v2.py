@@ -10,6 +10,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException
 from pydantic import BaseModel, Field, model_validator
 
 from . import db, quota, rag
+from . import knowledge
 from .config import APP_ACCESS_KEY, USE_MOCK
 from .providers import campaign, image, revise, vision
 
@@ -109,23 +110,19 @@ def _image_response(img, prompt, parsed=None):
 
 
 def create_router(legacy_search, hit_to_suggestion, quota_dependency):
-    router = APIRouter(prefix="/api/v2", dependencies=[Depends(require_access)])
+    router = APIRouter(prefix="/api/v2", dependencies=[Depends(require_access), Depends(knowledge.get_workspace)])
 
     @router.post("/copywriting")
-    def generate_copy(req: Campaign, visitor: str = Depends(quota_dependency)):
+    def generate_copy(req: Campaign, visitor: str = Depends(quota_dependency), user: str = Depends(knowledge.get_workspace)):
+        payload = knowledge.resolve_campaign(req.model_dump(), user)
         try:
-            contents = campaign.generate(req.model_dump())
+            contents = campaign.generate(payload)
         except ValueError as exc:
             raise HTTPException(status_code=502, detail=str(exc)) from None
         except Exception as exc:
             # 把真实异常（401/404/模型不存在/连接超时等）写进日志，方便排查。
             logger.warning("新版文案服务调用失败：%s", exc, exc_info=True)
             raise HTTPException(status_code=502, detail="文案服务调用失败，请检查后端文字模型配置或稍后重试。") from None
-        for product in req.products:
-            try:
-                db.upsert_product(product.name, "、".join(product.selling_points), product.price or "", brand=req.brand.name)
-            except Exception:
-                logger.warning("本次产品资料未能沉淀到数据库")
         quota.consume(visitor)
         return {"status": "succeeded", "contents": contents, "mock": USE_MOCK}
 
@@ -142,24 +139,29 @@ def create_router(legacy_search, hit_to_suggestion, quota_dependency):
         return {"status": "succeeded", "content": content, "mock": USE_MOCK}
 
     @router.post("/products/search")
-    def search_products(req: SearchRequest):
+    def search_products(req: SearchRequest, user: str = Depends(knowledge.get_workspace)):
         if not req.query.strip():
             raise HTTPException(status_code=422, detail="搜索内容不能为空。")
-        # 默认调用当前 SQL + 本地 RAG 搜索；语义检索由用户明确勾选才调用 embedding。
-        if req.semantic:
-            hits = rag.search_products(req.query, top_k=req.limit, use_vector=True)
-            rows = [hit_to_suggestion(hit) for hit in hits]
-        else:
-            rows = legacy_search(req.query)["results"]
+        # 旧产品 SQLite 可能包含无法追溯归属的历史输入，不能用于私有品牌搜索。
+        from sqlalchemy import text
+        with knowledge.engine.connect() as c:
+            knowledge.owned(c, req.client_brand_id, user)
+            private = c.execute(text('SELECT * FROM kb_products WHERE brand_id=:brand AND archived=0'), {'brand': req.client_brand_id}).mappings().all()
+        rows = [{'id': r['id'], 'name': r['name'], 'brand': '', 'price': r['price'], 'selling_points': r['selling'], 'source': 'brand_products'}
+                for r in private if req.query.strip().lower() in r['name'].lower()]
+        hits = rag.search_products(req.query, top_k=req.limit, use_vector=req.semantic)
+        rows += [hit_to_suggestion(hit) for hit in hits]
         products = []
         for index, row in enumerate(rows[:req.limit]):
             points = row.get("selling_points") or ""
-            products.append({**row, "id": str(row.get("document_id") or f"search_{index}"),
+            products.append({**row, "id": str(row.get("id") or row.get("document_id") or f"search_{index}"),
                              "selling_points": re.split(r"[、，,]", points) if isinstance(points, str) and points else points if isinstance(points, list) else []})
         return {"products": products, "semantic": req.semantic}
 
     @router.post("/images")
-    def generate_image(req: ImageRequest, visitor: str = Depends(quota_dependency)):
+    def generate_image(req: ImageRequest, visitor: str = Depends(quota_dependency), user: str = Depends(knowledge.get_workspace)):
+        verified = knowledge.resolve_campaign(req.campaign.model_dump(), user)
+        req.campaign = Campaign.model_validate(verified)
         selected = req.campaign.products
         if req.content.product_ids:
             selected = [p for p in selected if p.id in req.content.product_ids]
