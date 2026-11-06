@@ -1,0 +1,3 @@
+# Normalize JSON data in Git while preserving all field values.
+*.json text eol=lf
+*.jsonl text eol=lf

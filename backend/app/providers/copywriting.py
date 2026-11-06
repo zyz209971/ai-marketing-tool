@@ -24,6 +24,7 @@ COPY_PROMPT = """你是资深电商营销文案专家。请为下面这款产品
 - 名称：{name}
 - 卖点：{points}
 - 价格：{price}
+{product_facts}
 
 平台风格要求：{style}
 {reference}
@@ -47,24 +48,44 @@ def _mock_copy(name: str, points: str, price: str) -> dict:
     return out
 
 
-def generate_copy(name: str, points: str, price: str, references: list[str] | None = None) -> dict:
-    """生成多平台文案。references 为 RAG 检索到的营销案例，作为爆款参照。"""
+def generate_copy(name: str, points: str, price: str, references=None, product_context: dict | None = None) -> dict:
+    """生成多平台文案；references 可按平台分别提供结构化检索结果。"""
     if USE_MOCK or not has_api_key():
         return _mock_copy(name, points, price)
-
-    ref_block = ""
-    if references:
-        # 每篇参照只取前 300 字精华，既保留爆款风格参照，又避免 prompt 过长拖慢生成
-        ref_text = "\n\n".join(
-            f"参照案例{i+1}：{r[:300]}" for i, r in enumerate(references)
-        )
-        ref_block = f"\n以下是可参考的同类爆款营销案例（用于风格与话术参照，请借鉴其表达但不要照抄）：\n{ref_text}"
 
     try:
         client = OpenAI(api_key=QWEN_API_KEY, base_url=QWEN_BASE_URL)
 
         def _gen(platform):
             style = PLATFORMS[platform]
+            product_facts = ""
+            if product_context:
+                product_facts = (
+                    "\n核验产品资料（仅使用明确出现的事实；若价格冲突，以用户本次填写的活动价格为准）：\n"
+                    + product_context.get("text", "")[:700]
+                )
+            platform_refs = references.get(platform, []) if isinstance(references, dict) else (references or [])
+            ref_block = ""
+            if platform_refs:
+                rendered = []
+                for index, ref in enumerate(platform_refs[:3], 1):
+                    if isinstance(ref, dict):
+                        metadata = " / ".join(
+                            value for value in (
+                                ref.get("platform", ""), ref.get("brand", ""), ref.get("title", "")
+                            ) if value
+                        )
+                        source_note = "风格案例" if ref.get("platform") == platform else "行业事实案例"
+                        rendered.append(
+                            f"参照{index}（{source_note}{'；' + metadata if metadata else ''}）：\n"
+                            f"{ref.get('text', '')[:500]}"
+                        )
+                    else:
+                        rendered.append(f"参照{index}：\n{str(ref)[:500]}")
+                ref_block = (
+                    "\n以下内容仅作为事实、结构和表达风格参考。不得照抄，不得虚构案例中的销量或功效：\n"
+                    + "\n\n".join(rendered)
+                )
             prompt = COPY_PROMPT.format(
                 platform=platform,
                 name=name,
@@ -72,6 +93,7 @@ def generate_copy(name: str, points: str, price: str, references: list[str] | No
                 price=price,
                 style=style,
                 reference=ref_block,
+                product_facts=product_facts,
             )
             resp = client.chat.completions.create(
                 model=COPY_MODEL,

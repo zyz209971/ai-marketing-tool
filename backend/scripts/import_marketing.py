@@ -26,8 +26,9 @@ def main():
             print(f"  进度 {i}/{n}")
 
     print("开始导入（需为每个 chunk 调 embedding，请稍候）…")
-    total = rag.ingest_marketing(str(path), progress)
-    print(f"✅ 完成，共 {total} 个 chunk 入库")
+    stats = rag.ingest_marketing(str(path), progress)
+    print(f"✅ 完成，共 {stats['chunks']} 个 chunk 入库")
+    print(f"   向量化成功: {stats['embedded']}，失败: {stats['embedding_failed']}")
     print(f"   向量库路径: {rag.DB_PATH}")
 
 
