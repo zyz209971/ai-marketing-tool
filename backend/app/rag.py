@@ -234,7 +234,7 @@ def _embed_query(text: str) -> tuple[float, ...]:
     return tuple(vectors[0]) if vectors else tuple()
 
 
-def ingest_records(records: Iterable[dict], progress=lambda i, n: None, append: bool = False, batch_size: int = 16) -> dict:
+def ingest_records(records: Iterable[dict], progress=lambda i, n: None, append: bool = False, batch_size: int = 10) -> dict:
     """规范化、去重、可选批量向量化并写入 SQLite。"""
     init_db()
     raw_records = list(records)
