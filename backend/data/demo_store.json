@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "dataset_name": "校园奶茶店模拟经营数据（演示用）",
+    "is_demo": true,
+    "workspace_id": "ws_demo_001",
+    "brand_id": "br_001",
+    "store_id": "st_001",
+    "store_name": "补给赞奶茶店（模拟）",
+    "as_of": "2026-11-12",
+    "currency": "CNY",
+    "amount_unit": "fen",
+    "note": "金额一律用「分」整数存储。本数据为合成演示数据，非真实经营数据。"
+  },
+
+  "products": [
+    {"product_id": "P001", "name": "茉莉雪芽轻乳茶", "category": "轻乳茶", "regular_price": 1600, "online_price": 1800, "ingredient_cost": 280, "packing_cost": 100, "valid_from": "2026-01-01"},
+    {"product_id": "P002", "name": "珍珠奶茶", "category": "经典", "regular_price": 1500, "online_price": 1700, "ingredient_cost": 260, "packing_cost": 100, "valid_from": "2026-01-01"},
+    {"product_id": "P003", "name": "杨枝甘露", "category": "果饮", "regular_price": 1800, "online_price": 2000, "ingredient_cost": 520, "packing_cost": 120, "valid_from": "2026-01-01"},
+    {"product_id": "P004", "name": "抹茶拿铁", "category": "奶咖", "regular_price": 1600, "online_price": 1800, "ingredient_cost": 340, "packing_cost": 100, "valid_from": "2026-01-01"},
+    {"product_id": "P005", "name": "柠檬茶", "category": "果饮", "regular_price": 1200, "online_price": 1400, "ingredient_cost": 180, "packing_cost": 80, "valid_from": "2026-01-01"},
+    {"product_id": "P006", "name": "芋泥波波", "category": "经典", "regular_price": 1700, "online_price": 1900, "ingredient_cost": 430, "packing_cost": 110, "valid_from": "2026-01-01"},
+    {"product_id": "P007", "name": "黑糖鲜奶", "category": "奶咖", "regular_price": 1600, "online_price": 1800, "ingredient_cost": 360, "packing_cost": 100, "valid_from": "2026-01-01"},
+    {"product_id": "P008", "name": "芝芝莓莓", "category": "果饮", "regular_price": 1900, "online_price": 2100, "ingredient_cost": 560, "packing_cost": 120, "valid_from": "2026-01-01"}
+  ],
+
+  "sales": [
+    {"order_id": "O0001", "line_id": 1, "sold_at": "2026-10-01T12:30:00+08:00", "product_id": "P001", "quantity": 3, "gross_amount": 5400, "merchant_discount": 0, "refund_amount": 0, "net_sales": 5400, "sales_channel": "offline", "import_batch_id": "B001"},
+    {"order_id": "O0002", "line_id": 1, "sold_at": "2026-10-01T13:10:00+08:00", "product_id": "P002", "quantity": 2, "gross_amount": 3400, "merchant_discount": 200, "refund_amount": 0, "net_sales": 3200, "sales_channel": "online", "import_batch_id": "B001"},
+    {"order_id": "O0003", "line_id": 1, "sold_at": "2026-10-02T11:00:00+08:00", "product_id": "P003", "quantity": 1, "gross_amount": 2000, "merchant_discount": 0, "refund_amount": 0, "net_sales": 2000, "sales_channel": "online", "import_batch_id": "B001"},
+    {"order_id": "O0004", "line_id": 1, "sold_at": "2026-10-02T15:20:00+08:00", "product_id": "P004", "quantity": 4, "gross_amount": 7200, "merchant_discount": 0, "refund_amount": 0, "net_sales": 7200, "sales_channel": "offline", "import_batch_id": "B001"},
+    {"order_id": "O0005", "line_id": 1, "sold_at": "2026-10-03T18:45:00+08:00", "product_id": "P005", "quantity": 6, "gross_amount": 8400, "merchant_discount": 0, "refund_amount": 0, "net_sales": 8400, "sales_channel": "offline", "import_batch_id": "B001"},
+    {"order_id": "O0006", "line_id": 1, "sold_at": "2026-10-03T19:00:00+08:00", "product_id": "P006", "quantity": 2, "gross_amount": 3800, "merchant_discount": 0, "refund_amount": 0, "net_sales": 3800, "sales_channel": "online", "import_batch_id": "B001"},
+    {"order_id": "O0007", "line_id": 1, "sold_at": "2026-10-04T12:00:00+08:00", "product_id": "P007", "quantity": 1, "gross_amount": 1800, "merchant_discount": 0, "refund_amount": 0, "net_sales": 1800, "sales_channel": "offline", "import_batch_id": "B001"},
+    {"order_id": "O0008", "line_id": 1, "sold_at": "2026-10-04T16:30:00+08:00", "product_id": "P008", "quantity": 3, "gross_amount": 6300, "merchant_discount": 300, "refund_amount": 0, "net_sales": 6000, "sales_channel": "online", "import_batch_id": "B001"}
+  ],
+
+  "cost": [
+    {"sku_channel": "P001/online", "ingredient": 280, "packing": 100, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"},
+    {"sku_channel": "P002/online", "ingredient": 260, "packing": 100, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"},
+    {"sku_channel": "P003/online", "ingredient": 520, "packing": 120, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"},
+    {"sku_channel": "P004/online", "ingredient": 340, "packing": 100, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"},
+    {"sku_channel": "P005/online", "ingredient": 180, "packing": 80, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"},
+    {"sku_channel": "P006/online", "ingredient": 430, "packing": 110, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"},
+    {"sku_channel": "P007/online", "ingredient": 360, "packing": 100, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"},
+    {"sku_channel": "P008/online", "ingredient": 560, "packing": 120, "platform_fee_ratio": 10, "effective_from": "2026-01-01", "effective_to": null, "source": "demo"}
+  ],
+
+  "campaigns": [
+    {
+      "campaign_id": "C001",
+      "name": "第二杯半价",
+      "start_at": "2026-10-01T00:00:00+08:00",
+      "end_at": "2026-10-31T23:59:59+08:00",
+      "product_ids": ["P001", "P002", "P003"],
+      "discount_rule": "第二杯 50% off",
+      "audience": "全部用户",
+      "channels": ["offline"],
+      "budget": 50000,
+      "cost_attribution": "活动营销投入"
+    }
+  ],
+
+  "constraints": [
+    {"type": "capacity", "value": 20000, "unit": "杯/月", "effective_from": "2026-01-01", "note": "月产能上限"},
+    {"type": "min_contribution", "value": 100, "unit": "分/杯", "effective_from": "2026-01-01", "note": "单杯最低可接受贡献（硬限制）"},
+    {"type": "discount_range", "value": "0.7~1.0", "unit": "折扣系数", "effective_from": "2026-01-01", "note": "允许优惠范围（偏好）"}
+  ]
+}
