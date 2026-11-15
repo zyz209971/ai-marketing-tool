@@ -297,7 +297,10 @@
       transition: all .15s; display: flex; align-items: center; justify-content: center;
     }
     .mic-btn:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .mic-btn svg, .attach-btn svg { width: 20px; height: 20px; stroke: var(--ink); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
     .mic-btn.recording { background: #cd785c; border-color: #cd785c; animation: pulse 1.2s infinite; }
+    .mic-btn.recording svg { stroke: #fff; }
+    .attach-btn svg { stroke: var(--ink); }
     .attach-btn {
       width: 46px; height: 46px; border-radius: 12px; border: 1.5px solid var(--border);
       background: #fff; font-size: 20px; cursor: pointer; flex-shrink: 0;
@@ -367,8 +370,8 @@
 
         <!-- 输入区 -->
         <div class="chat-input-bar">
-          <button class="mic-btn" id="micBtn" title="语音输入">🎤</button>
-          <button class="attach-btn" id="attachBtn" title="拖入表格或图片">📎</button>
+          <button class="mic-btn" id="micBtn" title="语音输入"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="21"/></svg></button>
+          <button class="attach-btn" id="attachBtn" title="拖入表格或图片"><svg viewBox="0 0 24 24"><path d="M21.4 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.2-9.19a4 4 0 0 1 5.65 5.66L9.4 17.4a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
           <input type="text" id="keeperInput" placeholder="输入需求，或拖入表格/图片…" />
           <button class="send-btn" id="keeperBtn">发送</button>
           <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.png,.jpg,.jpeg,.webp" multiple style="display:none" />
