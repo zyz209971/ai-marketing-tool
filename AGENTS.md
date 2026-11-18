@@ -49,4 +49,4 @@ python scripts/make_release_manifest.py          # 重新生成 RELEASE_MANIFEST
 
 ## 文档地图
 
-README（快速上手）→ docs/product-requirements.md（功能边界）→ docs/marketing-data-guide.md（数据准备）→ docs/deployment.md（部署）→ docs/release-checklist.md（上线清单）→ docs/deploy-cutover.md（旧服务切换手册）→ specs/（SDD 规格档案）→ docs/history/（历史文档存档）
+README（快速上手）→ **docs/团队开发指南.md（组员入口：需求→spec→AI 修改→自测→PR，含提示词卡与业务逻辑地图）** → docs/interaction-backlog.md（交互问题清单）→ docs/product-requirements.md（功能边界）→ docs/marketing-data-guide.md（数据准备）→ docs/deployment.md（部署）→ docs/release-checklist.md（上线清单）→ docs/deploy-cutover.md（旧服务切换手册）→ specs/（SDD 规格档案）→ docs/history/（历史文档存档）
