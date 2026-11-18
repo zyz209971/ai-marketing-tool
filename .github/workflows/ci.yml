@@ -45,6 +45,9 @@ jobs:
       - name: 前端纯逻辑测试
         run: node --test frontend/tests/*.test.mjs
 
+      - name: 安装中文字体（图像生成测试需要，与 Dockerfile 的 fonts-noto-cjk 对齐）
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
+
       # 允许 .env.example 模板；拦截真实密钥/生成物（.env、.env.local/.deploy 等、SQLite 库、私钥）
       - name: 敏感与生成物文件门禁
         run: |
