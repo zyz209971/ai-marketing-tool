@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 安装后端依赖
+        run: python -m pip install -r backend/requirements-agent.txt
+
+      - name: Python 语法编译检查（backend）
+        run: python -m compileall -q backend/app backend/scripts
+
+      # 各测试模块在模块级创建临时 SQLite 并共享 engine，单进程混跑会互相干扰，
+      # 因此按模块逐个运行（详见 AGENTS.md「命令速查」）。
+      - name: 后端测试（pytest 按模块逐个运行）
+        working-directory: backend
+        shell: bash
+        run: |
+          status=0
+          for f in tests/test_*.py; do
+            echo "== $f =="
+            python -m pytest "$f" -q || status=1
+          done
+          exit $status
+
+      - name: 前端纯逻辑测试
+        run: node --test frontend/tests/*.test.mjs
+
+      # 允许 .env.example 模板；拦截真实密钥/生成物（.env、.env.local/.deploy 等、SQLite 库、私钥）
+      - name: 敏感与生成物文件门禁
+        run: |
+          if git ls-files | grep -En '(^|/)\.env$|(^|/)\.env\.(local|deploy|prod|dev|test|secret|production)$|\.db$|\.db-(wal|shm|journal)$|(^|/)id_rsa|\.pem$|(^|/)\.key$'; then
+            echo "::error::检测到禁止提交的敏感/生成物文件（.env*、*.db、私钥）。请将其加入 .gitignore 并从提交中移除。"
+            exit 1
+          fi
+          echo "门禁通过：无敏感/生成物文件被跟踪。"
