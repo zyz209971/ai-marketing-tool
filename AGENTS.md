@@ -43,7 +43,7 @@ python scripts/make_release_manifest.py          # 重新生成 RELEASE_MANIFEST
 ## 禁改清单（改动需在 PR 中给出充分理由）
 
 - `.specify/` 的脚本与模板（Spec Kit 工具本体）
-- `Dockerfile`/`compose.yaml` 的安全默认值：非 root 用户、只绑 127.0.0.1、数据库不暴露宿主端口、单 api 进程
+- `Dockerfile`/`compose.yaml` 的安全默认值：非 root 用户、默认只绑 127.0.0.1（对外须经 `.env.deploy` 显式设置 `API_BIND/API_PORT`，见 docs/deployment.md「对外暴露的两种场景」）、数据库不暴露宿主端口、单 api 进程
 - `backend/scripts/check_repo_safety.py`（推送前密钥扫描）
 - `.gitattributes`/`.gitignore` 的排除规则
 

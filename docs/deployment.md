@@ -61,3 +61,22 @@ Compose 只绑定 `127.0.0.1`，数据库无宿主机端口。当前 HTTP Cookie
 - 当前仍是课堂规模工程；每用户模型预算、分布式队列和持续评测不是本轮已交付能力。
 
 持久化实现对照：[LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence)、[interrupt/resume](https://docs.langchain.com/oss/python/langgraph/interrupts)。代码以仓库固定的依赖版本为准。
+
+## 对外暴露的两种场景
+
+**场景 A（推荐，长期）**：保持 compose 默认的回环绑定（`127.0.0.1:8021`），在服务器上用 nginx/Caddy 反向代理并启用 HTTPS（域名 + 证书），此时 `.env.deploy` 必须设 `COOKIE_SECURE=true`、`ALLOW_LOCAL_HTTP=false`。
+
+**场景 B（无域名 HTTP 直出，当前过渡方案）**：公网暂以 `http://<服务器IP>:8001/` 直接访问（老版本现状）。步骤：
+
+1. `.env.deploy` 中取消注释并设置：
+   ```dotenv
+   API_BIND=0.0.0.0
+   API_PORT=8001      # 接管老版本端口；先停掉旧 systemd 服务释放端口
+   COOKIE_SECURE=false
+   ALLOW_LOCAL_HTTP=true
+   ```
+   `COOKIE_SECURE=false` 是**必需**的——登录 Cookie 带 `Secure` 标记时浏览器在纯 HTTP 下会拒绝写入，表现为"登录没反应"。
+2. 云安全组确认放行 8001（老版本已在用，通常无需改动）；数据库仍不暴露宿主端口。
+3. `docker compose --env-file .env.deploy up -d` 后用 `http://<IP>:8001/` 验收。
+
+**场景 B 的已知风险（知悉后使用）**：登录密码与会话 Cookie 经公网明文传输；建议为演示账号使用一次性弱密码、不绑定真实资料，并尽早迁移到场景 A。可额外设置 `APP_ACCESS_KEY`（应用访问密钥，进入站点前的一道门）作为过渡期缓解。

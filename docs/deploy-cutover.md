@@ -42,7 +42,9 @@ docker compose --env-file .env.deploy exec api python backend/scripts/update_mar
 ## 4. 验证与开放
 
 - 按 release-checklist.md C/D 组逐条验证（重点：RAG 百炼索引、登录冒烟、工作区隔离）
-- HTTPS 反代指向 `127.0.0.1:8021`，开启 `COOKIE_SECURE=true` 后再对外
+- 对外方式二选一（详见 docs/deployment.md「对外暴露的两种场景」）：
+  - **场景 A（推荐）**：HTTPS 反代指向 `127.0.0.1:8021`，`.env.deploy` 设 `COOKIE_SECURE=true`、`ALLOW_LOCAL_HTTP=false`
+  - **场景 B（当前过渡，接管老端口 8001）**：`.env.deploy` 设 `API_BIND=0.0.0.0`、`API_PORT=8001`、`COOKIE_SECURE=false`、`ALLOW_LOCAL_HTTP=true`——**`COOKIE_SECURE` 必须为 false，否则 HTTP 下登录 Cookie 被浏览器拒绝、登录静默失效**
 
 ## 5. 回滚（任一环节失败时）
 

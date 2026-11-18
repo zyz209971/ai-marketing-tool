@@ -1,4 +1,6 @@
-# Local deployment rehearsal only: API is bound to loopback, database has no host port.
+# Default binds loopback only (safe rehearsal); database never exposes a host port.
+# For public exposure set API_BIND/API_PORT in .env.deploy (see docs/deployment.md 场景 B),
+# and prefer an HTTPS reverse proxy over direct public HTTP.
 services:
   db:
     image: pgvector/pgvector:pg16
@@ -27,7 +29,7 @@ services:
       APP_ACCESS_KEY: ''
       SEED_DEMO_DATA: 'false'
     ports:
-      - '127.0.0.1:8021:8000'
+      - '${API_BIND:-127.0.0.1}:${API_PORT:-8021}:8000'
     volumes:
       - files:/data
     depends_on:
