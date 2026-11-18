@@ -11,9 +11,9 @@ import sqlite3
 import time
 from pathlib import Path
 
-from .config import QUOTA_PER_USER, QUOTA_TOTAL
+from .config import DATA_DIR, QUOTA_PER_USER, QUOTA_TOTAL
 
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "quota.db"
+DB_PATH = DATA_DIR / "quota.db"
 
 
 def init_db():

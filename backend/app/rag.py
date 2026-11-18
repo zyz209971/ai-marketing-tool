@@ -13,10 +13,10 @@ from typing import Iterable
 
 from openai import OpenAI
 
-from .config import EMBED_API_KEY, EMBED_BASE_URL, EMBED_DIMENSIONS, EMBED_MODEL
+from .config import DATA_DIR, EMBED_API_KEY, EMBED_BASE_URL, EMBED_DIMENSIONS, EMBED_MODEL
 
 logger = logging.getLogger(__name__)
-DB_PATH = Path(__file__).resolve().parent.parent / "data" / "marketing.db"
+DB_PATH = DATA_DIR / "marketing.db"
 MIN_CHUNK_CHARS = 20
 TARGET_CHUNK_CHARS = 420
 CHUNK_OVERLAP_CHARS = 60
@@ -392,7 +392,7 @@ def search(query: str, top_k: int = 5, record_types: tuple[str, ...] | None = No
     conn.close()
 
     qvec: tuple[float, ...] = tuple()
-    if use_vector and _embedding_enabled() and any(row["vec"] for row in rows):
+    if use_vector and _embedding_enabled() and any(row["vec"] and row['embedding_model'] == EMBED_MODEL for row in rows):
         try:
             qvec = _embed_query(query)
         except Exception as exc:
@@ -417,7 +417,7 @@ def search(query: str, top_k: int = 5, record_types: tuple[str, ...] | None = No
             quality += 0.15
         quality = min(1.0, quality)
         vector_score = 0.0
-        if qvec and row["vec"]:
+        if qvec and row["vec"] and row['embedding_model'] == EMBED_MODEL:
             try:
                 vector_score = max(0.0, _cosine(qvec, json.loads(row["vec"])))
             except (ValueError, TypeError, json.JSONDecodeError):
