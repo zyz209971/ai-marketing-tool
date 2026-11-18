@@ -1,0 +1,6 @@
+# 技术计划
+沿用FastAPI/LangGraph/原生JS。新增任务依赖策略模块，Brief扩展task_kind、content_scope、theme、constraints、promotion_pairs、assess_minimum，旧任务默认campaign兼容。
+模型理解任务与字段；后端独立路由和校验。新品牌无facts不能调用模拟工具；上传与对话资料复用已有草稿服务。普通内容通过独立生成路径，涉及优惠切回campaign且须批准。
+商品SQL增量列spec/price_confirmed_at；事实事件单独追加表。Agent资料冲突ID绑定旧新值及版本，确认时持写锁重新计算；旧管理页保留人工选择更新目标与文件版本检查，其完整逐字段冲突展示暂不统一。
+作品在store.finish同一业务事务写kb_works，agent_origin由服务器生成，旧workspace sync禁止覆盖该来源作品。版本化作品和对话为同一事实，不新增第二个创作引擎。
+按测试→任务与测算→资料与归档→界面→真实模型/浏览器验证推进。SQLite兼容迁移，不改用户Key，不提交Git。

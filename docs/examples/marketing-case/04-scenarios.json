@@ -1,0 +1,19 @@
+{
+  "data_kind": "synthetic_test_fixture",
+  "scope": "单门店自提、同款、不叠加；日期含开始不含结束。相同销量仅为敏感性比较，不是需求预测。",
+  "shared_brief": {
+    "task_kind": "campaign", "platform": "xiaohongshu",
+    "start_date": "2026-11-21", "end_date": "2026-11-23",
+    "budget_minor": 20000, "spend_minor": 10000,
+    "scenario_qty": 40, "promotion_pairs": 10,
+    "roi_mode": "scenario"
+  },
+  "cases": [
+    {"name": "second_cup_half", "patch": {"offer": {"type": "second_cup_discount", "pay_bps": 5000}}, "expected": {"feasible": true, "average_contribution_minor": 700, "scenario_revenue_minor": 63000, "scenario_contribution_minor": 37000, "baseline_contribution_minor": 23000, "incremental_contribution_minor": 4000, "incremental_roi": 0.4}},
+    {"name": "all_cups_nine_tenths", "patch": {"offer": {"type": "percentage", "pay_bps": 9000}}, "expected": {"feasible": true, "scenario_revenue_minor": 64800, "incremental_contribution_minor": 5800, "incremental_roi": 0.58}},
+    {"name": "original_price", "patch": {"offer": {"type": "none"}}, "expected": {"feasible": true, "scenario_revenue_minor": 72000, "incremental_contribution_minor": 13000, "incremental_roi": 1.3}},
+    {"name": "lower_sales_negative_roi", "patch": {"offer": {"type": "second_cup_discount", "pay_bps": 5000}, "scenario_qty": 20}, "expected": {"feasible": true, "average_contribution_minor": 700, "incremental_contribution_minor": -19000, "incremental_roi": -1.9}},
+    {"name": "cost_above_boundary", "patch": {"offer": {"type": "second_cup_discount", "pay_bps": 5000}, "variable_cost_override_minor": 1000}, "expected": {"feasible": false, "average_contribution_minor": 350}},
+    {"name": "zero_spend", "patch": {"offer": {"type": "second_cup_discount", "pay_bps": 5000}, "spend_minor": 0}, "expected": {"feasible": true, "incremental_contribution_minor": 14000, "incremental_roi": null, "roi_reason": "ZERO_SPEND"}}
+  ]
+}

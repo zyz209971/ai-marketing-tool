@@ -1,0 +1,426 @@
+[
+  {
+    "case": "negative_roi",
+    "request": {
+      "store_id": "demo-store",
+      "brief": {
+        "task_kind": "campaign",
+        "content_scope": "product",
+        "theme": "",
+        "constraints": "",
+        "promotion_pairs": 20,
+        "assess_minimum": true,
+        "brand_id": null,
+        "sku_id": "T001",
+        "platform": "xiaohongshu",
+        "goal": "提升活动贡献收益",
+        "start_date": "2026-11-16",
+        "end_date": "2026-11-23",
+        "budget_minor": 20000,
+        "spend_minor": 20000,
+        "scenario_qty": 160,
+        "roi_mode": "scenario",
+        "offer": {
+          "type": "second_cup_discount",
+          "pay_bps": 5000,
+          "same_sku": true,
+          "same_order": true,
+          "repeat_per_pair": true,
+          "stackable": false
+        },
+        "style": "自然、简洁，不夸大功效",
+        "audience": "",
+        "variable_cost_override_minor": null,
+        "min_contribution_override_minor": null
+      }
+    },
+    "response": {
+      "schema_version": "1.0",
+      "request_id": "521b43b7528244d4842d4015b83d10bc",
+      "tool": "evaluate_promotion",
+      "status": "ok",
+      "data_kind": "synthetic",
+      "snapshot_id": "1be98705f49b7e299772381e89d1b9f539f7e020e81d86a82753b8c2d27af374",
+      "data_version": "milk-tea-demo-v1",
+      "method_version": "promotion-v2-explicit-pairs",
+      "as_of": "2026-11-15",
+      "result": {
+        "feasible": true,
+        "violations": [],
+        "pair_revenue_minor": 2400,
+        "pair_contribution_minor": 1200,
+        "average_contribution_minor": 600.0,
+        "min_average_price_minor": 1100,
+        "roi_reason": null,
+        "min_offer_pay_bps": 3747,
+        "scenario_qty": 160,
+        "scenario_revenue_minor": 240000,
+        "scenario_contribution_minor": 144000,
+        "baseline_qty": 98,
+        "baseline_contribution_minor": 98000,
+        "incremental_contribution_minor": 26000,
+        "incremental_roi": 1.3,
+        "candidates": [
+          {
+            "pay_bps": 5000,
+            "feasible": true,
+            "average_contribution_minor": 600.0,
+            "incremental_contribution_minor": 26000
+          },
+          {
+            "pay_bps": 7000,
+            "feasible": true,
+            "average_contribution_minor": 760.0,
+            "incremental_contribution_minor": 32400
+          },
+          {
+            "pay_bps": 8000,
+            "feasible": true,
+            "average_contribution_minor": 840.0,
+            "incremental_contribution_minor": 35600
+          },
+          {
+            "pay_bps": 10000,
+            "feasible": true,
+            "average_contribution_minor": 1000.0,
+            "incremental_contribution_minor": 42000
+          }
+        ]
+      },
+      "missing_fields": [],
+      "assumptions": [
+        "模拟经营数据，不代表真实品牌。",
+        "单位优惠示例按同单同款两杯；活动总量按用户指定优惠组数，剩余杯数原价，不叠加优惠。",
+        "贡献收益扣除食材、包材等变动成本，不含房租与固定工资，不是净利润。",
+        "金额按分四舍五入；优惠已计入收入，不重复记作营销成本。",
+        "基线使用所选本期日均销量，假设活动期间原价销售；不代表因果归因或需求预测。",
+        "候选折扣沿用同一销量假设，仅用于收益敏感性比较，不能据此认定最优价格。"
+      ],
+      "warnings": [
+        "单位收益合格不代表活动比不促销更划算。"
+      ],
+      "source_refs": [
+        "synthetic:milk-tea-demo-v1"
+      ],
+      "error": null
+    }
+  },
+  {
+    "case": "missing_quantity",
+    "request": {
+      "store_id": "demo-store",
+      "brief": {
+        "task_kind": "campaign",
+        "content_scope": "product",
+        "theme": "",
+        "constraints": "",
+        "promotion_pairs": 20,
+        "assess_minimum": true,
+        "brand_id": null,
+        "sku_id": "T001",
+        "platform": "xiaohongshu",
+        "goal": "提升活动贡献收益",
+        "start_date": "2026-11-16",
+        "end_date": "2026-11-23",
+        "budget_minor": 20000,
+        "spend_minor": 20000,
+        "scenario_qty": null,
+        "roi_mode": "scenario",
+        "offer": {
+          "type": "second_cup_discount",
+          "pay_bps": 5000,
+          "same_sku": true,
+          "same_order": true,
+          "repeat_per_pair": true,
+          "stackable": false
+        },
+        "style": "自然、简洁，不夸大功效",
+        "audience": "",
+        "variable_cost_override_minor": null,
+        "min_contribution_override_minor": null
+      }
+    },
+    "response": {
+      "schema_version": "1.0",
+      "request_id": "7e17962042464ca59dcea18910d4d301",
+      "tool": "evaluate_promotion",
+      "status": "needs_data",
+      "data_kind": "synthetic",
+      "snapshot_id": "bee18365c60c4d98234e9b8bea419592f4bdf05da33089936bd1d7b39ae2a707",
+      "data_version": "milk-tea-demo-v1",
+      "method_version": "promotion-v2-explicit-pairs",
+      "as_of": "2026-11-15",
+      "result": {
+        "feasible": true,
+        "violations": [],
+        "pair_revenue_minor": 2400,
+        "pair_contribution_minor": 1200,
+        "average_contribution_minor": 600.0,
+        "min_average_price_minor": 1100,
+        "roi_reason": null,
+        "min_offer_pay_bps": 3747,
+        "candidates": [
+          {
+            "pay_bps": 5000,
+            "feasible": true,
+            "average_contribution_minor": 600.0
+          },
+          {
+            "pay_bps": 7000,
+            "feasible": true,
+            "average_contribution_minor": 760.0
+          },
+          {
+            "pay_bps": 8000,
+            "feasible": true,
+            "average_contribution_minor": 840.0
+          },
+          {
+            "pay_bps": 10000,
+            "feasible": true,
+            "average_contribution_minor": 1000.0
+          }
+        ]
+      },
+      "missing_fields": [
+        {
+          "path": "scenario_qty",
+          "reason": "ROI 情景需要此字段；也可选择只判断单位收益",
+          "blocks": [
+            "roi"
+          ]
+        }
+      ],
+      "assumptions": [
+        "模拟经营数据，不代表真实品牌。",
+        "单位优惠示例按同单同款两杯；活动总量按用户指定优惠组数，剩余杯数原价，不叠加优惠。",
+        "贡献收益扣除食材、包材等变动成本，不含房租与固定工资，不是净利润。",
+        "金额按分四舍五入；优惠已计入收入，不重复记作营销成本。",
+        "基线使用所选本期日均销量，假设活动期间原价销售；不代表因果归因或需求预测。",
+        "候选折扣沿用同一销量假设，仅用于收益敏感性比较，不能据此认定最优价格。"
+      ],
+      "warnings": [
+        "单位收益合格不代表活动比不促销更划算。"
+      ],
+      "source_refs": [
+        "synthetic:milk-tea-demo-v1"
+      ],
+      "error": null
+    }
+  },
+  {
+    "case": "infeasible_cost",
+    "request": {
+      "store_id": "demo-store",
+      "brief": {
+        "task_kind": "campaign",
+        "content_scope": "product",
+        "theme": "",
+        "constraints": "",
+        "promotion_pairs": 20,
+        "assess_minimum": true,
+        "brand_id": null,
+        "sku_id": "T001",
+        "platform": "xiaohongshu",
+        "goal": "提升活动贡献收益",
+        "start_date": "2026-11-16",
+        "end_date": "2026-11-23",
+        "budget_minor": 20000,
+        "spend_minor": 20000,
+        "scenario_qty": 160,
+        "roi_mode": "scenario",
+        "offer": {
+          "type": "second_cup_discount",
+          "pay_bps": 5000,
+          "same_sku": true,
+          "same_order": true,
+          "repeat_per_pair": true,
+          "stackable": false
+        },
+        "style": "自然、简洁，不夸大功效",
+        "audience": "",
+        "variable_cost_override_minor": 1000,
+        "min_contribution_override_minor": null
+      }
+    },
+    "response": {
+      "schema_version": "1.0",
+      "request_id": "21c966e959ef4258846469906b928562",
+      "tool": "evaluate_promotion",
+      "status": "ok",
+      "data_kind": "synthetic",
+      "snapshot_id": "0007bc1758a37023ebc47aca1c7f0f58db7046aa0d258fb5c708f16cce6f33ae",
+      "data_version": "milk-tea-demo-v1",
+      "method_version": "promotion-v2-explicit-pairs",
+      "as_of": "2026-11-15",
+      "result": {
+        "feasible": false,
+        "violations": [
+          "平均每杯贡献收益低于 5 元的门店约束。"
+        ],
+        "pair_revenue_minor": 2400,
+        "pair_contribution_minor": 400,
+        "average_contribution_minor": 200.0,
+        "min_average_price_minor": 1500,
+        "roi_reason": null,
+        "min_offer_pay_bps": 8747,
+        "scenario_qty": 160,
+        "scenario_revenue_minor": 240000,
+        "scenario_contribution_minor": 80000,
+        "baseline_qty": 98,
+        "baseline_contribution_minor": 58800,
+        "incremental_contribution_minor": 1200,
+        "incremental_roi": 0.06,
+        "candidates": [
+          {
+            "pay_bps": 5000,
+            "feasible": false,
+            "average_contribution_minor": 200.0,
+            "incremental_contribution_minor": 1200
+          },
+          {
+            "pay_bps": 7000,
+            "feasible": false,
+            "average_contribution_minor": 360.0,
+            "incremental_contribution_minor": 7600
+          },
+          {
+            "pay_bps": 8000,
+            "feasible": false,
+            "average_contribution_minor": 440.0,
+            "incremental_contribution_minor": 10800
+          },
+          {
+            "pay_bps": 10000,
+            "feasible": true,
+            "average_contribution_minor": 600.0,
+            "incremental_contribution_minor": 17200
+          }
+        ]
+      },
+      "missing_fields": [],
+      "assumptions": [
+        "模拟经营数据，不代表真实品牌。",
+        "单位优惠示例按同单同款两杯；活动总量按用户指定优惠组数，剩余杯数原价，不叠加优惠。",
+        "贡献收益扣除食材、包材等变动成本，不含房租与固定工资，不是净利润。",
+        "金额按分四舍五入；优惠已计入收入，不重复记作营销成本。",
+        "基线使用所选本期日均销量，假设活动期间原价销售；不代表因果归因或需求预测。",
+        "单杯成本使用本次用户提供值，不更新产品主数据。",
+        "候选折扣沿用同一销量假设，仅用于收益敏感性比较，不能据此认定最优价格。"
+      ],
+      "warnings": [
+        "单位收益合格不代表活动比不促销更划算。"
+      ],
+      "source_refs": [
+        "synthetic:milk-tea-demo-v1"
+      ],
+      "error": null
+    }
+  },
+  {
+    "case": "zero_spend",
+    "request": {
+      "store_id": "demo-store",
+      "brief": {
+        "task_kind": "campaign",
+        "content_scope": "product",
+        "theme": "",
+        "constraints": "",
+        "promotion_pairs": 20,
+        "assess_minimum": true,
+        "brand_id": null,
+        "sku_id": "T001",
+        "platform": "xiaohongshu",
+        "goal": "提升活动贡献收益",
+        "start_date": "2026-11-16",
+        "end_date": "2026-11-23",
+        "budget_minor": 20000,
+        "spend_minor": 0,
+        "scenario_qty": 160,
+        "roi_mode": "scenario",
+        "offer": {
+          "type": "second_cup_discount",
+          "pay_bps": 5000,
+          "same_sku": true,
+          "same_order": true,
+          "repeat_per_pair": true,
+          "stackable": false
+        },
+        "style": "自然、简洁，不夸大功效",
+        "audience": "",
+        "variable_cost_override_minor": null,
+        "min_contribution_override_minor": null
+      }
+    },
+    "response": {
+      "schema_version": "1.0",
+      "request_id": "15cb4f85e0514e5095b55546b4b60a1f",
+      "tool": "evaluate_promotion",
+      "status": "ok",
+      "data_kind": "synthetic",
+      "snapshot_id": "843338925f19241db19100566ac8d188e7bd9d59222cec14f840fd2f58a92515",
+      "data_version": "milk-tea-demo-v1",
+      "method_version": "promotion-v2-explicit-pairs",
+      "as_of": "2026-11-15",
+      "result": {
+        "feasible": true,
+        "violations": [],
+        "pair_revenue_minor": 2400,
+        "pair_contribution_minor": 1200,
+        "average_contribution_minor": 600.0,
+        "min_average_price_minor": 1100,
+        "roi_reason": "ZERO_SPEND",
+        "min_offer_pay_bps": 3747,
+        "scenario_qty": 160,
+        "scenario_revenue_minor": 240000,
+        "scenario_contribution_minor": 144000,
+        "baseline_qty": 98,
+        "baseline_contribution_minor": 98000,
+        "incremental_contribution_minor": 46000,
+        "incremental_roi": null,
+        "candidates": [
+          {
+            "pay_bps": 5000,
+            "feasible": true,
+            "average_contribution_minor": 600.0,
+            "incremental_contribution_minor": 46000
+          },
+          {
+            "pay_bps": 7000,
+            "feasible": true,
+            "average_contribution_minor": 760.0,
+            "incremental_contribution_minor": 52400
+          },
+          {
+            "pay_bps": 8000,
+            "feasible": true,
+            "average_contribution_minor": 840.0,
+            "incremental_contribution_minor": 55600
+          },
+          {
+            "pay_bps": 10000,
+            "feasible": true,
+            "average_contribution_minor": 1000.0,
+            "incremental_contribution_minor": 62000
+          }
+        ]
+      },
+      "missing_fields": [],
+      "assumptions": [
+        "模拟经营数据，不代表真实品牌。",
+        "单位优惠示例按同单同款两杯；活动总量按用户指定优惠组数，剩余杯数原价，不叠加优惠。",
+        "贡献收益扣除食材、包材等变动成本，不含房租与固定工资，不是净利润。",
+        "金额按分四舍五入；优惠已计入收入，不重复记作营销成本。",
+        "基线使用所选本期日均销量，假设活动期间原价销售；不代表因果归因或需求预测。",
+        "候选折扣沿用同一销量假设，仅用于收益敏感性比较，不能据此认定最优价格。"
+      ],
+      "warnings": [
+        "单位收益合格不代表活动比不促销更划算。"
+      ],
+      "source_refs": [
+        "synthetic:milk-tea-demo-v1"
+      ],
+      "error": null
+    }
+  }
+]
