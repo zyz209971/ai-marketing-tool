@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {filterCatalog,pageOf,toggleSelected,normalize} from '../src/catalog.js';
+const rows=Array.from({length:43},(_,i)=>({id:String(i),name:'茶饮'+i,category:i%2?'茶':'咖啡',selling:'清香',price:'20元',image_document_id:i%3?'photo':'',archived:i===42,updated:i}));
+test('library pages preserve all matching products without changing source order',()=>{const original=rows.map(r=>r.id);const matches=filterCatalog(rows);assert.equal(matches.length,42);assert.equal(pageOf(matches,1).rows.length,20);assert.equal(pageOf(matches,3).rows.length,2);assert.equal(pageOf(matches,99).page,3);assert.deepEqual(rows.map(r=>r.id),original);});
+test('combined category/image/completeness filters and archived state',()=>{const found=filterCatalog(rows,{category:'茶',image:'present',completeness:'complete'});assert.ok(found.length>0);assert.ok(found.every(r=>r.category==='茶'&&r.image_document_id&&!r.archived));assert.equal(filterCatalog(rows,{status:'archived'})[0].id,'42');assert.equal(filterCatalog(rows,{query:'不存在'}).length,0);});
+test('picker keeps selection across page changes and enforces maximum',()=>{let ids=[];for(const row of [rows[0],rows[21],rows[40]])ids=toggleSelected(ids,row.id,true).ids;assert.deepEqual(ids,['0','21','40']);assert.equal(toggleSelected(ids,'21',false).ids.length,2);ids=rows.slice(0,10).map(r=>r.id);const overflow=toggleSelected(ids,'20',true);assert.ok(overflow.overflow);assert.deepEqual(overflow.ids,ids);});
+test('normalized matching supports full width input and case differences',()=>{assert.equal(normalize(' ＣＯＦＦＥＥ '),'coffee');assert.equal(filterCatalog([{...rows[1],name:'Coffee 拿铁'}],{query:'ＣＯＦＦＥＥ'}).length,1);});

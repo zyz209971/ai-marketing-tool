@@ -1,8 +1,36 @@
 <!doctype html>
-<html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>灵感引擎 · 品牌营销创作</title><link rel="stylesheet" href="./src/styles.css"></head>
-<body>
-  <aside><div class="brand"><span>✳</span> 灵感引擎<small>把品牌灵感，变成好内容</small></div><nav class="nav" id="nav"></nav><div class="asidefoot"><span class="badge" id="modeStatus">正在连接后端…</span><p class="note" id="quotaStatus"></p><button onclick="initialize()">重新连接</button><p class="note">资料保存在当前浏览器</p></div></aside>
-  <main><header><span id="crumb">品牌工作空间</span><span class="badge">品牌营销工作空间</span></header><div class="wrap" id="app"></div></main>
-  <div id="modal"></div><div id="toast" hidden class="toast" role="status"></div><script type="module" src="./src/app.js"></script>
-</body></html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>营销助手 · 品牌工作台</title><link rel="stylesheet" href="./src/agent.css"><link rel="stylesheet" href="./src/management.css"><link rel="stylesheet" href="./src/workbench.css"></head>
+<body class="workbench"><div class="workspace-shell">
+<aside class="workspace-nav" id="workspaceNav">
+ <a class="workspace-logo" href="#/chat"><span>✳</span><div>营销助手<small>你的智能营销创作伙伴</small></div></a>
+ <button class="new-conversation" id="newTask">＋ 开始新对话</button>
+ <nav id="primaryNav" aria-label="主要导航"></nav>
+ <div class="nav-bottom"><div class="nav-promise"><strong>让营销更高效、更专业</strong><p>从品牌资料到营销策略，<br>一步一步，聊出好内容。</p></div><div class="sidebar-footer"><button id="settings">模型连接设置</button><small id="brandLabel"></small></div></div>
+</aside>
+<div class="workspace-main"><header class="workspace-header"><div class="workspace-heading"><button id="toggleSidebar" class="icon-button" aria-label="展开或收起导航">☰</button><span id="pageCaption">从创意到落地，一站式智能营销助手</span></div><div class="workspace-header-actions"><label class="sr-only" for="workspaceBrand">当前品牌</label><select id="workspaceBrand"><option value="">新品牌 / 选择品牌</option></select><button id="mode" class="mode">正在连接…</button><button id="toggleContext" class="context-toggle" aria-expanded="false">品牌上下文</button></div></header>
+<div id="workspaceAlert" role="alert" hidden></div>
+<div class="workspace-body" id="workspaceBody">
+ <section id="chatRoot" class="chat-pane" aria-label="与 Agent 对话">
+ <div class="chat-welcome" id="chatWelcome"><span class="welcome-spark">✦</span><div><h1>你好，<br>我是你的营销助手</h1><p>从整理品牌资料，到制定营销策略、写出好文案。告诉我你的想法，我们一起完成。</p></div></div>
+ <div class="chat-toolbar"><span id="stage"></span><button id="chooseBrand">切换品牌 / 新品牌</button></div>
+ <div id="error" role="alert" hidden></div>
+ <div id="scrollArea" class="scroll-area"><div class="conversation">
+   <div class="conversation-intro"><span class="intro-icon">✳</span><p>从一个想法，聊到一份可用的方案。</p></div>
+   <div id="messages" aria-live="polite"></div>
+   <div id="thinking" class="thinking" hidden><span class="avatar">✳</span><span>正在整理资料与方案<span class="dots">…</span></span></div>
+   <div id="suggestions" class="suggestions"></div>
+ </div></div>
+ <div class="composer-wrap"><form id="chat" class="composer"><label class="sr-only" for="message">给营销助手发消息</label><textarea id="message" rows="2" maxlength="5000" placeholder="告诉我你的想法，资料不全也没关系，我们可以边聊边补充…"></textarea><div class="composer-bottom"><button type="button" id="attach" class="copy">＋ 添加资料</button><span>Enter 发送 · Shift + Enter 换行</span><button id="send" class="send" type="submit" aria-label="发送消息">↑</button></div></form><p class="footnote" id="dataNote">上传品牌资料，通过对话补充，确认后入库。</p></div>
+ <div id="history" hidden></div>
+ </section>
+ <aside class="context-panel" id="contextPanel" aria-label="品牌与任务上下文"></aside>
+ <section id="managementRoot" class="management" hidden><div hidden><span id="crumb"></span><span id="modeStatus"></span><span id="quotaStatus"></span><span id="workspaceStatus"></span><nav id="nav"></nav></div><div class="wrap" id="app"></div><div id="modal"></div><div id="toast" hidden class="toast" role="status"></div></section>
+ <section id="conversationRoot" class="records-pane" hidden></section>
+</div></div></div>
+<dialog id="connection"><form method="dialog"><button class="close" aria-label="关闭">×</button></form><h2>模型连接</h2><p id="connectionStatus"></p><p>密钥只由后端读取，不在这个页面填写或保存。</p><p>沿用现有仓库的文字模型配置即可。可在本机 <code>backend/.env.local</code> 配置，或启动时指定已有私有配置文件。</p><p>配置后重启后端，页面会自动切换到模型模式；实际可用性以调用结果为准。</p><details><summary>开发者配置说明</summary><pre>WORD_API_KEY=你的密钥
+QWEN_BASE_URL=服务的基础地址
+COPY_MODEL=支持工具调用的模型名</pre><p>不要提交实际密钥。只提交空模板和代码。</p><code>./start-agent.ps1 -Check</code><p><a href="/docs" target="_blank" rel="noopener">查看接口文档 ↗</a></p></details><div id="access" hidden><label for="accessKey">应用访问密码</label><input id="accessKey" type="password" autocomplete="current-password"><button id="unlock">连接</button></div></dialog>
+<dialog id="brandDialog"><form method="dialog"><button class="close" aria-label="关闭">×</button></form><h2>为哪个品牌工作？</h2><label for="brandSelect">选择品牌，将开启新的对话</label><select id="brandSelect"></select><button id="startBrand" class="primary">开始对话</button><p>新品牌可选择上方的新品牌入口，通过对话和上传建档。</p><details><summary>手动建立品牌（可选）</summary><label>品牌名称<input id="brandName" maxlength="200"></label><label>已知的品牌介绍<textarea id="brandIntro" maxlength="10000"></textarea></label><button id="createBrand">保存品牌并开始</button></details><p id="brandError" role="alert"></p></dialog>
+<dialog id="attachmentDialog"><form method="dialog"><button class="close" aria-label="关闭">×</button></form><h2>上传资料，边聊边完善品牌</h2><label for="attachmentKind">资料类型</label><select id="attachmentKind"><option value="knowledge">品牌 / 商品资料</option><option value="business">经营汇总 CSV</option></select><p>已有的品牌或商品文件可以直接上传，无需先填写品牌表单。系统自动整理并询问缺失项，确认后再用于分析。</p><details><summary>经营表怎么填写？</summary><p>经营 CSV 沿用当前字段模板；已有字段会自动读取，缺项可以在对话中补充，无需重新上传。商品须先确认入库。两期日期需等长且不重叠，含开始不含结束。销量填净完成杯数，成本和最低贡献填整数分。只支持单门店自提；空白表示未知，不会当作零。</p><p>current_start/end：本期起止；previous_start/end：上期起止；current_qty/previous_qty：两期销量；variable_cost_minor：食材、包材等单杯变动成本；min_contribution_minor：最低单杯贡献；daily_capacity：日容量。</p><button id="downloadBusiness">下载当前品牌模板</button></details><input id="attachmentFile" type="file" accept=".txt,.md,.csv,.pdf,.docx"><button id="uploadAttachment">上传并预览</button><p id="attachmentError" role="alert"></p></dialog>
+
+<script type="module" src="./src/workbench.js"></script><script type="module" src="./src/session.js"></script></body></html>
