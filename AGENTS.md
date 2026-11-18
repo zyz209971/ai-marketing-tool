@@ -15,8 +15,8 @@
 python -m venv .venv && .venv/Scripts/pip install -r backend/requirements-agent.txt
 python backend/scripts/run_agent_local.py        # 主界面 http://127.0.0.1:8021/
 
-# 测试
-python -m pytest backend/tests                   # 后端单元测试
+# 测试（注意：各模块的临时库在模块级创建，混跑单进程会互相干扰——按模块逐个跑）
+cd backend && for f in tests/test_*.py; do python -m pytest "$f" -q || break; done   # 后端，113 项
 node --test frontend/tests/*.test.mjs            # 前端纯逻辑测试
 # frontend/tests/*-browser.mjs 是 E2E 预演脚本：需先启动服务并安装 Playwright，CI 不跑
 
