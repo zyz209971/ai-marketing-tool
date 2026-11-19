@@ -1,20 +1,25 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+from .environment import load_environment
 
-# 始终从 backend/.env 加载，避免启动目录或终端残留变量影响配置。
+# 兼容 backend/.env，支持 .env.local / APP_ENV_FILE；部署环境变量优先。
 ENV_PATH = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(dotenv_path=ENV_PATH, override=True)
+if os.getenv('APP_SKIP_DOTENV', '').lower() != 'true':
+    load_environment()
+
+# Optional isolated runtime directory; local previews need not overwrite source databases.
+DATA_DIR = Path(os.getenv('APP_DATA_DIR') or str(Path(__file__).resolve().parent.parent / 'data')).resolve()
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 # 阿里云百炼 MaaS 专属端点（OpenAI 兼容协议）
 QWEN_BASE_URL = os.getenv(
     "QWEN_BASE_URL",
-    "https://ws-ehnylndpm63oobsm.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    os.getenv('AGENT_BASE_URL') or "https://ws-ehnylndpm63oobsm.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
 )
 # 文字 / 视觉 / Embedding API key。
 # QWEN_API_KEY 作为旧配置名保留，现有 provider 无需同时修改。
-WORD_API_KEY = os.getenv("WORD_API_KEY") or os.getenv("QWEN_API_KEY", "")
+WORD_API_KEY = os.getenv("WORD_API_KEY") or os.getenv("QWEN_API_KEY") or os.getenv('AGENT_API_KEY', '')
 QWEN_API_KEY = WORD_API_KEY
 
 # 生图服务可以使用独立的地址和 key；未配置地址时沿用文字接口地址。
@@ -32,7 +37,10 @@ EMBED_DIMENSIONS = int(os.getenv("EMBED_DIMENSIONS", "1024"))
 IMAGE_MODEL = os.getenv("IMAGE_MODEL", "qwen-image-3.0-pro")
 
 # 文案生成模型（DeepSeek，如已配置）
-COPY_MODEL = os.getenv("COPY_MODEL", "deepseek-chat")
+COPY_MODEL = os.getenv("COPY_MODEL") or os.getenv('AGENT_MODEL') or "deepseek-chat"
+AGENT_API_KEY = os.getenv('AGENT_API_KEY') or WORD_API_KEY
+AGENT_BASE_URL = os.getenv('AGENT_BASE_URL') or QWEN_BASE_URL
+AGENT_MODEL = os.getenv('AGENT_MODEL') or COPY_MODEL
 
 # 文案多平台/多产品并发生成配置。
 # 并发默认 3，与平台数量一致；多产品分别生成时可适当调大，但不要超过平台限流。
@@ -57,6 +65,7 @@ VISION_MODEL = os.getenv("VISION_MODEL", "qwen-vl-max")
 # 是否强制 mock。文字和图片分别判断，避免只有其中一个 key 时相互影响。
 FORCE_MOCK = os.getenv("USE_MOCK", "").lower() == "true"
 USE_MOCK = FORCE_MOCK or not WORD_API_KEY
+AGENT_USE_MOCK = FORCE_MOCK or not AGENT_API_KEY
 USE_IMAGE_MOCK = FORCE_MOCK or not IMAGE_API_KEY
 
 # 线上访问密码（为空则不启用密码校验）

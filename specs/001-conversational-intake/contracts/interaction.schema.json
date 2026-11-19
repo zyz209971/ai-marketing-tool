@@ -1,0 +1,133 @@
+{
+  "InputRequest": {
+    "$defs": {
+      "InputChoice": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "patch": {
+            "title": "Patch",
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "label"
+        ],
+        "title": "InputChoice",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "task_id": {
+        "title": "Task Id",
+        "type": "string"
+      },
+      "fields": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Fields",
+        "type": "array"
+      },
+      "question": {
+        "title": "Question",
+        "type": "string"
+      },
+      "reason": {
+        "title": "Reason",
+        "type": "string"
+      },
+      "choices": {
+        "items": {
+          "$ref": "#/$defs/InputChoice"
+        },
+        "title": "Choices",
+        "type": "array"
+      },
+      "allow_free_text": {
+        "default": true,
+        "title": "Allow Free Text",
+        "type": "boolean"
+      },
+      "attachment_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Attachment Id"
+      }
+    },
+    "required": [
+      "id",
+      "task_id",
+      "fields",
+      "question",
+      "reason"
+    ],
+    "title": "InputRequest",
+    "type": "object"
+  },
+  "AnswerInput": {
+    "additionalProperties": false,
+    "properties": {
+      "request_id": {
+        "maxLength": 100,
+        "minLength": 8,
+        "title": "Request Id",
+        "type": "string"
+      },
+      "expected_revision": {
+        "minimum": 0,
+        "title": "Expected Revision",
+        "type": "integer"
+      },
+      "question_id": {
+        "title": "Question Id",
+        "type": "string"
+      },
+      "choice_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Choice Id"
+      },
+      "text": {
+        "default": "",
+        "maxLength": 5000,
+        "title": "Text",
+        "type": "string"
+      }
+    },
+    "required": [
+      "request_id",
+      "expected_revision",
+      "question_id"
+    ],
+    "title": "AnswerInput",
+    "type": "object"
+  }
+}

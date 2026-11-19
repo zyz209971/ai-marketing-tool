@@ -1,0 +1,892 @@
+{
+  "package": "BrandPilot unified workbench source snapshot",
+  "release_status": "deployment_candidate_not_production_certified",
+  "created": "2026-11-18T21:26:13.261585+08:00",
+  "source_branch": "feat/agent-integration",
+  "base_commit": "11ca258716a0293b69da369a23f8533cccf4ae56",
+  "contains_working_tree_changes": true,
+  "source_snapshot_not_git_patch": true,
+  "excluded_git_visible_files": [
+    "AI营销素材生成工具-技术方案.md",
+    "RAG优化实施报告.md",
+    "RAG优化架构.svg",
+    "backend/eval/rag_report.json",
+    "deploy.sh",
+    "frontend-v2/.env.example",
+    "frontend-v2/.gitignore",
+    "frontend-v2/README.md",
+    "frontend-v2/docs/API.md",
+    "frontend-v2/index.html",
+    "frontend-v2/package.json",
+    "frontend-v2/scripts/build.mjs",
+    "frontend-v2/scripts/serve.mjs",
+    "frontend-v2/src/app.js",
+    "frontend-v2/src/config.js",
+    "frontend-v2/src/services/api.js",
+    "frontend-v2/src/services/mock.js",
+    "frontend-v2/src/services/types.ts",
+    "frontend-v2/src/styles.css",
+    "frontend-v2/tests/api.test.mjs",
+    "reports/生图质量评估/results.json",
+    "reports/生图质量评估/results_fullchain.json",
+    "reports/生图质量评估/results_textzone.json",
+    "原有框架生图质量评估报告.md",
+    "完整链路生图质量报告.md",
+    "文案位优化效果报告.md",
+    "文案生成性能优化报告.md",
+    "本次改动说明.md",
+    "腾讯云部署保姆级教程.md"
+  ],
+  "excluded_runtime_patterns": [
+    ".git/",
+    ".local-data/",
+    ".venv/",
+    "node_modules/",
+    "dist/",
+    "__pycache__/",
+    ".pytest_cache/",
+    ".env* except .env.example",
+    "*.db*",
+    "*.sqlite*",
+    "*.log",
+    "private uploads and generated media",
+    ".specify/feature.json (per-checkout pointer)"
+  ],
+  "verification": {
+    "zip_crc": "passed",
+    "sensitive_filename_and_token_checks": "passed",
+    "matches_local_private_credentials": false,
+    "archive_extraction_tests": {
+      "backend_agent_paths_environment_deployment": 96,
+      "backend_knowledge": 17,
+      "frontend": 12,
+      "frontend_build": "passed",
+      "offline_browser_end_to_end": "passed",
+      "source_hashes_match": "passed",
+      "dependency_environment": "existing local Python 3.13 environment; no clean dependency install"
+    },
+    "docker_postgresql_https": "not_run_environment_unavailable"
+  },
+  "files": {
+    ".agents/skills/speckit-analyze/SKILL.md": {
+      "bytes": 15244,
+      "sha256": "ac717f49fcc8959895f64e185c03f2dd16d6ae65f3c6a401164bafd9b9556615"
+    },
+    ".agents/skills/speckit-checklist/SKILL.md": {
+      "bytes": 22676,
+      "sha256": "257c08850b3a5c82031ec43e70d5ecd218b53fa6daa0caf1743430f60c5d1d18"
+    },
+    ".agents/skills/speckit-clarify/SKILL.md": {
+      "bytes": 19726,
+      "sha256": "9a5a90f95fc3e3ad319bf6b772a1fba6cd067d60d6320a495a96d5052b11f1aa"
+    },
+    ".agents/skills/speckit-constitution/SKILL.md": {
+      "bytes": 10539,
+      "sha256": "7c2d05bf982d367eac8c7e32fd59fd972c90a25a9d043e617adb188b5dad5104"
+    },
+    ".agents/skills/speckit-converge/SKILL.md": {
+      "bytes": 13474,
+      "sha256": "87a6d7923f58d07da42c23541498d3789dfe83eacd9f3bd5f7c9fe23745a119d"
+    },
+    ".agents/skills/speckit-implement/SKILL.md": {
+      "bytes": 13102,
+      "sha256": "eb90703130b91f5655d1e51fd72c08f6a9de8977d71b26a6d1f3b9e8bd515d3b"
+    },
+    ".agents/skills/speckit-plan/SKILL.md": {
+      "bytes": 8258,
+      "sha256": "2ca29d72e9f9d1aa9a57e718411552ce1e3ef0f67e1dd33cf0e452f0fe650848"
+    },
+    ".agents/skills/speckit-specify/SKILL.md": {
+      "bytes": 19036,
+      "sha256": "5a3b1ae447ef3486f82943a30f7cb249eebf6c6ffd14420b0d6c4a506d189445"
+    },
+    ".agents/skills/speckit-tasks/SKILL.md": {
+      "bytes": 12780,
+      "sha256": "bc191d6dd281e70235ecd120493430e8b9c7ff34230be305feb564dba0d36050"
+    },
+    ".dockerignore": {
+      "bytes": 162,
+      "sha256": "5af4b5c44aaa0eca3f89e358f6e78a93c4807f167011d4abd809df0efc0a072c"
+    },
+    ".gitattributes": {
+      "bytes": 106,
+      "sha256": "4d0670c58a67a811ceb3a7e2bf7d67d5dc7c15bfc2f03d4a80122cc013a5df0d"
+    },
+    ".gitignore": {
+      "bytes": 528,
+      "sha256": "e210d148622150d4a978d495de909464aaa54f12f7f5cbfc17405a2ede065393"
+    },
+    ".specify/.gitignore": {
+      "bytes": 586,
+      "sha256": "0a61c5378b0bb2e0f85babff99c8b166f2170a2c12378cd17d929aa19296ec88"
+    },
+    ".specify/init-options.json": {
+      "bytes": 206,
+      "sha256": "fd00e28684777fb7d5014d3e57771bd209eb33a7e12dfd984129634ac2b2bbc6"
+    },
+    ".specify/integration.json": {
+      "bytes": 381,
+      "sha256": "128fded75b0db6f329f1254a55a0ec627fcb9d6a768c10f9aceb025a25d77144"
+    },
+    ".specify/integrations/codex.manifest.json": {
+      "bytes": 1178,
+      "sha256": "e60d79600d65d141bef19f568524dbd5ba35baf309432e8645574ac1412ee177"
+    },
+    ".specify/integrations/speckit.manifest.json": {
+      "bytes": 1535,
+      "sha256": "390c8c56ad201db06584905b146faaf390e4fad06c3c74796fe078924daa5297"
+    },
+    ".specify/memory/.constitution-template.json": {
+      "bytes": 103,
+      "sha256": "8fc4b39294bae0c10d59547ad7d415b6f0e890d656cbf7171dd567f4e9054711"
+    },
+    ".specify/memory/constitution.md": {
+      "bytes": 1147,
+      "sha256": "3caf66923df08cb039957062b90ab52155edb54c8e18110027afb2a8473914ca"
+    },
+    ".specify/scripts/powershell/check-prerequisites.ps1": {
+      "bytes": 7075,
+      "sha256": "9d7604f94f432fb187921f453985f3a0b7ee63af9eead89d11df8c8770a02d53"
+    },
+    ".specify/scripts/powershell/common.ps1": {
+      "bytes": 36025,
+      "sha256": "551ea7197e11fa4f3a3eca4a060279cc08fd92ffa8f48a385463d8bef832e8e1"
+    },
+    ".specify/scripts/powershell/create-new-feature.ps1": {
+      "bytes": 14917,
+      "sha256": "f0709c64a17554d4a4f87c9093d1a779ade6ef9621e6e1e502186d6b72d94d71"
+    },
+    ".specify/scripts/powershell/resolve-template.ps1": {
+      "bytes": 884,
+      "sha256": "e87810c30c8ccc15ef07a14836942a3190060ea1e17234cabfc29a273f2a46dc"
+    },
+    ".specify/scripts/powershell/setup-plan.ps1": {
+      "bytes": 3057,
+      "sha256": "4a880c4520470de7f27d52d24b84d32f7e49df69fb63c1a5d1ec58dd685a5e34"
+    },
+    ".specify/scripts/powershell/setup-tasks.ps1": {
+      "bytes": 3972,
+      "sha256": "4e56b1158c2ee3cd4095dd76d211861ab36852812e202b76ee34ddc93579a18f"
+    },
+    ".specify/templates/checklist-template.md": {
+      "bytes": 2033,
+      "sha256": "70bbc48e884fab372ffb09e83e78ff983e28b69caebf8cd9964a02b6836683ac"
+    },
+    ".specify/templates/constitution-template.md": {
+      "bytes": 2346,
+      "sha256": "ce7549540fa45543cca797a150201d868e64495fdff39dc38246fb17bd4024b3"
+    },
+    ".specify/templates/plan-template.md": {
+      "bytes": 3682,
+      "sha256": "a828ad6206526574ab3fc99be6d0154588cb1c9774c5919d71b81ab5b2dbffa0"
+    },
+    ".specify/templates/spec-template.md": {
+      "bytes": 4556,
+      "sha256": "3945437fc35cd30a5b2bf7beea680337c3516826d3efa5a6b92c4a7eca1ba28e"
+    },
+    ".specify/templates/tasks-template.md": {
+      "bytes": 9171,
+      "sha256": "b0f527d41e546af0c31903e04f9b20965b6b497b573792198f663a64ce128863"
+    },
+    ".specify/workflows/speckit/workflow.yml": {
+      "bytes": 2202,
+      "sha256": "dc0409237d62f267b2d496022cbafadb1fcebe2c1335127fead51dbcd5acbd84"
+    },
+    ".specify/workflows/workflow-registry.json": {
+      "bytes": 381,
+      "sha256": "acc68bad3f2533901253ff7be5905c7da9a308196a6f4d5add45f8198fcb644c"
+    },
+    "Dockerfile": {
+      "bytes": 868,
+      "sha256": "dc6d8d94a04c24acd696b01057bfbd783c9e5c271810984e6a50cc713a8dc8eb"
+    },
+    "README.md": {
+      "bytes": 9058,
+      "sha256": "6e446ce28f113cd971aa23f4568ef8006c6ac566dcc5860038fb452fe2b6e922"
+    },
+    "START_HERE.md": {
+      "bytes": 5118,
+      "sha256": "992a8216cbf911c5eeb945bb820a70c01e3d0dfa38ec92efb9149f34a81ce901"
+    },
+    "backend/.env.example": {
+      "bytes": 5079,
+      "sha256": "c1a5fca140d25014871434dd2e8c7899a3af7223b0317cce05fdc88e9284d8ad"
+    },
+    "backend/README.md": {
+      "bytes": 1110,
+      "sha256": "e56fbfae5c97229ca63b2ac3e26706d50ebca8fc50d1519ab18c054c7d626127"
+    },
+    "backend/app/auth.py": {
+      "bytes": 6600,
+      "sha256": "c9ece1391d3a237b96dba5cdacda3284aebefbb201c7b30b1cb976d96ede1fb9"
+    },
+    "backend/app/config.py": {
+      "bytes": 3739,
+      "sha256": "30b29dd926a4bac732c1060d18e518f64d6c2fafb1b1faf34f8602e925b157d3"
+    },
+    "backend/app/db.py": {
+      "bytes": 3989,
+      "sha256": "1434dd5d27a77bd5f0e53f3d14bdebc1840993cc4639a8e3a6d0678b9f00fa5a"
+    },
+    "backend/app/environment.py": {
+      "bytes": 984,
+      "sha256": "2201bfdd2418d5f877ac8ec76648b8a1a192ec6d0fb7cc954be5f8e73d6dd78c"
+    },
+    "backend/app/jobs.py": {
+      "bytes": 10463,
+      "sha256": "2f2a854d3d01ee1c6adfd877ae70b933562d565eba995969aa32624e352b9ec4"
+    },
+    "backend/app/knowledge.py": {
+      "bytes": 40943,
+      "sha256": "69340ab760799c646e10db43cb2705323a25cf02d7244b307e588afa6c16be08"
+    },
+    "backend/app/knowledge_index.py": {
+      "bytes": 1971,
+      "sha256": "708efc28e27a640a0fd3e261e124637b062bcee27a304b2651ed5e2ab740cc76"
+    },
+    "backend/app/main.py": {
+      "bytes": 12123,
+      "sha256": "20b778cb1e52bfd3a6c41ec118f99f1b5043cf3df8393f226a561143702dc447"
+    },
+    "backend/app/marketing_agent/__init__.py": {
+      "bytes": 85,
+      "sha256": "3c1dbbed5e6b655cbef074b0547e1783555746edaadd3d94697b67006cd03170"
+    },
+    "backend/app/marketing_agent/api.py": {
+      "bytes": 6498,
+      "sha256": "eb117ec435776d80b95995f1d0d27f15e4692d49e33d036f5888331be11516d9"
+    },
+    "backend/app/marketing_agent/archive.py": {
+      "bytes": 1354,
+      "sha256": "fca3f18ebe7a9d2ef3867e38338b0164b51b47fa91fcd058aaf758ffc93f1c62"
+    },
+    "backend/app/marketing_agent/attachments.py": {
+      "bytes": 18419,
+      "sha256": "de9b406c2230c9429a986ce6b880129b8dfe0b76fbac667653c985f9837fb3c5"
+    },
+    "backend/app/marketing_agent/business.py": {
+      "bytes": 17657,
+      "sha256": "73ddaee175535dac18c34f9005ba5c46ff9373675622e95e74a26c3a69d5357a"
+    },
+    "backend/app/marketing_agent/content.py": {
+      "bytes": 7002,
+      "sha256": "2b278a9a53e230b073801f6d6b0668c49841991715534b262713ab4a8f429553"
+    },
+    "backend/app/marketing_agent/contracts.py": {
+      "bytes": 8712,
+      "sha256": "cd7ef3f754b8bbe71df4d7da32caa35a3aced154ece95fead3ab33707ad2c5c5"
+    },
+    "backend/app/marketing_agent/data.py": {
+      "bytes": 7209,
+      "sha256": "5ebaa9bc2ec3226770303a79e499cec945c922937c72d29ba1c9b3cfaba3466c"
+    },
+    "backend/app/marketing_agent/facts.py": {
+      "bytes": 3399,
+      "sha256": "f872d1f8dcae6b85543c5de72e84bc2c8fdf529d70e3a67b0678855992e629f1"
+    },
+    "backend/app/marketing_agent/graph.py": {
+      "bytes": 21773,
+      "sha256": "2e6b65a88a6a6d3f50b9ae1db4a9f528eb18b0dc755d0c00840fe9c7636baa46"
+    },
+    "backend/app/marketing_agent/intake.py": {
+      "bytes": 19477,
+      "sha256": "5e3763fff6d132c7c08aa0ac26aaaa22a3608c98d9c03d5d7b1b22fc742cce67"
+    },
+    "backend/app/marketing_agent/memory.py": {
+      "bytes": 2254,
+      "sha256": "9514689ef192b44e4ef608fbca88792e34a3d73d28162fe9819f204fdb5875fb"
+    },
+    "backend/app/marketing_agent/model.py": {
+      "bytes": 25931,
+      "sha256": "347ccd4bdbcf8792dcf4998923ce30aa333785334216bdf5ccbf91e1d9e101cb"
+    },
+    "backend/app/marketing_agent/paths.py": {
+      "bytes": 1416,
+      "sha256": "dc9f8457c79e902c40fd66da74d47085d0491dd221a95b7f18a595b29fef839b"
+    },
+    "backend/app/marketing_agent/provider_errors.py": {
+      "bytes": 1293,
+      "sha256": "4ce5eb38c205c330d3e65c0d32e22cdb2dd8bacca88f18f80d51789ac73c607e"
+    },
+    "backend/app/marketing_agent/questions.py": {
+      "bytes": 6678,
+      "sha256": "5f4fe23506af93d280f75cd85a46c202a428b2c3055b978b60b53eadeaff4d2f"
+    },
+    "backend/app/marketing_agent/retrieval.py": {
+      "bytes": 995,
+      "sha256": "a50f19c4f3450a59582680f3cb18b89d018bb5b694fa5be553e5df8953c6e933"
+    },
+    "backend/app/marketing_agent/runtime.py": {
+      "bytes": 1703,
+      "sha256": "b41f54982f192cb0d6d2296fe97f1c6010b16b75247d12daed956f28309e097f"
+    },
+    "backend/app/marketing_agent/store.py": {
+      "bytes": 12065,
+      "sha256": "a31e2dd7ad314f4ce7099c86222e3c9e49fddcfa69cc29b94827610ab34e5431"
+    },
+    "backend/app/materials.py": {
+      "bytes": 7814,
+      "sha256": "34e45a74996c8220ea47fb4595c0594f990a8bd66e4c5e4f8d3a134fadba2d43"
+    },
+    "backend/app/organization.py": {
+      "bytes": 6078,
+      "sha256": "693901f7d9a2826cc8924750eac0b1925d32849de65cc419a0e9cc86fdb25410"
+    },
+    "backend/app/pipeline.py": {
+      "bytes": 1763,
+      "sha256": "207be44cedd1ff729d918d154ee1fa367828366f2a47fcaf796d96bb937d3987"
+    },
+    "backend/app/providers/__init__.py": {
+      "bytes": 108,
+      "sha256": "4b1e9c9e9411f70f578c203e09998c4c92b769ed677bfbd869cbcf921397be7e"
+    },
+    "backend/app/providers/campaign.py": {
+      "bytes": 9397,
+      "sha256": "4b5e0695fd6c27b6d3bf059526c9c96e72514057f4c0cdad0a4532fc34ecd9be"
+    },
+    "backend/app/providers/copywriting.py": {
+      "bytes": 4698,
+      "sha256": "04d33b082eb0fc5f28d595908bf2ca44e917d3632abd8f744a2962c346877b34"
+    },
+    "backend/app/providers/image.py": {
+      "bytes": 4997,
+      "sha256": "dcbebc7ebb84a36734b080721e916819ba517a24170dbc9ff4e4524b0c0d222b"
+    },
+    "backend/app/providers/revise.py": {
+      "bytes": 2290,
+      "sha256": "fc4e4802d5cb0c8b7fc9bbee5951c33b8468ad2598ab855b0018a69f25048b11"
+    },
+    "backend/app/providers/vision.py": {
+      "bytes": 2982,
+      "sha256": "13535533df0eb0ef473e766cadb7bfbe8c91dbe45637831b47b41303cd479237"
+    },
+    "backend/app/quota.py": {
+      "bytes": 3193,
+      "sha256": "386949c8c95ec0c95f417cb5214aad559422b0ee4d2bed6dff9e34aece46b3a5"
+    },
+    "backend/app/rag.py": {
+      "bytes": 24596,
+      "sha256": "e000f99f6f7aee57e2e9cb6fa2b32aef22b28f3a61d446662b4549eafaec906d"
+    },
+    "backend/app/studio.py": {
+      "bytes": 5160,
+      "sha256": "7a454be9364b166b266d0178f33f24ee0b0d47d189ad5957e9fb0bffd0373e7c"
+    },
+    "backend/app/v2.py": {
+      "bytes": 11145,
+      "sha256": "b83d8a61882a3f1745484cc7ca63764d8f78f536b7d3b4b0ccf81c419645fc33"
+    },
+    "backend/app/workspace.py": {
+      "bytes": 2879,
+      "sha256": "c4a9f54dd5df8bb9379b6f246a983acbb416f5f918fdf36e67fd2ec52e07328f"
+    },
+    "backend/data/产品.jsonl": {
+      "bytes": 842835,
+      "sha256": "86f29d7b494fbd28d95f2567aefa6af91fa56ee32c782ac4aeec840a46343542"
+    },
+    "backend/data/小红书推文.jsonl": {
+      "bytes": 13417,
+      "sha256": "f2fcd21d4ae30d720bfa0243be4aaed5ef3d4fc2c67f40d38d30d1203f5e308a"
+    },
+    "backend/data/推文.jsonl": {
+      "bytes": 2673189,
+      "sha256": "703d571c27f341b9562741a493c773ec46d76613d3c4a386d66f740f94e5c000"
+    },
+    "backend/eval/rag_queries.jsonl": {
+      "bytes": 9673,
+      "sha256": "bb978f30c4d8acc2351bb03eddf20217367d2911e3d7cb7de0de3080c5f7f236"
+    },
+    "backend/requirements-agent.txt": {
+      "bytes": 48,
+      "sha256": "32ab39156b46247e53b76a90d35f932fa71962c9cbff594f247ef361d6b0faa8"
+    },
+    "backend/requirements.txt": {
+      "bytes": 370,
+      "sha256": "046677f7a23a2403f50c0f481695b42ee31fd9f60009462efd221b17ffcb2ce0"
+    },
+    "backend/scripts/check_repo_safety.py": {
+      "bytes": 1278,
+      "sha256": "665b129b771ad842fccedbdb395fcd1856d18e6ee6e33e86af5d6f2fe212e51c"
+    },
+    "backend/scripts/deployment_config.py": {
+      "bytes": 2021,
+      "sha256": "07dc2f2ab82090a2d9f6e20ac9e4c863c6e95591f6d5205491781b5df8bd1451"
+    },
+    "backend/scripts/diagnose_copy.py": {
+      "bytes": 4075,
+      "sha256": "0e8a12f745ab0dd83c0ef85e073f7f9effbcc8e7ab1d60bc08336991bd18495f"
+    },
+    "backend/scripts/evaluate_rag.py": {
+      "bytes": 7390,
+      "sha256": "bee40fd02849daa8da6a1bfeb5ceabd82a855901d7e60bd9fa08025693892fc5"
+    },
+    "backend/scripts/export_agent_contracts.py": {
+      "bytes": 2692,
+      "sha256": "c2b8223d80a12b4206bbf716b48efaf72ef88582de4282881005a1734d44b94d"
+    },
+    "backend/scripts/import_csv.py": {
+      "bytes": 1920,
+      "sha256": "95e5eb385d06f6158f666099e006397ceb809c402ff0249c9c29b0fd48613ebf"
+    },
+    "backend/scripts/import_jsonl.py": {
+      "bytes": 6711,
+      "sha256": "a80b4342ac99d3d6df6f561fe98f45bcab45b4d3923b68a1e59fe63a870bd5ce"
+    },
+    "backend/scripts/import_marketing.py": {
+      "bytes": 1024,
+      "sha256": "20cc88ef178269e9ce798b3975d829a194af92507ed65d3f119abcb6beef55dc"
+    },
+    "backend/scripts/manage_account.py": {
+      "bytes": 889,
+      "sha256": "9c6eb2a0520b38b4362a4ee90907b926ace5a32a63f0778eadd462374795f7d2"
+    },
+    "backend/scripts/migrate_runtime.py": {
+      "bytes": 6668,
+      "sha256": "f728a61bda9cd6f97068b6c374ad8f069c7e57468b0680714387fdc1d5111d46"
+    },
+    "backend/scripts/prepare_local_workspace.py": {
+      "bytes": 8949,
+      "sha256": "45c4032dfa67e4b6efe58de46b1fad1b082ca824b6e7d3474700b1d05363ba4b"
+    },
+    "backend/scripts/prepare_production_data.py": {
+      "bytes": 16606,
+      "sha256": "669493a62849e618deb619acb53e980b68af636ed96b8d32aefbc914da696417"
+    },
+    "backend/scripts/reindex_confirmed.py": {
+      "bytes": 1015,
+      "sha256": "0a6b1a41b18c8bfc6e8400b07edc0f30647d0729de28540e7f0f95106d3267c3"
+    },
+    "backend/scripts/restore_marketing_index.py": {
+      "bytes": 1209,
+      "sha256": "6f5ea354ccf7519b0cfcea3b1f68b258bdab7374cbca405cf977af1a3f11abf7"
+    },
+    "backend/scripts/run_agent_local.py": {
+      "bytes": 2904,
+      "sha256": "be2f5c967ba570bbe0aad7876e9e2e5b0d3523b73e59c4da0887d46efa7def83"
+    },
+    "backend/scripts/run_deployment.py": {
+      "bytes": 437,
+      "sha256": "fc62f369e729fc1f61eeb6b5e01a28cf079202d91dbe60a30f9a852d682e54e6"
+    },
+    "backend/scripts/run_local_preview.py": {
+      "bytes": 1734,
+      "sha256": "93671bcd3e60896032965e2827cbf381ab0a95f6ce73b8bf548883dcc15e48f9"
+    },
+    "backend/scripts/smoke_intake_live.py": {
+      "bytes": 7345,
+      "sha256": "d9228e3ff7674489dd5fbe5b909161667b489c06a62a4f290ae39d1351619ed4"
+    },
+    "backend/scripts/smoke_paths_live.py": {
+      "bytes": 3714,
+      "sha256": "0f5d6506457c95656fc56020f2f6f715d8ca9f569633f22b2c15f8c8f5f55842"
+    },
+    "backend/scripts/smoke_restart_local.py": {
+      "bytes": 7345,
+      "sha256": "25bdabcac1134960636ffbc22b911a306a9b8bac6aeaeea0ecfc550e4a4e206b"
+    },
+    "backend/scripts/snapshot_runtime.py": {
+      "bytes": 1575,
+      "sha256": "59e635e504c32a9e4f5f94868dc9f8119e313f6fe1e09a8602aae563a8893848"
+    },
+    "backend/scripts/update_marketing.py": {
+      "bytes": 4722,
+      "sha256": "d90939a060e1fc580b72cdb8403e181c2a482befac806f1707838a37a778616f"
+    },
+    "backend/tests/browser_clean_preview.py": {
+      "bytes": 13515,
+      "sha256": "e98fa852a5efa2020f8e05f75eb1c48870a081fdf59ec39e20f627101543767b"
+    },
+    "backend/tests/evaluate_rag.py": {
+      "bytes": 2823,
+      "sha256": "0801d0457cc907d9ff80b39701aa4c02ad87e116ecdac8eb3b53ed41bc5793b4"
+    },
+    "backend/tests/test_deployment_config.py": {
+      "bytes": 1443,
+      "sha256": "5a0aac2b76fecbc5d15cefdc257d5ea0991510fc35bdc803432fd362a8186e0c"
+    },
+    "backend/tests/test_environment.py": {
+      "bytes": 2441,
+      "sha256": "fb7ea5addc9f52657eca4de8d17db2c70415fb968d18774abcf0fafbf567d1ec"
+    },
+    "backend/tests/test_knowledge.py": {
+      "bytes": 20313,
+      "sha256": "c48f760abaade0be433127e6594f1457213c25a50aa4388838e11af073c09ea5"
+    },
+    "backend/tests/test_marketing_agent.py": {
+      "bytes": 52490,
+      "sha256": "21dc9847bbced7f16a100d9447142c8e937cad084fe16fc890ecc73e1f8c9105"
+    },
+    "backend/tests/test_marketing_case.py": {
+      "bytes": 2643,
+      "sha256": "ee3337607a89104ec96dcd1b300b32d027827a6cec38588802e54c0541de0968"
+    },
+    "backend/tests/test_task_paths.py": {
+      "bytes": 8685,
+      "sha256": "c95e5e63ba051879b254ea6e04c1b4cba7f3ba2660923aba6f8851bdbb5ff533"
+    },
+    "backend/tests/test_workbench.py": {
+      "bytes": 1710,
+      "sha256": "a0603c357c42df93dde008747e7a9ecd1e8325e843067e0c8666e3609e903d29"
+    },
+    "compose.yaml": {
+      "bytes": 1029,
+      "sha256": "63f923f532a4a4636e9d5e4b4de35565e0a3aa2284df954f8cb3c42909023bae"
+    },
+    "deploy.env.example": {
+      "bytes": 474,
+      "sha256": "f8a65240a1c2369e81510e714253210cdaf713e5a529436c182183d2f01cbb8a"
+    },
+    "docs/agent-batch-runtime-20261118.md": {
+      "bytes": 4309,
+      "sha256": "c6216e8ff883fbe15b29dc08c9ac94770d0b4099f23f3b1657832779a67704b3"
+    },
+    "docs/agent-contracts.json": {
+      "bytes": 35774,
+      "sha256": "4dc5a8e1ce9ab23192f52eaaf551c4d7be2ff4d45cd7b78b19218bd8dafe2cb7"
+    },
+    "docs/agent-intake-plan.md": {
+      "bytes": 5939,
+      "sha256": "5f3c549873d933ef8abf79aac3490619e7bfcefb39eeca9e0eb9c6ab5d55ee02"
+    },
+    "docs/agent-integration-guide.md": {
+      "bytes": 9077,
+      "sha256": "e65704cb00a9b2d8f67655b57e8e7ca0493c2518135750d7d712834397aaac04"
+    },
+    "docs/agent-integration-plan.md": {
+      "bytes": 4040,
+      "sha256": "9e358b2a76032cbc9f35cc7f138760793fff4374dca7d189a5f574f3ad095129"
+    },
+    "docs/agent-next-stage-20261118.md": {
+      "bytes": 1300,
+      "sha256": "61243054066c919db7c7eec2d5a70303c78a24d42473e39a47306367da19506b"
+    },
+    "docs/agent-tool-examples.json": {
+      "bytes": 14969,
+      "sha256": "52143b040e6b1b893529afa445d63be087fc28901e26e07579dc598a572f10b2"
+    },
+    "docs/brand-task-paths-20261118.md": {
+      "bytes": 4763,
+      "sha256": "7997ec7f70c91d85ff019cf7c8b1f3d9f42beca1bbf7af329c69edaba8f383ff"
+    },
+    "docs/deployment.md": {
+      "bytes": 6403,
+      "sha256": "691d11d326bd156840024b278c40267951d85813d943fcb3866366f4be13131e"
+    },
+    "docs/examples/brand-demo.txt": {
+      "bytes": 388,
+      "sha256": "58ff9b966f79e1edc6fc6d667cb1d6c061118c2e0696552bc138b76352b912a6"
+    },
+    "docs/examples/brand-incomplete-demo.txt": {
+      "bytes": 92,
+      "sha256": "8300856a084adb46fc4bf72695b109a5fdeefc3e92002d9c2ef0793a75994d66"
+    },
+    "docs/examples/marketing-case/01-brand-incomplete.txt": {
+      "bytes": 160,
+      "sha256": "5260df30ab0a54c7c13e101036b7c0c564399c542fa51c721f850d3340674b91"
+    },
+    "docs/examples/marketing-case/02-brand-complete.txt": {
+      "bytes": 476,
+      "sha256": "5c3532939e83f89f0a7732886ec86d409b39c78c52d5c4b4d830535fcc2e51ed"
+    },
+    "docs/examples/marketing-case/03-business-values.json": {
+      "bytes": 589,
+      "sha256": "81cbb93c3bad8879ea9566c975e7c066fde8d66cf2e9e815cc1c2a803f36b2e8"
+    },
+    "docs/examples/marketing-case/04-scenarios.json": {
+      "bytes": 1957,
+      "sha256": "17bea43fb80e0693d753a98d2d3cdb1cf2e764372462f94f353461e9c357e7f8"
+    },
+    "docs/marketing-agent.md": {
+      "bytes": 9942,
+      "sha256": "49ef52d3ec1eaa6bc0754fe3bc086bf459b34fd197d899fb8182a574b08ee07b"
+    },
+    "docs/marketing-data-guide.md": {
+      "bytes": 12965,
+      "sha256": "af30346fb32a3ae84f48f362e48b8d2e4bf3f8942dbacb38a02711d8bf74e57f"
+    },
+    "docs/model-configuration.md": {
+      "bytes": 5616,
+      "sha256": "657aba7a0872674743b278015cabba1d9c5f02a39c184af00bec592880906637"
+    },
+    "docs/product-requirements.md": {
+      "bytes": 6727,
+      "sha256": "c315a8ca5d908d09ad2c2117e0ca76146e71846064c984536169176b1c2e7cbe"
+    },
+    "docs/unified-workbench-20261118.md": {
+      "bytes": 4914,
+      "sha256": "5f3fa85583e0715b94c7f20262fc5ca0abe8af8e928d75b70d67deeb3b5142cf"
+    },
+    "frontend/.env.example": {
+      "bytes": 107,
+      "sha256": "68f9d9759717b8179ea75cca7314005abedc456f0b4129d1d9535719f866f001"
+    },
+    "frontend/.gitignore": {
+      "bytes": 62,
+      "sha256": "37f534c1ffafeb43ab6f7fb0a44b1ca1c04c1b833f62763d62ad2597436b668b"
+    },
+    "frontend/README.md": {
+      "bytes": 3130,
+      "sha256": "d4c8b41d79c233a487d7349658d7cca29ffd40a14245c9610a9fe7744d84e22e"
+    },
+    "frontend/agent.html": {
+      "bytes": 473,
+      "sha256": "e23cd4e4f19ad91639be61bc06d8f437a90da49ef7230d8ceda6d359d1cf6ab5"
+    },
+    "frontend/docs/API.md": {
+      "bytes": 5717,
+      "sha256": "5ccd054cf8d6e8c2933ff2f34870236a26a81417884d8199fa96223ffbbcb4c8"
+    },
+    "frontend/index.html": {
+      "bytes": 7212,
+      "sha256": "343443a19c76776245b6c2113da21b7218d8dc29b4066063f5f97d8c9367e8e0"
+    },
+    "frontend/login.html": {
+      "bytes": 795,
+      "sha256": "3b421ae5ac1b366d4fc4707e260d2f4deef0bf9c011ac947727a83ac543e2900"
+    },
+    "frontend/package.json": {
+      "bytes": 328,
+      "sha256": "025911c315fc223ead0b27b166baf9c08e5192f013b9bee8562a4d2a7e5f1d68"
+    },
+    "frontend/scripts/build.mjs": {
+      "bytes": 1174,
+      "sha256": "adb0d641730e855e63639745b8edbce954039298fa676a5e411fcd9be198bea7"
+    },
+    "frontend/scripts/serve.mjs": {
+      "bytes": 865,
+      "sha256": "9f0f25d11d4a4ebfc705fe5c3d3bd1bea845d3d01f42827fd92880fda8db86e6"
+    },
+    "frontend/src/agent-workspace.js": {
+      "bytes": 9849,
+      "sha256": "a0beaa72e4b637cb5d66cbfeeea5342c87f7a88c74924faa86c8f2e091d64ba5"
+    },
+    "frontend/src/agent.css": {
+      "bytes": 10775,
+      "sha256": "6795d6e709d33184571db190cd5ab2532a8e75e43c2014b31a19e7d0855bb4a0"
+    },
+    "frontend/src/agent.js": {
+      "bytes": 20115,
+      "sha256": "99b176da58b7d19c9db2076f815fe79aff4f365b1e616d2d286a549dd0721a0f"
+    },
+    "frontend/src/app.js": {
+      "bytes": 77476,
+      "sha256": "95cfad24abbd2acb3b640de3339fe71dc2d45371e63f3d696ee7cc0765d25133"
+    },
+    "frontend/src/catalog.js": {
+      "bytes": 1480,
+      "sha256": "496aba995c13e4a17a734b5fa0648c95a19411eeb5242e0b2436e3e8129a9f25"
+    },
+    "frontend/src/config.js": {
+      "bytes": 224,
+      "sha256": "f817bc7545c38ff140c339a5a2f4d70b85670470654925d15ed98170f9bd188d"
+    },
+    "frontend/src/icons.js": {
+      "bytes": 1346,
+      "sha256": "e8e34393e49cf4486147d76d741ff038fa64afe356288a65d6e4c5634a4c29f5"
+    },
+    "frontend/src/management.css": {
+      "bytes": 12084,
+      "sha256": "9120f3116cf215acc598ff49d384c179d648d091f7316e9160b9cf1c19942309"
+    },
+    "frontend/src/router.js": {
+      "bytes": 443,
+      "sha256": "e2f9f748c3e33f5768e71be68c1dcc57366e7e8de1698894873bc2f1e9513f99"
+    },
+    "frontend/src/services/api.js": {
+      "bytes": 9643,
+      "sha256": "c26d3c4d5d76d80a0f15027e586e86aff40af04646a47acf5a216305981a63a8"
+    },
+    "frontend/src/services/mock.js": {
+      "bytes": 1198,
+      "sha256": "e6404d04ea3f21592324ed5fb0d5a1edcb3720261d0022b3cd30f94392881067"
+    },
+    "frontend/src/services/types.ts": {
+      "bytes": 2022,
+      "sha256": "e603f666ebc8b03b469ed47fd4c593a61d55a9b91994a4cf96548c6ef8b54e1b"
+    },
+    "frontend/src/session.js": {
+      "bytes": 1505,
+      "sha256": "037ba6e19b38584843c6fe2fbc48f40c15e3280d7a1a1d2c202db271ee37960f"
+    },
+    "frontend/src/styles.css": {
+      "bytes": 9955,
+      "sha256": "182b72bff179a84754dd06ec1eed8912792b27171fef643a248009ecf7fcb922"
+    },
+    "frontend/src/workbench.css": {
+      "bytes": 18173,
+      "sha256": "86f61f401050ebe09592a8f2e958112abbdb5376426097bc92815a8843010936"
+    },
+    "frontend/src/workbench.js": {
+      "bytes": 14728,
+      "sha256": "40531ac8601bb5f51585daa70496924fbe4c80f57a12b1ea1e2cacb9a6890f79"
+    },
+    "frontend/tests/agent-browser.mjs": {
+      "bytes": 3531,
+      "sha256": "0bea471ec094a7dafa4c4b17ba5355cb3574e49d489094fbbc3bddc7109fbb0a"
+    },
+    "frontend/tests/agent-intake-browser.mjs": {
+      "bytes": 5749,
+      "sha256": "901fafc9862616dbcbdac4e1361b9b4dcb09cbac44c5a73db5f1e168522fac47"
+    },
+    "frontend/tests/agent-integration-browser.mjs": {
+      "bytes": 4333,
+      "sha256": "42a59fea869a2b4819b4048415e0ff0688555889ae08af3c2b6233e13d21148b"
+    },
+    "frontend/tests/agent-paths-browser.mjs": {
+      "bytes": 4646,
+      "sha256": "1c58135121df8dae7b4633d737ec551f9dbd8ca4be6bdd81b24c59370878ac25"
+    },
+    "frontend/tests/agent-session-browser.mjs": {
+      "bytes": 1829,
+      "sha256": "748f3ade2cac0445f9a2890c2244e5fab48af7a2bc2be0765d39618429ab18e9"
+    },
+    "frontend/tests/api.test.mjs": {
+      "bytes": 4761,
+      "sha256": "0397d4d4a9bd686cdcb3dc0d04bfcbdc2abae4f739edf3f50c47d68af8faa156"
+    },
+    "frontend/tests/catalog.test.mjs": {
+      "bytes": 1783,
+      "sha256": "1e9ffa5185cb2754500d9d09a52e10b890fd92991100872d7e56baf611bfd2a5"
+    },
+    "frontend/tests/router.test.mjs": {
+      "bytes": 763,
+      "sha256": "077bf38e81343f034ef945f9eb94417c26f035b93dea1ed70544af78cbab3e1d"
+    },
+    "frontend/tests/workbench-browser.mjs": {
+      "bytes": 7279,
+      "sha256": "7c51dbe53cd323a0e55bb01c199a47ed4da9dba139eb3014a356d89e2fd0b14b"
+    },
+    "marketing/示例-奶茶上新案例.txt": {
+      "bytes": 365,
+      "sha256": "6b4b4fd7d06fb6e1d1e9d1bb5800a9210b341d53adf849ff84df13d6f12daf2a"
+    },
+    "specs/001-conversational-intake/contracts/interaction.schema.json": {
+      "bytes": 2765,
+      "sha256": "3b2396b513f0e03f9218fe5b465a9fcdb006f2aedb1d1824240ab85a749e1319"
+    },
+    "specs/001-conversational-intake/data-model.md": {
+      "bytes": 1048,
+      "sha256": "6fd9b6ddccf392d7cb44ce78ac1766c7ce840af15d5b86d31f491b37d4767223"
+    },
+    "specs/001-conversational-intake/plan.md": {
+      "bytes": 2046,
+      "sha256": "4ef55b912188d36c91062fef8dce62fb1bb9c7fb5584b3a1448d4590c9ab348f"
+    },
+    "specs/001-conversational-intake/quickstart.md": {
+      "bytes": 1298,
+      "sha256": "a2beb0ca44272f947af0e945901a77aefac4b001da9a1fe0c8fb27ac7d8a1d94"
+    },
+    "specs/001-conversational-intake/research.md": {
+      "bytes": 828,
+      "sha256": "03b53f5827a9dea2504b8f4a80d76404309a62ec44098565f82324f53256cc7c"
+    },
+    "specs/001-conversational-intake/spec.md": {
+      "bytes": 2214,
+      "sha256": "8893efb09230b041b795ceb9f933115b8e21b764c48dfdc5fb5894214e7f2513"
+    },
+    "specs/001-conversational-intake/tasks.md": {
+      "bytes": 1542,
+      "sha256": "3b36fbd3ff48b029d9cb48e45984077c49e7e8a56d027c11fddecc0d978ae3e0"
+    },
+    "specs/001-conversational-intake/validation.md": {
+      "bytes": 1925,
+      "sha256": "510603fc9c47cbac168f683c2f0a86e970de94b3fb749279e091d4d43f97a43c"
+    },
+    "specs/002-batched-agent-runtime/contracts/README.md": {
+      "bytes": 240,
+      "sha256": "44ec6bc7f06af9980a41c8c5b6008a11a86c0bee175026e70a69b69ec74f0d13"
+    },
+    "specs/002-batched-agent-runtime/data-model.md": {
+      "bytes": 1151,
+      "sha256": "411fe7369cebe657a354ff776e35325afb7a1732dfd2a2ce484d923bad673186"
+    },
+    "specs/002-batched-agent-runtime/plan.md": {
+      "bytes": 1164,
+      "sha256": "d67510346b8f5375d3aab27c6807b901fcd5442b6b52000f26f8ef3a9636f89c"
+    },
+    "specs/002-batched-agent-runtime/quickstart.md": {
+      "bytes": 220,
+      "sha256": "1ce75261a6081c6b95cd9b70715327e66067e9e892e1b86da69a8877bf80fbf3"
+    },
+    "specs/002-batched-agent-runtime/research.md": {
+      "bytes": 491,
+      "sha256": "0ca5e291790c3695f4ad0727e78ad2f68570155db8e999fbc95cea1cbadaafcb"
+    },
+    "specs/002-batched-agent-runtime/spec.md": {
+      "bytes": 2345,
+      "sha256": "2a68276381cf0d7e7de191624009971b9f64803743bb475ab03b0795259f00cd"
+    },
+    "specs/002-batched-agent-runtime/tasks.md": {
+      "bytes": 1192,
+      "sha256": "7fa0ae13bde1ddfcf563833dfb157d9b9222ab544ec1b2f491cb9b72a76c16b4"
+    },
+    "specs/002-batched-agent-runtime/validation.md": {
+      "bytes": 4818,
+      "sha256": "f0513228a92198c0e26444bdf1f1431e1fc31bf90f53e15b6c4c5bba979ee7b0"
+    },
+    "specs/003-brand-task-paths/data-model.md": {
+      "bytes": 947,
+      "sha256": "bc94782e4a51240383388a3505589149674954a5679184d6d47589b0c1adf5f3"
+    },
+    "specs/003-brand-task-paths/plan.md": {
+      "bytes": 1068,
+      "sha256": "48c52943f96837f1d7bf369d1d79133b8f27be71060eef2e2bdfcbfabbf28f36"
+    },
+    "specs/003-brand-task-paths/quickstart.md": {
+      "bytes": 411,
+      "sha256": "aac7e61740678a1d2d6869a7195803283f5843e5fbc1fdbab11c1fccf21f24b5"
+    },
+    "specs/003-brand-task-paths/spec.md": {
+      "bytes": 2261,
+      "sha256": "0bf59306e72631facfd80e3161b0dc82a05686efe44c402ffb98a34393c18579"
+    },
+    "specs/003-brand-task-paths/tasks.md": {
+      "bytes": 821,
+      "sha256": "bf4a88e7a759300bac82ddcfe9a5aacf68174e30e7243a29b0c0016393c4f090"
+    },
+    "specs/004-unified-workbench/data-model.md": {
+      "bytes": 620,
+      "sha256": "df77c0a91a4d3ebed0a5856c69037af0111b985265e6ddd11e6073218bf9167f"
+    },
+    "specs/004-unified-workbench/plan.md": {
+      "bytes": 878,
+      "sha256": "63e50337280821615512ce59b8d38e1dd645263e638639fb47f2b053fd5dcdb4"
+    },
+    "specs/004-unified-workbench/quickstart.md": {
+      "bytes": 1017,
+      "sha256": "9dfbb5fc5e677c38e6588c972691f2d6d3d99a6739f79155500a30a2ce2a9099"
+    },
+    "specs/004-unified-workbench/spec.md": {
+      "bytes": 1849,
+      "sha256": "d5d97be1778f1334907705255b63415bffcb48097915a36b652e436fd4c5ebb5"
+    },
+    "specs/004-unified-workbench/tasks.md": {
+      "bytes": 571,
+      "sha256": "096a6b4a32e7111296464706d0e549106fbecd32142228e4e63ec894da69326e"
+    },
+    "start-agent.ps1": {
+      "bytes": 853,
+      "sha256": "0a3ee1a9f3bf56cfb1f021635e95f6414fce86708c79d2b33c2f21a46d2a849d"
+    },
+    "产品知识库.csv": {
+      "bytes": 21402,
+      "sha256": "2e4911c477e515f104021a0301a9b0ce6c4712a6bf088b3e74f4a4298a1047c1"
+    },
+    "前端合并改动说明-2026-11-03.md": {
+      "bytes": 15417,
+      "sha256": "0a73dfa42e4ad9c6f6e982255ddc63812c42f02ddb978afdad69193e4cc68fdf"
+    },
+    "品牌知识库-本地开发说明.md": {
+      "bytes": 7625,
+      "sha256": "6d1fddd1ca19df35a39bc36b6f03a2d07dbc440ff6b37e44c3be17d27c2bc178"
+    },
+    "团队协作与知识库更新说明.md": {
+      "bytes": 6079,
+      "sha256": "e9159afe45d1ece7500c228d05ed9f7fdd2175e7ee450a80d764eafb77860272"
+    },
+    "迁移与提交说明-2026-11-04.md": {
+      "bytes": 5322,
+      "sha256": "48e9dd974e90c8c75deb55b974a47171137d7c6ddb544bd31a0864ee13ff1fc5"
+    }
+  }
+}

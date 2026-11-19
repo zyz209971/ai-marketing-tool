@@ -1,0 +1,1506 @@
+{
+  "schema_version": "1.0",
+  "scope": "brand-scoped-single-store-pickup; synthetic or user-provided",
+  "units": {
+    "money": "integer CNY cents",
+    "discount": "pay basis points 0..10000",
+    "period": "[start_date,end_date)",
+    "timezone": "Asia/Shanghai"
+  },
+  "InputRequest": {
+    "$defs": {
+      "InputChoice": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "patch": {
+            "title": "Patch",
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "label"
+        ],
+        "title": "InputChoice",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "task_id": {
+        "title": "Task Id",
+        "type": "string"
+      },
+      "fields": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Fields",
+        "type": "array"
+      },
+      "question": {
+        "title": "Question",
+        "type": "string"
+      },
+      "reason": {
+        "title": "Reason",
+        "type": "string"
+      },
+      "choices": {
+        "items": {
+          "$ref": "#/$defs/InputChoice"
+        },
+        "title": "Choices",
+        "type": "array"
+      },
+      "allow_free_text": {
+        "default": true,
+        "title": "Allow Free Text",
+        "type": "boolean"
+      },
+      "attachment_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Attachment Id"
+      },
+      "questions": {
+        "items": {
+          "type": "object"
+        },
+        "maxItems": 3,
+        "title": "Questions",
+        "type": "array"
+      }
+    },
+    "required": [
+      "id",
+      "task_id",
+      "fields",
+      "question",
+      "reason"
+    ],
+    "title": "InputRequest",
+    "type": "object"
+  },
+  "AnswerInput": {
+    "additionalProperties": false,
+    "properties": {
+      "request_id": {
+        "maxLength": 100,
+        "minLength": 8,
+        "title": "Request Id",
+        "type": "string"
+      },
+      "expected_revision": {
+        "minimum": 0,
+        "title": "Expected Revision",
+        "type": "integer"
+      },
+      "question_id": {
+        "title": "Question Id",
+        "type": "string"
+      },
+      "choice_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Choice Id"
+      },
+      "text": {
+        "default": "",
+        "maxLength": 5000,
+        "title": "Text",
+        "type": "string"
+      },
+      "answers": {
+        "additionalProperties": {
+          "type": "object"
+        },
+        "maxProperties": 3,
+        "title": "Answers",
+        "type": "object"
+      }
+    },
+    "required": [
+      "request_id",
+      "expected_revision",
+      "question_id"
+    ],
+    "title": "AnswerInput",
+    "type": "object"
+  },
+  "CreateConversation": {
+    "additionalProperties": false,
+    "properties": {
+      "brand_id": {
+        "anyOf": [
+          {
+            "maxLength": 100,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Brand Id"
+      },
+      "demo": {
+        "default": false,
+        "title": "Demo",
+        "type": "boolean"
+      }
+    },
+    "title": "CreateConversation",
+    "type": "object"
+  },
+  "AttachmentConfirm": {
+    "additionalProperties": false,
+    "properties": {
+      "expected_revision": {
+        "minimum": 0,
+        "title": "Expected Revision",
+        "type": "integer"
+      },
+      "knowledge": {
+        "anyOf": [
+          {
+            "type": "object"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Knowledge"
+      },
+      "accepted_conflicts": {
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 500,
+        "title": "Accepted Conflicts",
+        "type": "array"
+      }
+    },
+    "required": [
+      "expected_revision"
+    ],
+    "title": "AttachmentConfirm",
+    "type": "object"
+  },
+  "Brief": {
+    "$defs": {
+      "Offer": {
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "default": "second_cup_discount",
+            "enum": [
+              "second_cup_discount",
+              "percentage",
+              "none"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "pay_bps": {
+            "default": 5000,
+            "maximum": 10000,
+            "minimum": 0,
+            "title": "Pay Bps",
+            "type": "integer"
+          },
+          "same_sku": {
+            "const": true,
+            "default": true,
+            "title": "Same Sku",
+            "type": "boolean"
+          },
+          "same_order": {
+            "const": true,
+            "default": true,
+            "title": "Same Order",
+            "type": "boolean"
+          },
+          "repeat_per_pair": {
+            "const": true,
+            "default": true,
+            "title": "Repeat Per Pair",
+            "type": "boolean"
+          },
+          "stackable": {
+            "const": false,
+            "default": false,
+            "title": "Stackable",
+            "type": "boolean"
+          }
+        },
+        "title": "Offer",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "task_kind": {
+        "default": "campaign",
+        "enum": [
+          "brand_setup",
+          "content",
+          "unit_economics",
+          "campaign"
+        ],
+        "title": "Task Kind",
+        "type": "string"
+      },
+      "content_scope": {
+        "default": "product",
+        "enum": [
+          "product",
+          "brand"
+        ],
+        "title": "Content Scope",
+        "type": "string"
+      },
+      "theme": {
+        "default": "",
+        "maxLength": 1000,
+        "title": "Theme",
+        "type": "string"
+      },
+      "constraints": {
+        "default": "",
+        "maxLength": 2000,
+        "title": "Constraints",
+        "type": "string"
+      },
+      "promotion_pairs": {
+        "anyOf": [
+          {
+            "maximum": 50000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Promotion Pairs"
+      },
+      "assess_minimum": {
+        "default": true,
+        "title": "Assess Minimum",
+        "type": "boolean"
+      },
+      "brand_id": {
+        "anyOf": [
+          {
+            "maxLength": 100,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Brand Id"
+      },
+      "sku_id": {
+        "anyOf": [
+          {
+            "maxLength": 100,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Sku Id"
+      },
+      "platform": {
+        "anyOf": [
+          {
+            "enum": [
+              "xiaohongshu",
+              "douyin",
+              "wechat_official_account"
+            ],
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Platform"
+      },
+      "goal": {
+        "default": "提升活动贡献收益",
+        "maxLength": 500,
+        "title": "Goal",
+        "type": "string"
+      },
+      "start_date": {
+        "anyOf": [
+          {
+            "format": "date",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Start Date"
+      },
+      "end_date": {
+        "anyOf": [
+          {
+            "format": "date",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "End Date"
+      },
+      "budget_minor": {
+        "anyOf": [
+          {
+            "maximum": 10000000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Budget Minor"
+      },
+      "spend_minor": {
+        "anyOf": [
+          {
+            "maximum": 10000000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Spend Minor"
+      },
+      "scenario_qty": {
+        "anyOf": [
+          {
+            "maximum": 100000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Scenario Qty"
+      },
+      "roi_mode": {
+        "default": "scenario",
+        "enum": [
+          "scenario",
+          "unit_only"
+        ],
+        "title": "Roi Mode",
+        "type": "string"
+      },
+      "offer": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Offer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "style": {
+        "default": "自然、简洁，不夸大功效",
+        "maxLength": 1000,
+        "title": "Style",
+        "type": "string"
+      },
+      "audience": {
+        "default": "",
+        "maxLength": 500,
+        "title": "Audience",
+        "type": "string"
+      },
+      "variable_cost_override_minor": {
+        "anyOf": [
+          {
+            "maximum": 100000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Variable Cost Override Minor"
+      },
+      "min_contribution_override_minor": {
+        "anyOf": [
+          {
+            "maximum": 100000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Min Contribution Override Minor"
+      }
+    },
+    "title": "Brief",
+    "type": "object"
+  },
+  "MessageInput": {
+    "additionalProperties": false,
+    "properties": {
+      "request_id": {
+        "maxLength": 100,
+        "minLength": 8,
+        "title": "Request Id",
+        "type": "string"
+      },
+      "text": {
+        "default": "",
+        "maxLength": 5000,
+        "title": "Text",
+        "type": "string"
+      },
+      "patch": {
+        "title": "Patch",
+        "type": "object"
+      },
+      "expected_revision": {
+        "minimum": 0,
+        "title": "Expected Revision",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "request_id",
+      "expected_revision"
+    ],
+    "title": "MessageInput",
+    "type": "object"
+  },
+  "ConfirmInput": {
+    "additionalProperties": false,
+    "properties": {
+      "request_id": {
+        "maxLength": 100,
+        "minLength": 8,
+        "title": "Request Id",
+        "type": "string"
+      },
+      "strategy_id": {
+        "title": "Strategy Id",
+        "type": "string"
+      },
+      "strategy_version": {
+        "minimum": 1,
+        "title": "Strategy Version",
+        "type": "integer"
+      },
+      "expected_revision": {
+        "minimum": 0,
+        "title": "Expected Revision",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "request_id",
+      "strategy_id",
+      "strategy_version",
+      "expected_revision"
+    ],
+    "title": "ConfirmInput",
+    "type": "object"
+  },
+  "ToolResult": {
+    "$defs": {
+      "MissingField": {
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "blocks": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Blocks",
+            "type": "array"
+          }
+        },
+        "required": [
+          "path",
+          "reason",
+          "blocks"
+        ],
+        "title": "MissingField",
+        "type": "object"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "schema_version": {
+        "const": "1.0",
+        "default": "1.0",
+        "title": "Schema Version",
+        "type": "string"
+      },
+      "request_id": {
+        "title": "Request Id",
+        "type": "string"
+      },
+      "tool": {
+        "title": "Tool",
+        "type": "string"
+      },
+      "status": {
+        "enum": [
+          "ok",
+          "needs_data",
+          "error"
+        ],
+        "title": "Status",
+        "type": "string"
+      },
+      "data_kind": {
+        "default": "synthetic",
+        "enum": [
+          "synthetic",
+          "user_provided"
+        ],
+        "title": "Data Kind",
+        "type": "string"
+      },
+      "snapshot_id": {
+        "title": "Snapshot Id",
+        "type": "string"
+      },
+      "data_version": {
+        "default": "milk-tea-demo-v1",
+        "title": "Data Version",
+        "type": "string"
+      },
+      "method_version": {
+        "default": "promotion-v2-explicit-pairs",
+        "title": "Method Version",
+        "type": "string"
+      },
+      "as_of": {
+        "default": "2026-11-15",
+        "title": "As Of",
+        "type": "string"
+      },
+      "result": {
+        "title": "Result",
+        "type": "object"
+      },
+      "missing_fields": {
+        "items": {
+          "$ref": "#/$defs/MissingField"
+        },
+        "title": "Missing Fields",
+        "type": "array"
+      },
+      "assumptions": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Assumptions",
+        "type": "array"
+      },
+      "warnings": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Warnings",
+        "type": "array"
+      },
+      "source_refs": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Source Refs",
+        "type": "array"
+      },
+      "error": {
+        "anyOf": [
+          {
+            "type": "object"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Error"
+      }
+    },
+    "required": [
+      "request_id",
+      "tool",
+      "status",
+      "snapshot_id",
+      "result"
+    ],
+    "title": "ToolResult",
+    "type": "object"
+  },
+  "requests": {
+    "get_sales_summary": {
+      "additionalProperties": false,
+      "properties": {
+        "store_id": {
+          "const": "demo-store",
+          "default": "demo-store",
+          "title": "Store Id",
+          "type": "string"
+        },
+        "brand_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Brand Id"
+        },
+        "sku_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sku Id"
+        }
+      },
+      "title": "SalesRequest",
+      "type": "object"
+    },
+    "get_business_constraints": {
+      "additionalProperties": false,
+      "properties": {
+        "store_id": {
+          "const": "demo-store",
+          "default": "demo-store",
+          "title": "Store Id",
+          "type": "string"
+        },
+        "brand_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Brand Id"
+        },
+        "sku_id": {
+          "title": "Sku Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sku_id"
+      ],
+      "title": "ConstraintsRequest",
+      "type": "object"
+    },
+    "evaluate_promotion": {
+      "$defs": {
+        "Brief": {
+          "additionalProperties": false,
+          "properties": {
+            "task_kind": {
+              "default": "campaign",
+              "enum": [
+                "brand_setup",
+                "content",
+                "unit_economics",
+                "campaign"
+              ],
+              "title": "Task Kind",
+              "type": "string"
+            },
+            "content_scope": {
+              "default": "product",
+              "enum": [
+                "product",
+                "brand"
+              ],
+              "title": "Content Scope",
+              "type": "string"
+            },
+            "theme": {
+              "default": "",
+              "maxLength": 1000,
+              "title": "Theme",
+              "type": "string"
+            },
+            "constraints": {
+              "default": "",
+              "maxLength": 2000,
+              "title": "Constraints",
+              "type": "string"
+            },
+            "promotion_pairs": {
+              "anyOf": [
+                {
+                  "maximum": 50000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Promotion Pairs"
+            },
+            "assess_minimum": {
+              "default": true,
+              "title": "Assess Minimum",
+              "type": "boolean"
+            },
+            "brand_id": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Brand Id"
+            },
+            "sku_id": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Sku Id"
+            },
+            "platform": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "xiaohongshu",
+                    "douyin",
+                    "wechat_official_account"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Platform"
+            },
+            "goal": {
+              "default": "提升活动贡献收益",
+              "maxLength": 500,
+              "title": "Goal",
+              "type": "string"
+            },
+            "start_date": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Start Date"
+            },
+            "end_date": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "End Date"
+            },
+            "budget_minor": {
+              "anyOf": [
+                {
+                  "maximum": 10000000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Budget Minor"
+            },
+            "spend_minor": {
+              "anyOf": [
+                {
+                  "maximum": 10000000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Spend Minor"
+            },
+            "scenario_qty": {
+              "anyOf": [
+                {
+                  "maximum": 100000,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Scenario Qty"
+            },
+            "roi_mode": {
+              "default": "scenario",
+              "enum": [
+                "scenario",
+                "unit_only"
+              ],
+              "title": "Roi Mode",
+              "type": "string"
+            },
+            "offer": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Offer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "style": {
+              "default": "自然、简洁，不夸大功效",
+              "maxLength": 1000,
+              "title": "Style",
+              "type": "string"
+            },
+            "audience": {
+              "default": "",
+              "maxLength": 500,
+              "title": "Audience",
+              "type": "string"
+            },
+            "variable_cost_override_minor": {
+              "anyOf": [
+                {
+                  "maximum": 100000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Variable Cost Override Minor"
+            },
+            "min_contribution_override_minor": {
+              "anyOf": [
+                {
+                  "maximum": 100000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Min Contribution Override Minor"
+            }
+          },
+          "title": "Brief",
+          "type": "object"
+        },
+        "Offer": {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "default": "second_cup_discount",
+              "enum": [
+                "second_cup_discount",
+                "percentage",
+                "none"
+              ],
+              "title": "Type",
+              "type": "string"
+            },
+            "pay_bps": {
+              "default": 5000,
+              "maximum": 10000,
+              "minimum": 0,
+              "title": "Pay Bps",
+              "type": "integer"
+            },
+            "same_sku": {
+              "const": true,
+              "default": true,
+              "title": "Same Sku",
+              "type": "boolean"
+            },
+            "same_order": {
+              "const": true,
+              "default": true,
+              "title": "Same Order",
+              "type": "boolean"
+            },
+            "repeat_per_pair": {
+              "const": true,
+              "default": true,
+              "title": "Repeat Per Pair",
+              "type": "boolean"
+            },
+            "stackable": {
+              "const": false,
+              "default": false,
+              "title": "Stackable",
+              "type": "boolean"
+            }
+          },
+          "title": "Offer",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "store_id": {
+          "const": "demo-store",
+          "default": "demo-store",
+          "title": "Store Id",
+          "type": "string"
+        },
+        "brief": {
+          "$ref": "#/$defs/Brief"
+        }
+      },
+      "required": [
+        "brief"
+      ],
+      "title": "EvaluationRequest",
+      "type": "object"
+    }
+  },
+  "results": {
+    "get_sales_summary": {
+      "$defs": {
+        "SalesMetric": {
+          "additionalProperties": false,
+          "properties": {
+            "sku_id": {
+              "title": "Sku Id",
+              "type": "string"
+            },
+            "name": {
+              "title": "Name",
+              "type": "string"
+            },
+            "previous_qty": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Previous Qty"
+            },
+            "current_qty": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Current Qty"
+            },
+            "change_ratio": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Change Ratio"
+            },
+            "current_revenue_minor": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Current Revenue Minor"
+            },
+            "daily_baseline_qty": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Daily Baseline Qty"
+            }
+          },
+          "required": [
+            "sku_id",
+            "name",
+            "previous_qty",
+            "current_qty",
+            "change_ratio",
+            "current_revenue_minor",
+            "daily_baseline_qty"
+          ],
+          "title": "SalesMetric",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "previous_period": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Previous Period",
+          "type": "array"
+        },
+        "current_period": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Current Period",
+          "type": "array"
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/$defs/SalesMetric"
+          },
+          "title": "Metrics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "previous_period",
+        "current_period",
+        "metrics"
+      ],
+      "title": "SalesData",
+      "type": "object"
+    },
+    "get_business_constraints": {
+      "additionalProperties": false,
+      "properties": {
+        "sku_id": {
+          "title": "Sku Id",
+          "type": "string"
+        },
+        "list_price_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "List Price Minor"
+        },
+        "variable_cost_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Variable Cost Minor"
+        },
+        "min_contribution_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Min Contribution Minor"
+        },
+        "daily_capacity": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Daily Capacity"
+        },
+        "fee_bps": {
+          "const": 0,
+          "default": 0,
+          "title": "Fee Bps",
+          "type": "integer"
+        },
+        "currency": {
+          "const": "CNY",
+          "default": "CNY",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sku_id",
+        "list_price_minor",
+        "variable_cost_minor",
+        "min_contribution_minor",
+        "daily_capacity"
+      ],
+      "title": "ConstraintsData",
+      "type": "object"
+    },
+    "evaluate_promotion": {
+      "$defs": {
+        "CandidateOffer": {
+          "additionalProperties": false,
+          "properties": {
+            "pay_bps": {
+              "title": "Pay Bps",
+              "type": "integer"
+            },
+            "feasible": {
+              "title": "Feasible",
+              "type": "boolean"
+            },
+            "average_contribution_minor": {
+              "title": "Average Contribution Minor",
+              "type": "number"
+            },
+            "incremental_contribution_minor": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Incremental Contribution Minor"
+            }
+          },
+          "required": [
+            "pay_bps",
+            "feasible",
+            "average_contribution_minor"
+          ],
+          "title": "CandidateOffer",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "feasible": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Feasible"
+        },
+        "violations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Violations",
+          "type": "array"
+        },
+        "pair_revenue_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pair Revenue Minor"
+        },
+        "pair_contribution_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pair Contribution Minor"
+        },
+        "average_contribution_minor": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Average Contribution Minor"
+        },
+        "scenario_qty": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scenario Qty"
+        },
+        "scenario_revenue_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scenario Revenue Minor"
+        },
+        "scenario_contribution_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scenario Contribution Minor"
+        },
+        "baseline_qty": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline Qty"
+        },
+        "baseline_contribution_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline Contribution Minor"
+        },
+        "incremental_contribution_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Incremental Contribution Minor"
+        },
+        "incremental_roi": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Incremental Roi"
+        },
+        "roi_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Roi Reason"
+        },
+        "min_average_price_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Average Price Minor"
+        },
+        "min_offer_pay_bps": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Offer Pay Bps"
+        },
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/CandidateOffer"
+          },
+          "title": "Candidates",
+          "type": "array"
+        },
+        "currency": {
+          "const": "CNY",
+          "default": "CNY",
+          "title": "Currency",
+          "type": "string"
+        }
+      },
+      "required": [
+        "feasible",
+        "violations"
+      ],
+      "title": "EvaluationData",
+      "type": "object"
+    }
+  }
+}

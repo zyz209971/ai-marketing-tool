@@ -1,0 +1,16 @@
+**/.env
+**/.env.*
+!**/.env.example
+.git
+.venv
+.local-data
+**/node_modules
+**/__pycache__
+**/*.db*
+backend/data
+frontend/dist
+**/*.log
+.agents
+.specify
+docs
+specs

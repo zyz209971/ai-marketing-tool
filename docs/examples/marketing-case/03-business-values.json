@@ -1,0 +1,16 @@
+{
+  "data_kind": "synthetic_test_fixture",
+  "instructions": "先在对话中下载当前品牌经营CSV模板，使用模板里的product_id。把以下字段填入对应商品行；此JSON不是上传接口格式。",
+  "product_match": {"name": "桂花鲜奶茶", "spec": "500ml"},
+  "csv_values": {
+    "current_start": "2026-11-02",
+    "current_end": "2026-11-16",
+    "previous_start": "2026-10-19",
+    "previous_end": "2026-11-02",
+    "current_qty": 140,
+    "previous_qty": 200,
+    "variable_cost_minor": 650,
+    "min_contribution_minor": 500,
+    "daily_capacity": 200
+  }
+}
