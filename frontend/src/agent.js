@@ -2,7 +2,7 @@ import {request, verifyAccess} from './services/api.js';
 import {attachmentCards,bindAttachmentCards,setupWorkspace} from './agent-workspace.js';
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const key=()=>crypto.randomUUID();
+const key=()=>globalThis.crypto?.randomUUID?.()||('local_'+Date.now().toString(36)+Math.random().toString(36).slice(2));
 const post=(path,body)=>request('/api/agent'+path,{method:'POST',body:JSON.stringify(body)});
 const get=path=>request('/api/agent'+path);
 const money=v=>v==null?'暂未测算':'¥'+(v/100).toFixed(2);
