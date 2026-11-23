@@ -30,6 +30,14 @@
 
 历史BUG-01定位至线上/src/agent.js仍为直接crypto.randomUUID调用；Owner核对运行镜像/源码版本、静态文件挂载、服务路由和缓存，再上线验证发送。本次不登录服务器、不部署、不改缓存，不作当前线上已通过的声明。
 
+## Owner另行处理的发布遗留（只定位，未修改）
+
+1. scripts/make_release_manifest.py:32的tracked_files使用普通git ls-files文本输出，inventory在第44行直接拼路径。当前机器对中文文件名获得Git转义/引号字符串，直接运行--check在读取产品知识库.csv时报OSError，尚未进入漂移判断。属于路径解析依赖Git配置的问题；本次未修改脚本或Git配置。
+2. 只读使用git ls-files -z和UTF-8解析重新计算清单后，现有RELEASE_MANIFEST.json与整合代码有漂移：changed=185（包含新增项）、missing=11、extra=77。当前CI未执行这项发布清单校验。Owner应按锁定发布版本处理清单；本次未重写发布清单，更未部署。
+3. docs/release-checklist.md仍要求整套pytest单进程混跑，并在日常清单写旧systemd回滚/切换及整套重新导入、重建索引；与AGENTS按模块测试、当前Compose日常更新及仅按实际变更处理索引的口径存在差异。具体看清单A、C、D段及docs/deployment.md。仅列差异交给Owner统一，没有擅自改部署流程。
+
+以上属于发布准备/手册问题，不冒充用户侧业务bug。线上实际运行版本、HTTPS/缓存、备份与回退仍未验证，本次不进入服务器操作。
+
 ## 建议第三轮顺序
 
 先统一商品营销范围及普通文案确认，再改提问阶段/空提交反馈，接着解决历史版本定位和旧草稿入口，最后把来源、平台及时间显示改为用户能理解的文字。第三轮实施前按用户约定一次确认大方向，本次只记录问题。
