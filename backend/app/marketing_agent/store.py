@@ -29,12 +29,16 @@ def init_db():
             c.execute(text("ALTER TABLE agent_tasks ADD COLUMN workspace_id TEXT NOT NULL DEFAULT 'local-preview-workspace'"))
 
 
-def create_task(brand_id=None,demo=False):
+def create_task(brand_id=None,demo=False,sku_id=None):
     if brand_id:
         from .data import snapshot
-        snapshot(brand_id)
+        catalog = snapshot(brand_id)['products']
+    else:
+        catalog = {}
+    if sku_id and sku_id not in catalog:
+        raise HTTPException(422, '请选择当前品牌下仍在使用的商品。')
     ident = uuid4().hex
-    state = {'task_id': ident, 'demo_mode':bool(demo and not brand_id), 'brief': Brief(brand_id=brand_id).model_dump(mode='json'), 'stage': 'collecting',
+    state = {'task_id': ident, 'demo_mode':bool(demo and not brand_id), 'brief': Brief(brand_id=brand_id, sku_id=sku_id).model_dump(mode='json'), 'stage': 'collecting',
              'messages': [{'role': 'assistant', 'content': '你好，我是你的营销助手。\n\n聊聊这次的想法吧：想推广新品、给销量一般的饮品做个活动，还是先看看最近卖得怎么样？', 'at': now()}],
              'strategy': None, 'strategies': [], 'approvals': [], 'artifacts': [], 'tool_results': {}, 'trace': [],
              'pending_fields': [], 'options': [], 'suggestions': ['帮我制定下周的促销方案', '看看最近哪些饮品卖得不好', '我想做第二杯半价']}
@@ -91,6 +95,14 @@ def get_run(ident):
     if not result:
         raise HTTPException(404, '执行记录不存在。')
     return {k: result[k] for k in ('id', 'task_id', 'status', 'error', 'created')}
+
+
+def submission_receipt(ident, request_id):
+    with kb.engine.connect() as c:
+        row(c, ident)  # Authorize the conversation before looking up a receipt.
+        result = c.execute(text('SELECT id,status FROM agent_runs WHERE task_id=:task AND request_id=:key'),
+                           {'task': ident, 'key': request_id}).mappings().first()
+    return {'found': True, 'run_id': result['id'], 'status': result['status']} if result else {'found': False}
 
 
 def enqueue(ident, request, operation):

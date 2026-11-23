@@ -97,7 +97,7 @@ def demo_orders():
 
 @router.post('/conversations', status_code=201)
 def create(request: CreateConversation = CreateConversation()):
-    return store.create_task(request.brand_id,request.demo)
+    return store.create_task(request.brand_id,request.demo,request.sku_id)
 
 
 @router.get('/conversations')
@@ -119,6 +119,11 @@ def detail(task_id: str):
     from .attachments import listing
     value['attachments'] = listing(task_id)
     return value
+
+
+@router.get('/conversations/{task_id}/submissions/{request_id}')
+def submission_receipt(task_id: str, request_id: str):
+    return store.submission_receipt(task_id, request_id)
 
 
 @router.post('/conversations/{task_id}/messages', status_code=202)

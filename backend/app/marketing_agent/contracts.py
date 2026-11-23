@@ -97,6 +97,7 @@ class MessageInput(Contract):
 
 class CreateConversation(Contract):
     brand_id: str | None = Field(default=None, max_length=100)
+    sku_id: str | None = Field(default=None, min_length=1, max_length=100)
     demo: bool = False
 
 
