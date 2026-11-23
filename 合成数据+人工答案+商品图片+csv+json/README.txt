@@ -1,11 +1,10 @@
-BrandPilot 瑞幸咖啡演示数据
-合成数据 · 自提
+瑞幸咖啡演示数据
+合成数据
 
 首次导入
 products.csv  菜单标准化结果，5 款商品。
 orders.csv    历史订单明细，2026-10-12 至 2026-11-08，共 28 天、913 笔订单、1,158 行。
 costs.csv     每杯变动成本，5 行。
-menu.png      菜单图片。可上传做 OCR 测试，识别后的标准化结果见 products.csv。
 
 活动回传
 campaign_feedback/orders.csv 为 2026-11-09 至 2026-11-15 独立回传，264 笔订单、324 行。
@@ -29,7 +28,5 @@ products.json、orders.json、costs.json 和 campaign_feedback/orders.json 对�
 expected_answers.json 的金额字段仍以整数分计。
 
 活动答案索引（合成数据）
-• 标准美式每杯减 2 元，活动 BP-C20261019。活动订单在历史 orders 文件中。
-  Excel 的「标准美式活动」页 C22 给出扣宣传费后较上周同期少 0.50 元。
-• 鲜萃轻轻茉莉第二杯半价，活动 BP-C20261109。活动订单在 campaign_feedback/orders 文件中。
-  Excel 的「活动核算」页 E20 为两天结果，G20 为七天结果。
+• 标准美式每杯减 2 元，活动 BP-C20261019。
+• 鲜萃轻轻茉莉第二杯半价，活动 BP-C20261109。
