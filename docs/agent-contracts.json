@@ -1337,6 +1337,18 @@
           "default": null,
           "title": "Pair Revenue Minor"
         },
+        "pair_variable_cost_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pair Variable Cost Minor"
+        },
         "pair_contribution_minor": {
           "anyOf": [
             {
