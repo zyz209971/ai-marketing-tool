@@ -1,6 +1,6 @@
 # 第二轮离线模式验收记录
 
-日期：2026-11-23。状态：实现与自测完成，等待用户本地验收；未提交、未推送、未建立本轮PR、未部署。
+日期：2026-11-23。状态：用户已明确回复“验收通过”；代码提交49376e0e82031672e4f9dc372a3d318ca9711f5b与验收树73ec70f101cc020a5414bec46881c745f366d635一致。已创建PR #4（https://github.com/zyz209971/ai-marketing-tool/pull/4），截图随PR提交；CI与实际合并状态以PR记录为准；未部署。
 
 ## Scope and baseline
 
@@ -50,13 +50,13 @@
 
 浏览器任务：0351e297563b4aa8a5802ebc003e9407（品牌建档、商品确认、完整单位检查）；b4170d7fb7a8495fb020d9e2bb699d82（缺成本补答、普通文案、指定标题及无变化检查）。
 
-截图本地可见，遵守仓库*.png忽略规则，不强行加入提交：
-- [品牌资料提取](evidence/brand-extraction.png)
-- [单位检查](evidence/unit-economics.png)
-- [成本补答](evidence/cost-answer.png)
-- [新标题及复制](evidence/title-edited.png)
-- [同标题无新版本](evidence/title-unchanged.png)
-- [历史两版本](evidence/history-versions.png)
+用户在本会话明确允许这6张合成测试截图作为验收文档例外提交。仅添加下列已检查图片，不修改通用*.png忽略规则；数据库、日志、密钥和运行上传资料继续排除：
+- [品牌资料提取](evidence/brand-extraction.jpg)
+- [单位检查](evidence/unit-economics.jpg)
+- [成本补答](evidence/cost-answer.jpg)
+- [新标题及复制](evidence/title-edited.jpg)
+- [同标题无新版本](evidence/title-unchanged.jpg)
+- [历史两版本](evidence/history-versions.jpg)
 
 ## Limits and unverified items
 
@@ -69,4 +69,6 @@
 2. 使用测试品牌“验收测试茶铺1123”的桂花乌龙奶茶（500mL、18元），新对话发送单位检查请求。先不提供成本，观察只问成本，再回复“单杯变动成本：8元。”；应展示27/16/11元及每杯5.5元。
 3. 新对话生成小红书普通商品介绍，再发送指定标题修改。核对正文和复制内容未变、归档标题更新；再次提交同标题不增加版本，整句操作不成为偏好候选。
 
-用户确认方式仍为明确回复“验收通过”。验收快照完整tree和文件清单保存于忽略目录.local-data/acceptance-snapshot.json，避免树内自引用。代码若再改，更新检查与快照；影响已验收行为时重新验收。
+用户已在本会话明确回复“验收通过”，已完成本轮人工验收。验收快照完整tree和文件清单保存于忽略目录.local-data/acceptance-snapshot.json，避免树内自引用。代码若再改，更新检查与快照；影响已验收行为时重新验收。
+
+截图工具输出原本为JPEG编码；提交文件按真实格式命名为.jpg，保持原始截图字节不变，未重绘或修改画面。

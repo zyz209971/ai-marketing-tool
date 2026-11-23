@@ -2,7 +2,7 @@
 
 **Feature Branch**: `fix/offline-task-paths`
 **Created**: 2026-11-23
-**Status**: 用户已明确OFF-01至OFF-05的现象、预期与边界；规格自查完成，用户已确认整轮方案；实现与自测完成，等待用户本地验收。
+**Status**: 用户已明确OFF-01至OFF-05的现象、预期与边界；规格自查完成，用户已确认整轮方案；实现与自测完成，用户本地验收通过，关联PR #4，截图例外已获用户授权，实际合并状态见PR。
 **Input**: 第二轮统一处理OFF-01、OFF-02、OFF-03、OFF-04、OFF-05，不扩展真实模型能力，不进入第三轮一般提问及界面优化。
 **Base Commit**: f9af22cca1ed00062fcfefdaa8a646d89be6603a
 **Related Requirements**: docs/product-requirements.md §2、§3；specs/003-brand-task-paths/；specs/004-unified-workbench/。
