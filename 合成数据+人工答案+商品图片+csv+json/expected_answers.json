@@ -1,0 +1,3085 @@
+{
+  "dataset_version": "brandpilot-luckin-operations-synthetic-v2",
+  "source": "合成数据",
+  "brand": "瑞幸咖啡",
+  "source_note": "商品资料参考瑞幸官网。售价、订单、成本和活动均为合成数据。",
+  "order_mode": "自提",
+  "money_unit": "CNY integer fen",
+  "history_period": [
+    "2026-10-12",
+    "2026-11-08"
+  ],
+  "feedback_period": [
+    "2026-11-09",
+    "2026-11-15"
+  ],
+  "comparison_periods": {
+    "early_14d": [
+      "2026-10-12",
+      "2026-10-25"
+    ],
+    "late_14d": [
+      "2026-10-26",
+      "2026-11-08"
+    ]
+  },
+  "stage_totals": {
+    "history_28d": {
+      "order_count": 913,
+      "line_count": 1158,
+      "cups": 1500,
+      "gross_fen": 2832200,
+      "discount_fen": 2600,
+      "refund_fen": 3300,
+      "net_revenue_fen": 2826300,
+      "variable_cost_fen": 1278660,
+      "contribution_fen": 1547640
+    },
+    "feedback_7d": {
+      "order_count": 264,
+      "line_count": 324,
+      "cups": 432,
+      "gross_fen": 822100,
+      "discount_fen": 34200,
+      "refund_fen": 2250,
+      "net_revenue_fen": 785650,
+      "variable_cost_fen": 361680,
+      "contribution_fen": 423970
+    }
+  },
+  "sku_totals": [
+    {
+      "sku": "P001",
+      "name": "生椰拿铁",
+      "unit_cost_fen": 810,
+      "early_14d": {
+        "order_count": 198,
+        "line_count": 198,
+        "cups": 266,
+        "gross_fen": 505400,
+        "discount_fen": 0,
+        "refund_fen": 2200,
+        "net_revenue_fen": 503200,
+        "variable_cost_fen": 215460,
+        "contribution_fen": 287740
+      },
+      "late_14d": {
+        "order_count": 209,
+        "line_count": 209,
+        "cups": 267,
+        "gross_fen": 534000,
+        "discount_fen": 0,
+        "refund_fen": 600,
+        "net_revenue_fen": 533400,
+        "variable_cost_fen": 216270,
+        "contribution_fen": 317130
+      },
+      "history_28d": {
+        "order_count": 407,
+        "line_count": 407,
+        "cups": 533,
+        "gross_fen": 1039400,
+        "discount_fen": 0,
+        "refund_fen": 2800,
+        "net_revenue_fen": 1036600,
+        "variable_cost_fen": 431730,
+        "contribution_fen": 604870
+      },
+      "feedback_7d": {
+        "order_count": 110,
+        "line_count": 110,
+        "cups": 137,
+        "gross_fen": 274000,
+        "discount_fen": 0,
+        "refund_fen": 2000,
+        "net_revenue_fen": 272000,
+        "variable_cost_fen": 110970,
+        "contribution_fen": 161030
+      },
+      "volume_change_ratio": 0.0037593984962406013,
+      "trend": "稳定"
+    },
+    {
+      "sku": "P002",
+      "name": "鲜萃轻轻茉莉",
+      "unit_cost_fen": 650,
+      "early_14d": {
+        "order_count": 180,
+        "line_count": 180,
+        "cups": 238,
+        "gross_fen": 428400,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 428400,
+        "variable_cost_fen": 154700,
+        "contribution_fen": 273700
+      },
+      "late_14d": {
+        "order_count": 118,
+        "line_count": 118,
+        "cups": 157,
+        "gross_fen": 282600,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 282600,
+        "variable_cost_fen": 102050,
+        "contribution_fen": 180550
+      },
+      "history_28d": {
+        "order_count": 298,
+        "line_count": 298,
+        "cups": 395,
+        "gross_fen": 711000,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 711000,
+        "variable_cost_fen": 256750,
+        "contribution_fen": 454250
+      },
+      "feedback_7d": {
+        "order_count": 52,
+        "line_count": 52,
+        "cups": 90,
+        "gross_fen": 162000,
+        "discount_fen": 34200,
+        "refund_fen": 0,
+        "net_revenue_fen": 127800,
+        "variable_cost_fen": 58500,
+        "contribution_fen": 69300
+      },
+      "volume_change_ratio": -0.3403361344537815,
+      "trend": "下降"
+    },
+    {
+      "sku": "P003",
+      "name": "抹茶奶酪拿铁",
+      "unit_cost_fen": 1750,
+      "early_14d": {
+        "order_count": 94,
+        "line_count": 94,
+        "cups": 120,
+        "gross_fen": 276000,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 276000,
+        "variable_cost_fen": 210000,
+        "contribution_fen": 66000
+      },
+      "late_14d": {
+        "order_count": 95,
+        "line_count": 95,
+        "cups": 118,
+        "gross_fen": 271400,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 271400,
+        "variable_cost_fen": 206500,
+        "contribution_fen": 64900
+      },
+      "history_28d": {
+        "order_count": 189,
+        "line_count": 189,
+        "cups": 238,
+        "gross_fen": 547400,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 547400,
+        "variable_cost_fen": 416500,
+        "contribution_fen": 130900
+      },
+      "feedback_7d": {
+        "order_count": 48,
+        "line_count": 48,
+        "cups": 63,
+        "gross_fen": 144900,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 144900,
+        "variable_cost_fen": 110250,
+        "contribution_fen": 34650
+      },
+      "volume_change_ratio": -0.016666666666666666,
+      "trend": "稳定"
+    },
+    {
+      "sku": "P004",
+      "name": "标准美式",
+      "unit_cost_fen": 520,
+      "early_14d": {
+        "order_count": 117,
+        "line_count": 117,
+        "cups": 149,
+        "gross_fen": 238400,
+        "discount_fen": 2600,
+        "refund_fen": 250,
+        "net_revenue_fen": 235550,
+        "variable_cost_fen": 77480,
+        "contribution_fen": 158070
+      },
+      "late_14d": {
+        "order_count": 147,
+        "line_count": 147,
+        "cups": 185,
+        "gross_fen": 296000,
+        "discount_fen": 0,
+        "refund_fen": 250,
+        "net_revenue_fen": 295750,
+        "variable_cost_fen": 96200,
+        "contribution_fen": 199550
+      },
+      "history_28d": {
+        "order_count": 264,
+        "line_count": 264,
+        "cups": 334,
+        "gross_fen": 534400,
+        "discount_fen": 2600,
+        "refund_fen": 500,
+        "net_revenue_fen": 531300,
+        "variable_cost_fen": 173680,
+        "contribution_fen": 357620
+      },
+      "feedback_7d": {
+        "order_count": 91,
+        "line_count": 91,
+        "cups": 114,
+        "gross_fen": 182400,
+        "discount_fen": 0,
+        "refund_fen": 250,
+        "net_revenue_fen": 182150,
+        "variable_cost_fen": 59280,
+        "contribution_fen": 122870
+      },
+      "volume_change_ratio": 0.24161073825503357,
+      "trend": "上升"
+    },
+    {
+      "sku": "P005",
+      "name": "生椰杨枝甘露",
+      "unit_cost_fen": 810,
+      "early_14d": {
+        "order_count": 0,
+        "line_count": 0,
+        "cups": 0,
+        "gross_fen": 0,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 0,
+        "variable_cost_fen": 0,
+        "contribution_fen": 0
+      },
+      "late_14d": {
+        "order_count": 0,
+        "line_count": 0,
+        "cups": 0,
+        "gross_fen": 0,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 0,
+        "variable_cost_fen": 0,
+        "contribution_fen": 0
+      },
+      "history_28d": {
+        "order_count": 0,
+        "line_count": 0,
+        "cups": 0,
+        "gross_fen": 0,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 0,
+        "variable_cost_fen": 0,
+        "contribution_fen": 0
+      },
+      "feedback_7d": {
+        "order_count": 23,
+        "line_count": 23,
+        "cups": 28,
+        "gross_fen": 58800,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 58800,
+        "variable_cost_fen": 22680,
+        "contribution_fen": 36120
+      },
+      "volume_change_ratio": null,
+      "trend": "新上架无历史"
+    }
+  ],
+  "daily": [
+    {
+      "date": "2026-10-12",
+      "stage": "history",
+      "store": {
+        "order_count": 28,
+        "line_count": 37,
+        "cups": 50,
+        "gross_fen": 94100,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 94100,
+        "variable_cost_fen": 42980,
+        "contribution_fen": 51120
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 11,
+          "line_count": 11,
+          "cups": 17,
+          "gross_fen": 32300,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 32300,
+          "variable_cost_fen": 13770,
+          "contribution_fen": 18530
+        },
+        "P002": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 17,
+          "gross_fen": 30600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 30600,
+          "variable_cost_fen": 11050,
+          "contribution_fen": 19550
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 8,
+          "gross_fen": 12800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 12800,
+          "variable_cost_fen": 4160,
+          "contribution_fen": 8640
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-13",
+      "stage": "history",
+      "store": {
+        "order_count": 36,
+        "line_count": 42,
+        "cups": 50,
+        "gross_fen": 93500,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 93500,
+        "variable_cost_fen": 41910,
+        "contribution_fen": 51590
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 18,
+          "gross_fen": 34200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34200,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 19620
+        },
+        "P002": {
+          "order_count": 15,
+          "line_count": 15,
+          "cups": 16,
+          "gross_fen": 28800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 28800,
+          "variable_cost_fen": 10400,
+          "contribution_fen": 18400
+        },
+        "P003": {
+          "order_count": 4,
+          "line_count": 4,
+          "cups": 7,
+          "gross_fen": 16100,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 16100,
+          "variable_cost_fen": 12250,
+          "contribution_fen": 3850
+        },
+        "P004": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 9,
+          "gross_fen": 14400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 14400,
+          "variable_cost_fen": 4680,
+          "contribution_fen": 9720
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-14",
+      "stage": "history",
+      "store": {
+        "order_count": 30,
+        "line_count": 37,
+        "cups": 50,
+        "gross_fen": 93900,
+        "discount_fen": 0,
+        "refund_fen": 300,
+        "net_revenue_fen": 93600,
+        "variable_cost_fen": 42850,
+        "contribution_fen": 50750
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 17,
+          "gross_fen": 32300,
+          "discount_fen": 0,
+          "refund_fen": 300,
+          "net_revenue_fen": 32000,
+          "variable_cost_fen": 13770,
+          "contribution_fen": 18230
+        },
+        "P002": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 16,
+          "gross_fen": 28800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 28800,
+          "variable_cost_fen": 10400,
+          "contribution_fen": 18400
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 9,
+          "gross_fen": 14400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 14400,
+          "variable_cost_fen": 4680,
+          "contribution_fen": 9720
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-15",
+      "stage": "history",
+      "store": {
+        "order_count": 33,
+        "line_count": 39,
+        "cups": 55,
+        "gross_fen": 103400,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 103400,
+        "variable_cost_fen": 47390,
+        "contribution_fen": 56010
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 19,
+          "gross_fen": 36100,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 36100,
+          "variable_cost_fen": 15390,
+          "contribution_fen": 20710
+        },
+        "P002": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 17,
+          "gross_fen": 30600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 30600,
+          "variable_cost_fen": 11050,
+          "contribution_fen": 19550
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 10,
+          "gross_fen": 16000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 16000,
+          "variable_cost_fen": 5200,
+          "contribution_fen": 10800
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-16",
+      "stage": "history",
+      "store": {
+        "order_count": 32,
+        "line_count": 41,
+        "cups": 53,
+        "gross_fen": 99400,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 99400,
+        "variable_cost_fen": 44960,
+        "contribution_fen": 54440
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 18,
+          "gross_fen": 34200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34200,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 19620
+        },
+        "P002": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 18,
+          "gross_fen": 32400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 32400,
+          "variable_cost_fen": 11700,
+          "contribution_fen": 20700
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 9,
+          "gross_fen": 14400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 14400,
+          "variable_cost_fen": 4680,
+          "contribution_fen": 9720
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-17",
+      "stage": "history",
+      "store": {
+        "order_count": 38,
+        "line_count": 50,
+        "cups": 63,
+        "gross_fen": 118400,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 118400,
+        "variable_cost_fen": 54040,
+        "contribution_fen": 64360
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 18,
+          "line_count": 18,
+          "cups": 22,
+          "gross_fen": 41800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 41800,
+          "variable_cost_fen": 17820,
+          "contribution_fen": 23980
+        },
+        "P002": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 20,
+          "gross_fen": 36000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 36000,
+          "variable_cost_fen": 13000,
+          "contribution_fen": 23000
+        },
+        "P003": {
+          "order_count": 10,
+          "line_count": 10,
+          "cups": 10,
+          "gross_fen": 23000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23000,
+          "variable_cost_fen": 17500,
+          "contribution_fen": 5500
+        },
+        "P004": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 11,
+          "gross_fen": 17600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 17600,
+          "variable_cost_fen": 5720,
+          "contribution_fen": 11880
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-18",
+      "stage": "history",
+      "store": {
+        "order_count": 35,
+        "line_count": 48,
+        "cups": 61,
+        "gross_fen": 114000,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 114000,
+        "variable_cost_fen": 51350,
+        "contribution_fen": 62650
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 21,
+          "gross_fen": 39900,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 39900,
+          "variable_cost_fen": 17010,
+          "contribution_fen": 22890
+        },
+        "P002": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 19,
+          "gross_fen": 34200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34200,
+          "variable_cost_fen": 12350,
+          "contribution_fen": 21850
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 12,
+          "gross_fen": 19200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 19200,
+          "variable_cost_fen": 6240,
+          "contribution_fen": 12960
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-19",
+      "stage": "history",
+      "store": {
+        "order_count": 32,
+        "line_count": 42,
+        "cups": 51,
+        "gross_fen": 95500,
+        "discount_fen": 600,
+        "refund_fen": 0,
+        "net_revenue_fen": 94900,
+        "variable_cost_fen": 43370,
+        "contribution_fen": 51530
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 17,
+          "gross_fen": 32300,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 32300,
+          "variable_cost_fen": 13770,
+          "contribution_fen": 18530
+        },
+        "P002": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 16,
+          "gross_fen": 28800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 28800,
+          "variable_cost_fen": 10400,
+          "contribution_fen": 18400
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 10,
+          "line_count": 10,
+          "cups": 10,
+          "gross_fen": 16000,
+          "discount_fen": 600,
+          "refund_fen": 0,
+          "net_revenue_fen": 15400,
+          "variable_cost_fen": 5200,
+          "contribution_fen": 10200
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-20",
+      "stage": "history",
+      "store": {
+        "order_count": 30,
+        "line_count": 39,
+        "cups": 52,
+        "gross_fen": 97200,
+        "discount_fen": 800,
+        "refund_fen": 0,
+        "net_revenue_fen": 96400,
+        "variable_cost_fen": 44050,
+        "contribution_fen": 52350
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 18,
+          "gross_fen": 34200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34200,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 19620
+        },
+        "P002": {
+          "order_count": 10,
+          "line_count": 10,
+          "cups": 15,
+          "gross_fen": 27000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 27000,
+          "variable_cost_fen": 9750,
+          "contribution_fen": 17250
+        },
+        "P003": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 11,
+          "gross_fen": 17600,
+          "discount_fen": 800,
+          "refund_fen": 0,
+          "net_revenue_fen": 16800,
+          "variable_cost_fen": 5720,
+          "contribution_fen": 11080
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-21",
+      "stage": "history",
+      "store": {
+        "order_count": 30,
+        "line_count": 38,
+        "cups": 53,
+        "gross_fen": 99800,
+        "discount_fen": 1200,
+        "refund_fen": 250,
+        "net_revenue_fen": 98350,
+        "variable_cost_fen": 46090,
+        "contribution_fen": 52260
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 15,
+          "line_count": 15,
+          "cups": 19,
+          "gross_fen": 36100,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 36100,
+          "variable_cost_fen": 15390,
+          "contribution_fen": 20710
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 15,
+          "gross_fen": 27000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 27000,
+          "variable_cost_fen": 9750,
+          "contribution_fen": 17250
+        },
+        "P003": {
+          "order_count": 5,
+          "line_count": 5,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 10,
+          "line_count": 10,
+          "cups": 10,
+          "gross_fen": 16000,
+          "discount_fen": 1200,
+          "refund_fen": 250,
+          "net_revenue_fen": 14550,
+          "variable_cost_fen": 5200,
+          "contribution_fen": 9350
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "stage": "history",
+      "store": {
+        "order_count": 30,
+        "line_count": 40,
+        "cups": 53,
+        "gross_fen": 99000,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 99000,
+        "variable_cost_fen": 44700,
+        "contribution_fen": 54300
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 14,
+          "line_count": 14,
+          "cups": 18,
+          "gross_fen": 34200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34200,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 19620
+        },
+        "P002": {
+          "order_count": 11,
+          "line_count": 11,
+          "cups": 16,
+          "gross_fen": 28800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 28800,
+          "variable_cost_fen": 10400,
+          "contribution_fen": 18400
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 11,
+          "gross_fen": 17600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 17600,
+          "variable_cost_fen": 5720,
+          "contribution_fen": 11880
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-23",
+      "stage": "history",
+      "store": {
+        "order_count": 36,
+        "line_count": 42,
+        "cups": 58,
+        "gross_fen": 108500,
+        "discount_fen": 0,
+        "refund_fen": 1900,
+        "net_revenue_fen": 106600,
+        "variable_cost_fen": 49240,
+        "contribution_fen": 57360
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 20,
+          "gross_fen": 38000,
+          "discount_fen": 0,
+          "refund_fen": 1900,
+          "net_revenue_fen": 36100,
+          "variable_cost_fen": 16200,
+          "contribution_fen": 19900
+        },
+        "P002": {
+          "order_count": 14,
+          "line_count": 14,
+          "cups": 17,
+          "gross_fen": 30600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 30600,
+          "variable_cost_fen": 11050,
+          "contribution_fen": 19550
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 12,
+          "gross_fen": 19200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 19200,
+          "variable_cost_fen": 6240,
+          "contribution_fen": 12960
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-24",
+      "stage": "history",
+      "store": {
+        "order_count": 38,
+        "line_count": 48,
+        "cups": 64,
+        "gross_fen": 119800,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 119800,
+        "variable_cost_fen": 54430,
+        "contribution_fen": 65370
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 22,
+          "gross_fen": 41800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 41800,
+          "variable_cost_fen": 17820,
+          "contribution_fen": 23980
+        },
+        "P002": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 19,
+          "gross_fen": 34200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34200,
+          "variable_cost_fen": 12350,
+          "contribution_fen": 21850
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 10,
+          "gross_fen": 23000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23000,
+          "variable_cost_fen": 17500,
+          "contribution_fen": 5500
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 13,
+          "gross_fen": 20800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20800,
+          "variable_cost_fen": 6760,
+          "contribution_fen": 14040
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "stage": "history",
+      "store": {
+        "order_count": 37,
+        "line_count": 46,
+        "cups": 60,
+        "gross_fen": 111700,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 111700,
+        "variable_cost_fen": 50280,
+        "contribution_fen": 61420
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 20,
+          "gross_fen": 38000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 38000,
+          "variable_cost_fen": 16200,
+          "contribution_fen": 21800
+        },
+        "P002": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 17,
+          "gross_fen": 30600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 30600,
+          "variable_cost_fen": 11050,
+          "contribution_fen": 19550
+        },
+        "P003": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 10,
+          "line_count": 10,
+          "cups": 14,
+          "gross_fen": 22400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 22400,
+          "variable_cost_fen": 7280,
+          "contribution_fen": 15120
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "stage": "history",
+      "store": {
+        "order_count": 31,
+        "line_count": 37,
+        "cups": 51,
+        "gross_fen": 97000,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 97000,
+        "variable_cost_fen": 43270,
+        "contribution_fen": 53730
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 18,
+          "gross_fen": 36000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 36000,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 21420
+        },
+        "P002": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 13,
+          "gross_fen": 23400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23400,
+          "variable_cost_fen": 8450,
+          "contribution_fen": 14950
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 12,
+          "gross_fen": 19200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 19200,
+          "variable_cost_fen": 6240,
+          "contribution_fen": 12960
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-27",
+      "stage": "history",
+      "store": {
+        "order_count": 22,
+        "line_count": 30,
+        "cups": 37,
+        "gross_fen": 73700,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 73700,
+        "variable_cost_fen": 34630,
+        "contribution_fen": 39070
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 15,
+          "line_count": 15,
+          "cups": 18,
+          "gross_fen": 36000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 36000,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 21420
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 12,
+          "gross_fen": 21600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 21600,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 13800
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 7,
+          "gross_fen": 16100,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 16100,
+          "variable_cost_fen": 12250,
+          "contribution_fen": 3850
+        },
+        "P004": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-28",
+      "stage": "history",
+      "store": {
+        "order_count": 28,
+        "line_count": 37,
+        "cups": 50,
+        "gross_fen": 94800,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 94800,
+        "variable_cost_fen": 42330,
+        "contribution_fen": 52470
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 17,
+          "gross_fen": 34000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34000,
+          "variable_cost_fen": 13770,
+          "contribution_fen": 20230
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 12,
+          "gross_fen": 21600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 21600,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 13800
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 11,
+          "line_count": 11,
+          "cups": 13,
+          "gross_fen": 20800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20800,
+          "variable_cost_fen": 6760,
+          "contribution_fen": 14040
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-29",
+      "stage": "history",
+      "store": {
+        "order_count": 27,
+        "line_count": 37,
+        "cups": 52,
+        "gross_fen": 98800,
+        "discount_fen": 0,
+        "refund_fen": 250,
+        "net_revenue_fen": 98550,
+        "variable_cost_fen": 43950,
+        "contribution_fen": 54600
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 19,
+          "gross_fen": 38000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 38000,
+          "variable_cost_fen": 15390,
+          "contribution_fen": 22610
+        },
+        "P002": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 12,
+          "gross_fen": 21600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 21600,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 13800
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 10,
+          "line_count": 10,
+          "cups": 13,
+          "gross_fen": 20800,
+          "discount_fen": 0,
+          "refund_fen": 250,
+          "net_revenue_fen": 20550,
+          "variable_cost_fen": 6760,
+          "contribution_fen": 13790
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-30",
+      "stage": "history",
+      "store": {
+        "order_count": 35,
+        "line_count": 43,
+        "cups": 51,
+        "gross_fen": 97000,
+        "discount_fen": 0,
+        "refund_fen": 300,
+        "net_revenue_fen": 96700,
+        "variable_cost_fen": 43300,
+        "contribution_fen": 53400
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 18,
+          "line_count": 18,
+          "cups": 19,
+          "gross_fen": 38000,
+          "discount_fen": 0,
+          "refund_fen": 300,
+          "net_revenue_fen": 37700,
+          "variable_cost_fen": 15390,
+          "contribution_fen": 22310
+        },
+        "P002": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 11,
+          "gross_fen": 19800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 19800,
+          "variable_cost_fen": 7150,
+          "contribution_fen": 12650
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 13,
+          "gross_fen": 20800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20800,
+          "variable_cost_fen": 6760,
+          "contribution_fen": 14040
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-10-31",
+      "stage": "history",
+      "store": {
+        "order_count": 36,
+        "line_count": 48,
+        "cups": 60,
+        "gross_fen": 114200,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 114200,
+        "variable_cost_fen": 51410,
+        "contribution_fen": 62790
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 17,
+          "line_count": 17,
+          "cups": 21,
+          "gross_fen": 42000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 42000,
+          "variable_cost_fen": 17010,
+          "contribution_fen": 24990
+        },
+        "P002": {
+          "order_count": 11,
+          "line_count": 11,
+          "cups": 14,
+          "gross_fen": 25200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 25200,
+          "variable_cost_fen": 9100,
+          "contribution_fen": 16100
+        },
+        "P003": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 10,
+          "gross_fen": 23000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23000,
+          "variable_cost_fen": 17500,
+          "contribution_fen": 5500
+        },
+        "P004": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 15,
+          "gross_fen": 24000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 24000,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 16200
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-01",
+      "stage": "history",
+      "store": {
+        "order_count": 35,
+        "line_count": 46,
+        "cups": 58,
+        "gross_fen": 110100,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 110100,
+        "variable_cost_fen": 49010,
+        "contribution_fen": 61090
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 21,
+          "gross_fen": 42000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 42000,
+          "variable_cost_fen": 17010,
+          "contribution_fen": 24990
+        },
+        "P002": {
+          "order_count": 10,
+          "line_count": 10,
+          "cups": 13,
+          "gross_fen": 23400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23400,
+          "variable_cost_fen": 8450,
+          "contribution_fen": 14950
+        },
+        "P003": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 15,
+          "gross_fen": 24000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 24000,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 16200
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-02",
+      "stage": "history",
+      "store": {
+        "order_count": 34,
+        "line_count": 40,
+        "cups": 49,
+        "gross_fen": 92800,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 92800,
+        "variable_cost_fen": 41550,
+        "contribution_fen": 51250
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 14,
+          "line_count": 14,
+          "cups": 17,
+          "gross_fen": 34000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34000,
+          "variable_cost_fen": 13770,
+          "contribution_fen": 20230
+        },
+        "P002": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 10,
+          "gross_fen": 18000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18000,
+          "variable_cost_fen": 6500,
+          "contribution_fen": 11500
+        },
+        "P003": {
+          "order_count": 5,
+          "line_count": 5,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 14,
+          "gross_fen": 22400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 22400,
+          "variable_cost_fen": 7280,
+          "contribution_fen": 15120
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-03",
+      "stage": "history",
+      "store": {
+        "order_count": 27,
+        "line_count": 37,
+        "cups": 51,
+        "gross_fen": 96100,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 96100,
+        "variable_cost_fen": 41940,
+        "contribution_fen": 54160
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 19,
+          "gross_fen": 38000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 38000,
+          "variable_cost_fen": 15390,
+          "contribution_fen": 22610
+        },
+        "P002": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 10,
+          "gross_fen": 18000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18000,
+          "variable_cost_fen": 6500,
+          "contribution_fen": 11500
+        },
+        "P003": {
+          "order_count": 5,
+          "line_count": 5,
+          "cups": 7,
+          "gross_fen": 16100,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 16100,
+          "variable_cost_fen": 12250,
+          "contribution_fen": 3850
+        },
+        "P004": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 15,
+          "gross_fen": 24000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 24000,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 16200
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-04",
+      "stage": "history",
+      "store": {
+        "order_count": 34,
+        "line_count": 41,
+        "cups": 50,
+        "gross_fen": 95300,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 95300,
+        "variable_cost_fen": 43460,
+        "contribution_fen": 51840
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 18,
+          "gross_fen": 36000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 36000,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 21420
+        },
+        "P002": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 9,
+          "gross_fen": 16200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 16200,
+          "variable_cost_fen": 5850,
+          "contribution_fen": 10350
+        },
+        "P003": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 14,
+          "gross_fen": 22400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 22400,
+          "variable_cost_fen": 7280,
+          "contribution_fen": 15120
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-05",
+      "stage": "history",
+      "store": {
+        "order_count": 35,
+        "line_count": 41,
+        "cups": 49,
+        "gross_fen": 93000,
+        "discount_fen": 0,
+        "refund_fen": 300,
+        "net_revenue_fen": 92700,
+        "variable_cost_fen": 41710,
+        "contribution_fen": 50990
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 15,
+          "line_count": 15,
+          "cups": 18,
+          "gross_fen": 36000,
+          "discount_fen": 0,
+          "refund_fen": 300,
+          "net_revenue_fen": 35700,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 21120
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 9,
+          "gross_fen": 16200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 16200,
+          "variable_cost_fen": 5850,
+          "contribution_fen": 10350
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 14,
+          "gross_fen": 22400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 22400,
+          "variable_cost_fen": 7280,
+          "contribution_fen": 15120
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-06",
+      "stage": "history",
+      "store": {
+        "order_count": 32,
+        "line_count": 42,
+        "cups": 54,
+        "gross_fen": 102700,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 102700,
+        "variable_cost_fen": 46250,
+        "contribution_fen": 56450
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 16,
+          "line_count": 16,
+          "cups": 20,
+          "gross_fen": 40000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 40000,
+          "variable_cost_fen": 16200,
+          "contribution_fen": 23800
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 10,
+          "gross_fen": 18000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18000,
+          "variable_cost_fen": 6500,
+          "contribution_fen": 11500
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 11,
+          "line_count": 11,
+          "cups": 15,
+          "gross_fen": 24000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 24000,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 16200
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-07",
+      "stage": "history",
+      "store": {
+        "order_count": 40,
+        "line_count": 47,
+        "cups": 59,
+        "gross_fen": 112400,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 112400,
+        "variable_cost_fen": 50790,
+        "contribution_fen": 61610
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 19,
+          "line_count": 19,
+          "cups": 22,
+          "gross_fen": 44000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 44000,
+          "variable_cost_fen": 17820,
+          "contribution_fen": 26180
+        },
+        "P002": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 11,
+          "gross_fen": 19800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 19800,
+          "variable_cost_fen": 7150,
+          "contribution_fen": 12650
+        },
+        "P003": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 10,
+          "gross_fen": 23000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23000,
+          "variable_cost_fen": 17500,
+          "contribution_fen": 5500
+        },
+        "P004": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 16,
+          "gross_fen": 25600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 25600,
+          "variable_cost_fen": 8320,
+          "contribution_fen": 17280
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-08",
+      "stage": "history",
+      "store": {
+        "order_count": 32,
+        "line_count": 43,
+        "cups": 56,
+        "gross_fen": 106100,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 106100,
+        "variable_cost_fen": 47420,
+        "contribution_fen": 58680
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 17,
+          "line_count": 17,
+          "cups": 20,
+          "gross_fen": 40000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 40000,
+          "variable_cost_fen": 16200,
+          "contribution_fen": 23800
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 11,
+          "gross_fen": 19800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 19800,
+          "variable_cost_fen": 7150,
+          "contribution_fen": 12650
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 16,
+          "gross_fen": 25600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 25600,
+          "variable_cost_fen": 8320,
+          "contribution_fen": 17280
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-09",
+      "stage": "feedback",
+      "store": {
+        "order_count": 31,
+        "line_count": 35,
+        "cups": 52,
+        "gross_fen": 98000,
+        "discount_fen": 5400,
+        "refund_fen": 0,
+        "net_revenue_fen": 92600,
+        "variable_cost_fen": 43370,
+        "contribution_fen": 49230
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 15,
+          "line_count": 15,
+          "cups": 17,
+          "gross_fen": 34000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 34000,
+          "variable_cost_fen": 13770,
+          "contribution_fen": 20230
+        },
+        "P002": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 12,
+          "gross_fen": 21600,
+          "discount_fen": 5400,
+          "refund_fen": 0,
+          "net_revenue_fen": 16200,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 8400
+        },
+        "P003": {
+          "order_count": 5,
+          "line_count": 5,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 15,
+          "gross_fen": 24000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 24000,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 16200
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-10",
+      "stage": "feedback",
+      "store": {
+        "order_count": 33,
+        "line_count": 38,
+        "cups": 55,
+        "gross_fen": 104300,
+        "discount_fen": 5400,
+        "refund_fen": 0,
+        "net_revenue_fen": 98900,
+        "variable_cost_fen": 46740,
+        "contribution_fen": 52160
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 12,
+          "line_count": 12,
+          "cups": 19,
+          "gross_fen": 38000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 38000,
+          "variable_cost_fen": 15390,
+          "contribution_fen": 22610
+        },
+        "P002": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 12,
+          "gross_fen": 21600,
+          "discount_fen": 5400,
+          "refund_fen": 0,
+          "net_revenue_fen": 16200,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 8400
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 15,
+          "gross_fen": 24000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 24000,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 16200
+        },
+        "P005": {
+          "order_count": 0,
+          "line_count": 0,
+          "cups": 0,
+          "gross_fen": 0,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 0,
+          "variable_cost_fen": 0,
+          "contribution_fen": 0
+        }
+      }
+    },
+    {
+      "date": "2026-11-11",
+      "stage": "feedback",
+      "store": {
+        "order_count": 40,
+        "line_count": 49,
+        "cups": 58,
+        "gross_fen": 110000,
+        "discount_fen": 4500,
+        "refund_fen": 250,
+        "net_revenue_fen": 105250,
+        "variable_cost_fen": 47940,
+        "contribution_fen": 57310
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 17,
+          "line_count": 17,
+          "cups": 18,
+          "gross_fen": 36000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 36000,
+          "variable_cost_fen": 14580,
+          "contribution_fen": 21420
+        },
+        "P002": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 12,
+          "gross_fen": 21600,
+          "discount_fen": 4500,
+          "refund_fen": 0,
+          "net_revenue_fen": 17100,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 9300
+        },
+        "P003": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 8,
+          "gross_fen": 18400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 18400,
+          "variable_cost_fen": 14000,
+          "contribution_fen": 4400
+        },
+        "P004": {
+          "order_count": 14,
+          "line_count": 14,
+          "cups": 16,
+          "gross_fen": 25600,
+          "discount_fen": 0,
+          "refund_fen": 250,
+          "net_revenue_fen": 25350,
+          "variable_cost_fen": 8320,
+          "contribution_fen": 17030
+        },
+        "P005": {
+          "order_count": 3,
+          "line_count": 3,
+          "cups": 4,
+          "gross_fen": 8400,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 8400,
+          "variable_cost_fen": 3240,
+          "contribution_fen": 5160
+        }
+      }
+    },
+    {
+      "date": "2026-11-12",
+      "stage": "feedback",
+      "store": {
+        "order_count": 40,
+        "line_count": 46,
+        "cups": 62,
+        "gross_fen": 118600,
+        "discount_fen": 4500,
+        "refund_fen": 0,
+        "net_revenue_fen": 114100,
+        "variable_cost_fen": 52250,
+        "contribution_fen": 61850
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 15,
+          "line_count": 15,
+          "cups": 20,
+          "gross_fen": 40000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 40000,
+          "variable_cost_fen": 16200,
+          "contribution_fen": 23800
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 13,
+          "gross_fen": 23400,
+          "discount_fen": 4500,
+          "refund_fen": 0,
+          "net_revenue_fen": 18900,
+          "variable_cost_fen": 8450,
+          "contribution_fen": 10450
+        },
+        "P003": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 15,
+          "gross_fen": 24000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 24000,
+          "variable_cost_fen": 7800,
+          "contribution_fen": 16200
+        },
+        "P005": {
+          "order_count": 4,
+          "line_count": 4,
+          "cups": 5,
+          "gross_fen": 10500,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 10500,
+          "variable_cost_fen": 4050,
+          "contribution_fen": 6450
+        }
+      }
+    },
+    {
+      "date": "2026-11-13",
+      "stage": "feedback",
+      "store": {
+        "order_count": 41,
+        "line_count": 51,
+        "cups": 65,
+        "gross_fen": 123900,
+        "discount_fen": 4500,
+        "refund_fen": 2000,
+        "net_revenue_fen": 117400,
+        "variable_cost_fen": 54100,
+        "contribution_fen": 63300
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 17,
+          "line_count": 17,
+          "cups": 20,
+          "gross_fen": 40000,
+          "discount_fen": 0,
+          "refund_fen": 2000,
+          "net_revenue_fen": 38000,
+          "variable_cost_fen": 16200,
+          "contribution_fen": 21800
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 13,
+          "gross_fen": 23400,
+          "discount_fen": 4500,
+          "refund_fen": 0,
+          "net_revenue_fen": 18900,
+          "variable_cost_fen": 8450,
+          "contribution_fen": 10450
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 9,
+          "gross_fen": 20700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 15750,
+          "contribution_fen": 4950
+        },
+        "P004": {
+          "order_count": 14,
+          "line_count": 14,
+          "cups": 17,
+          "gross_fen": 27200,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 27200,
+          "variable_cost_fen": 8840,
+          "contribution_fen": 18360
+        },
+        "P005": {
+          "order_count": 5,
+          "line_count": 5,
+          "cups": 6,
+          "gross_fen": 12600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 12600,
+          "variable_cost_fen": 4860,
+          "contribution_fen": 7740
+        }
+      }
+    },
+    {
+      "date": "2026-11-14",
+      "stage": "feedback",
+      "store": {
+        "order_count": 44,
+        "line_count": 57,
+        "cups": 70,
+        "gross_fen": 133600,
+        "discount_fen": 4500,
+        "refund_fen": 0,
+        "net_revenue_fen": 129100,
+        "variable_cost_fen": 58640,
+        "contribution_fen": 70460
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 17,
+          "line_count": 17,
+          "cups": 22,
+          "gross_fen": 44000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 44000,
+          "variable_cost_fen": 17820,
+          "contribution_fen": 26180
+        },
+        "P002": {
+          "order_count": 9,
+          "line_count": 9,
+          "cups": 14,
+          "gross_fen": 25200,
+          "discount_fen": 4500,
+          "refund_fen": 0,
+          "net_revenue_fen": 20700,
+          "variable_cost_fen": 9100,
+          "contribution_fen": 11600
+        },
+        "P003": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 10,
+          "gross_fen": 23000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23000,
+          "variable_cost_fen": 17500,
+          "contribution_fen": 5500
+        },
+        "P004": {
+          "order_count": 17,
+          "line_count": 17,
+          "cups": 18,
+          "gross_fen": 28800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 28800,
+          "variable_cost_fen": 9360,
+          "contribution_fen": 19440
+        },
+        "P005": {
+          "order_count": 6,
+          "line_count": 6,
+          "cups": 6,
+          "gross_fen": 12600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 12600,
+          "variable_cost_fen": 4860,
+          "contribution_fen": 7740
+        }
+      }
+    },
+    {
+      "date": "2026-11-15",
+      "stage": "feedback",
+      "store": {
+        "order_count": 35,
+        "line_count": 48,
+        "cups": 70,
+        "gross_fen": 133700,
+        "discount_fen": 5400,
+        "refund_fen": 0,
+        "net_revenue_fen": 128300,
+        "variable_cost_fen": 58640,
+        "contribution_fen": 69660
+      },
+      "by_sku": {
+        "P001": {
+          "order_count": 17,
+          "line_count": 17,
+          "cups": 21,
+          "gross_fen": 42000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 42000,
+          "variable_cost_fen": 17010,
+          "contribution_fen": 24990
+        },
+        "P002": {
+          "order_count": 8,
+          "line_count": 8,
+          "cups": 14,
+          "gross_fen": 25200,
+          "discount_fen": 5400,
+          "refund_fen": 0,
+          "net_revenue_fen": 19800,
+          "variable_cost_fen": 9100,
+          "contribution_fen": 10700
+        },
+        "P003": {
+          "order_count": 7,
+          "line_count": 7,
+          "cups": 10,
+          "gross_fen": 23000,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 23000,
+          "variable_cost_fen": 17500,
+          "contribution_fen": 5500
+        },
+        "P004": {
+          "order_count": 11,
+          "line_count": 11,
+          "cups": 18,
+          "gross_fen": 28800,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 28800,
+          "variable_cost_fen": 9360,
+          "contribution_fen": 19440
+        },
+        "P005": {
+          "order_count": 5,
+          "line_count": 5,
+          "cups": 7,
+          "gross_fen": 14700,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 14700,
+          "variable_cost_fen": 5670,
+          "contribution_fen": 9030
+        }
+      }
+    }
+  ],
+  "campaigns": [
+    {
+      "campaign_id": "BP-C20261019",
+      "sku": "P004",
+      "period": [
+        "2026-10-19",
+        "2026-10-21"
+      ],
+      "rule": "per_cup_discount",
+      "discount_per_cup_fen": 200,
+      "planned_marketing_spend_fen": 3000,
+      "actual_marketing_spend_fen": 2600,
+      "basis": "合成优惠使用记录"
+    },
+    {
+      "campaign_id": "BP-C20261109",
+      "sku": "P002",
+      "period": [
+        "2026-11-09",
+        "2026-11-15"
+      ],
+      "rule": "same_sku_second_cup_half_price",
+      "second_cup_discount_fen": 900,
+      "planned_marketing_spend_fen": 10000,
+      "actual_marketing_spend_fen": 10000,
+      "basis": "合成活动，单门店自提，优惠不叠加"
+    }
+  ],
+  "promotion_candidates": {
+    "minimum_unit_contribution_fen": 500,
+    "P002": {
+      "full_price_fen": 1150,
+      "per_cup_2_yuan_discount_fen": 950,
+      "second_half_price_pair_average_fen": 700
+    },
+    "P003": {
+      "full_price_fen": 550,
+      "per_cup_2_yuan_discount_fen": 350,
+      "second_half_price_pair_average_fen": -25
+    }
+  },
+  "review": {
+    "two_day_acceptance": {
+      "baseline_period": [
+        "2026-11-02",
+        "2026-11-03"
+      ],
+      "actual_period": [
+        "2026-11-09",
+        "2026-11-10"
+      ],
+      "baseline": {
+        "order_count": 16,
+        "line_count": 16,
+        "cups": 20,
+        "gross_fen": 36000,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 36000,
+        "variable_cost_fen": 13000,
+        "contribution_fen": 23000
+      },
+      "actual": {
+        "order_count": 12,
+        "line_count": 12,
+        "cups": 24,
+        "gross_fen": 43200,
+        "discount_fen": 10800,
+        "refund_fen": 0,
+        "net_revenue_fen": 32400,
+        "variable_cost_fen": 15600,
+        "contribution_fen": 16800
+      },
+      "redeemed": {
+        "order_count": 12,
+        "line_count": 12,
+        "cups": 24,
+        "gross_fen": 43200,
+        "discount_fen": 10800,
+        "refund_fen": 0,
+        "net_revenue_fen": 32400,
+        "variable_cost_fen": 15600,
+        "contribution_fen": 16800
+      },
+      "participating_pairs": 12,
+      "marketing_spend_fen": 10000,
+      "contribution_after_spend_fen": 6800,
+      "volume_change": 4,
+      "incremental_contribution_fen": -16200,
+      "incremental_roi": -1.62
+    },
+    "two_day_plan": {
+      "cups": 40,
+      "participating_pairs": 10,
+      "net_revenue_fen": 63000,
+      "variable_cost_fen": 26000,
+      "contribution_fen": 37000,
+      "marketing_spend_fen": 10000,
+      "incremental_contribution_fen": 4000,
+      "incremental_roi": 0.4,
+      "break_even_cups_at_50_pct_participation": 36,
+      "break_even_pairs_at_50_pct_participation": 9,
+      "negative_scenario_at_50_pct_participation": {
+        "cups": 32,
+        "participating_pairs": 8,
+        "incremental_contribution_fen": -3400
+      }
+    },
+    "seven_day_review": {
+      "baseline_period": [
+        "2026-11-02",
+        "2026-11-08"
+      ],
+      "actual_period": [
+        "2026-11-09",
+        "2026-11-15"
+      ],
+      "baseline": {
+        "order_count": 56,
+        "line_count": 56,
+        "cups": 70,
+        "gross_fen": 126000,
+        "discount_fen": 0,
+        "refund_fen": 0,
+        "net_revenue_fen": 126000,
+        "variable_cost_fen": 45500,
+        "contribution_fen": 80500
+      },
+      "actual": {
+        "order_count": 52,
+        "line_count": 52,
+        "cups": 90,
+        "gross_fen": 162000,
+        "discount_fen": 34200,
+        "refund_fen": 0,
+        "net_revenue_fen": 127800,
+        "variable_cost_fen": 58500,
+        "contribution_fen": 69300
+      },
+      "redeemed": {
+        "order_count": 38,
+        "line_count": 38,
+        "cups": 76,
+        "gross_fen": 136800,
+        "discount_fen": 34200,
+        "refund_fen": 0,
+        "net_revenue_fen": 102600,
+        "variable_cost_fen": 49400,
+        "contribution_fen": 53200
+      },
+      "participating_pairs": 38,
+      "marketing_spend_fen": 10000,
+      "contribution_after_spend_fen": 59300,
+      "volume_change": 20,
+      "incremental_contribution_fen": -21200,
+      "incremental_roi": -2.12
+    },
+    "marketing_spend_scope": "两天案例与完整七天复盘各自独立演示，均采用合成宣传支出100元。两项结果不能合计。",
+    "comparison_is_attribution": false,
+    "historical_campaign_reviews": {
+      "BP-C20261019": {
+        "campaign_id": "BP-C20261019",
+        "sku": "P004",
+        "name": "标准美式",
+        "rule": "per_cup_discount",
+        "baseline_method": "比较上周同一星期几的同款商品全部订单",
+        "baseline_period": [
+          "2026-10-12",
+          "2026-10-14"
+        ],
+        "actual_period": [
+          "2026-10-19",
+          "2026-10-21"
+        ],
+        "baseline": {
+          "order_count": 20,
+          "line_count": 20,
+          "cups": 26,
+          "gross_fen": 41600,
+          "discount_fen": 0,
+          "refund_fen": 0,
+          "net_revenue_fen": 41600,
+          "variable_cost_fen": 13520,
+          "contribution_fen": 28080
+        },
+        "actual": {
+          "order_count": 28,
+          "line_count": 28,
+          "cups": 31,
+          "gross_fen": 49600,
+          "discount_fen": 2600,
+          "refund_fen": 250,
+          "net_revenue_fen": 46750,
+          "variable_cost_fen": 16120,
+          "contribution_fen": 30630
+        },
+        "redeemed": {
+          "order_count": 13,
+          "line_count": 13,
+          "cups": 13,
+          "gross_fen": 20800,
+          "discount_fen": 2600,
+          "refund_fen": 250,
+          "net_revenue_fen": 17950,
+          "variable_cost_fen": 6760,
+          "contribution_fen": 11190
+        },
+        "unit_cost_fen": 520,
+        "unit_price_fen": 1600,
+        "discount_per_cup_fen": 200,
+        "marketing_spend_fen": 2600,
+        "contribution_after_spend_fen": 28030,
+        "volume_change": 5,
+        "incremental_contribution_fen": -50,
+        "incremental_roi": -0.019230769230769232
+      }
+    }
+  },
+  "additional_checks": {
+    "known_zero": {
+      "date": "2026-10-27",
+      "sku": "P004",
+      "cups": 0,
+      "date_coverage_is_complete": true
+    },
+    "new_item": {
+      "sku": "P005",
+      "launch_on": "2026-11-11",
+      "scope": "本次演示",
+      "has_history": false,
+      "history_trend": null,
+      "history_roi": null
+    },
+    "missing_orders": {
+      "date_to_remove": "2026-10-27",
+      "expected": "覆盖不完整，缺口不填零，停止两期趋势判断"
+    },
+    "missing_cost": {
+      "cost_record_to_remove": "P003",
+      "expected": "收入与杯数可用，受影响贡献不可得"
+    },
+    "duplicate_import": {
+      "key": [
+        "订单号",
+        "商品编号"
+      ],
+      "expected": "重导相同文件后，该阶段的所有汇总指标保持原值"
+    },
+    "refund_after_fulfillment": {
+      "sku": "P001",
+      "date": "2026-10-23",
+      "refund_fen": 1900,
+      "delivered_cups": 1,
+      "contribution_fen": -810
+    }
+  }
+}

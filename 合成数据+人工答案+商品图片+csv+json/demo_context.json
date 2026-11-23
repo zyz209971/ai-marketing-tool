@@ -1,0 +1,56 @@
+{
+  "dataset_version": "brandpilot-luckin-operations-synthetic-v2",
+  "source": "合成数据",
+  "brand": "瑞幸咖啡",
+  "order_mode": "自提",
+  "history_period": [
+    "2026-10-12",
+    "2026-11-08"
+  ],
+  "feedback_period": [
+    "2026-11-09",
+    "2026-11-15"
+  ],
+  "source_note": "商品资料参考瑞幸官网。售价、订单、成本和活动均为合成数据。",
+  "product_catalog_checked_on": "2026-11-22",
+  "product_catalog_sources": {
+    "P001": "https://www.lkcoffee.com/products/lattes/coconut-latte",
+    "P002": "https://www.lkcoffee.com/products/light-milk-teas/fresh-brewed-jasmine",
+    "P003": "https://lkcoffee.com/products/non-coffee/matcha-cheese-latte",
+    "P004": "https://lkcoffee.com/products/americanos/americano",
+    "P005": "https://lkcoffee.com/products/non-coffee/coconut-mango-pomelo-sago"
+  },
+  "minimum_unit_contribution_fen": 500,
+  "new_item_launch_on": {
+    "P005": "2026-11-11"
+  },
+  "new_item_launch_scope": "本次演示",
+  "campaigns": [
+    {
+      "campaign_id": "BP-C20261019",
+      "sku": "P004",
+      "period": [
+        "2026-10-19",
+        "2026-10-21"
+      ],
+      "rule": "per_cup_discount",
+      "discount_per_cup_fen": 200,
+      "planned_marketing_spend_fen": 3000,
+      "actual_marketing_spend_fen": 2600,
+      "basis": "合成优惠使用记录"
+    },
+    {
+      "campaign_id": "BP-C20261109",
+      "sku": "P002",
+      "period": [
+        "2026-11-09",
+        "2026-11-15"
+      ],
+      "rule": "same_sku_second_cup_half_price",
+      "second_cup_discount_fen": 900,
+      "planned_marketing_spend_fen": 10000,
+      "actual_marketing_spend_fen": 10000,
+      "basis": "合成活动，单门店自提，优惠不叠加"
+    }
+  ]
+}
