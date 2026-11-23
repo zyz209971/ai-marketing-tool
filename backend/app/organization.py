@@ -55,18 +55,25 @@ def analyze(brand_id, version_id, user, allow_partial=False):
     if USE_MOCK or not QWEN_API_KEY:
         brand, products, product = {}, [], None
         keys = {'品牌名称': 'name', '品牌介绍': 'intro', '品牌定位': 'position', '表达风格': 'style'}
-        for line in source.splitlines():
-            match = re.match(r'\s*(品牌名称|品牌介绍|品牌定位|表达风格|产品名|产品名称|价格|卖点|分类|规格)\s*[:：]\s*(.+)', line)
-            if not match:
-                continue
-            key, value = match.groups()
+        from .marketing_agent.offline import explicit_fields
+        conflicts = set()
+        for key, value in explicit_fields(source):
             if key in keys:
-                brand[keys[key]] = value
-            elif key in ('产品名', '产品名称'):
+                field = keys[key]
+                if field in brand and brand[field] != value:
+                    conflicts.add(field)
+                brand[field] = value
+            elif key == '产品名称':
                 product = {'name': value, 'selling': '', 'price': '', 'category': ''}
                 products.append(product)
-            elif product is not None:
-                product[{'价格': 'price', '卖点': 'selling', '分类': 'category', '规格':'spec'}[key]] = value
+            elif product is not None and key in ('价格','卖点','分类','规格'):
+                field = {'价格':'price','卖点':'selling','分类':'category','规格':'spec'}[key]
+                if field in product and product[field] and product[field] != value:
+                    product[field] = ''
+                else:
+                    product[field] = value
+        for field in conflicts:
+            brand[field] = ''
         data = {'brand': brand, 'products': products, 'method': 'rules'}
     else:
         client = OpenAI(api_key=QWEN_API_KEY, base_url=QWEN_BASE_URL, timeout=90)

@@ -67,7 +67,7 @@ def response(item):
         question = '还需要确认'+gaps[0]['label']+'，请直接在对话中告诉我。'
         if gaps[0]['path'].endswith(('_end', '_start')):
             question += '请使用 YYYY-MM-DD；结束日期不包含当天。'
-        return {'stage': 'collecting', 'reply': '已有资料已保留，不用重新填写。'+question,
+        return {'stage': 'collecting', 'reply': '已有资料已保留，不用重新填写。'+question+('离线模式只识别明确字段；无法识别时可展开资料卡手动填写并保存。' if model.USE_MOCK else ''),
                 'pending_fields': [gaps[0]['path']], 'suggestions': [], 'active_attachment_id': item['id']}
     return {'stage': 'collecting', 'reply': '这份资料的必填信息已补齐。请核对下方资料卡并点击确认，确认后继续刚才的任务。',
             'pending_fields': [], 'suggestions': [], 'active_attachment_id': item['id']}
@@ -93,13 +93,30 @@ def extract_updates(item, message, pending):
     spec = fields(item)
     if model.USE_MOCK:
         # Explicit offline test double. Production uses the structured model call below.
+        from .offline import explicit_fields, ALIASES
+        entries = list(explicit_fields(message))
         updates = []
+        products = item['payload'].get('preview',{}).get('product_candidates',[])
         for path, field in spec.items():
+            if path.startswith('products.') and len(products)>1:
+                index=int(path.split('.')[1])
+                named={i for i,p in enumerate(products) if p.get('name') and p['name'] in message}
+                if len(named)>1:
+                    named={i for i in named if products[i].get('spec') and products[i]['spec'] in message}
+                if named!={index} and pending!=[path]:
+                    continue  # Generic facts must not be copied onto several products.
             label = field['label'].split('的')[-1].split('（')[0]
-            match = re.search(re.escape(label)+r'\s*[:：]\s*([^\n；;]+)', message)
-            if match:
-                updates.append(FactUpdate(path=path, value=match[1].strip(), evidence=match[1].strip()))
-        if not updates and pending and pending[0] in spec and not re.search(r'不知道|不清楚|稍后|跳过|先写文案|确认|忽略', message):
+            # Keep the page's full field names compatible with the concise import labels.
+            label = ALIASES.get(label, label)
+            if path.endswith('.selling'):label='卖点'
+            values = [value for key,value in entries if key == label]
+            if len(set(values)) == 1:
+                updates.append(FactUpdate(path=path, value=values[0], evidence=values[0]))
+            elif not values and not path.startswith(('brand.','products.')):
+                match = re.search(re.escape(label)+r'\s*[:：]\s*([^\n；;]+)', message)
+                if match:
+                    updates.append(FactUpdate(path=path, value=match[1].strip(), evidence=match[1].strip()))
+        if not updates and not entries and pending and pending[0] in spec and not re.search(r'不知道|不清楚|稍后|跳过|先写文案|确认|忽略', message):
             updates = [FactUpdate(path=pending[0], value=message.strip(), evidence=message.strip())]
         for update in updates:
             if update.path.endswith('_minor') and re.fullmatch(r'\d+(?:\.\d{1,2})?\s*元?', update.value):

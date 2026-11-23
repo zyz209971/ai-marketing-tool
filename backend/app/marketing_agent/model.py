@@ -111,15 +111,18 @@ def brand_intake(text):
 
 
 def demo_patch(text, pending_field=None, brief=None):
+    from .offline import unit_request, cost_value, reusable_style
     patch = {}
-    if re.search(r'只(?:检查|判断|测算).*优惠|只(?:检查|判断).*成本|只检查第二杯|只看单位收益|先只展示计算结果',text):
+    if unit_request(text):
         patch.update(task_kind='unit_economics',roi_mode='unit_only')
     elif re.search(r'建立.*(?:品牌|知识库)|完善品牌资料',text):patch['task_kind']='brand_setup'
     elif re.search(r'普通文案|商品介绍|品牌介绍文案|不做优惠活动|不需要.*促销',text):
         patch['task_kind']='content'
         if '品牌介绍' in text:patch['content_scope']='brand'
     elif re.search(r'制定.*(?:活动|策略)|活动方案|促销方案|测算.*ROI',text):patch['task_kind']='campaign'
-    if re.search(r'没有最低.*标准|不判断.*达标|只展示.*收益|先只展示计算结果',text):patch['assess_minimum']=False
+    if re.search(r'(?:没有|不设|暂不设)最低.*标准|不判断.*达标|只展示.*收益|先只展示计算结果',text):patch['assess_minimum']=False
+    if unit_request(text) and '最低' not in text and re.search(r'只(?:展示|计算|测算|看).*?(?:两杯|收入|贡献)',text) and not re.search(r'是否|达标|满足',text):
+        patch['assess_minimum']=False
     pairs=re.search(r'(?:优惠组数|参与优惠|参加优惠|优惠配对)(?:为|有|：|:)?\s*(\d+)\s*组?',text)
     if pairs:patch['promotion_pairs']=int(pairs[1])
     found=[sku for sku,p in catalog(brief or {}).items() if sku in text or p['name'] in text or (not (brief or {}).get('brand_id') and p['name'][:2] in text)]
@@ -131,11 +134,12 @@ def demo_patch(text, pending_field=None, brief=None):
             patch['platform'] = value
     for pattern, field in [(r'预算\s*(\d+(?:\.\d+)?)', 'budget_minor'),
                            (r'(?:花费|支出|投放费)\s*(\d+(?:\.\d+)?)', 'spend_minor'),
-                           (r'(?:单杯成本|每杯成本)\s*(\d+(?:\.\d+)?)', 'variable_cost_override_minor'),
                            (r'(?:至少保留|最低贡献|每杯至少)\s*(\d+(?:\.\d+)?)', 'min_contribution_override_minor')]:
         match = re.search(pattern, text)
         if match:
             patch[field] = int(Decimal(match[1])*100)
+    cost = cost_value(text, pending_field == 'variable_cost_override_minor')
+    if cost is not None:patch['variable_cost_override_minor'] = cost
     match = re.search(r'(?:销量|卖出|卖)\s*(\d+)\s*杯?', text)
     if match:
         patch['scenario_qty'] = int(match[1])
@@ -174,10 +178,10 @@ def demo_patch(text, pending_field=None, brief=None):
         patch['roi_mode'] = 'unit_only'
     if '计算ROI' in text:
         patch['roi_mode'] = 'scenario'
-    if any(word in text for word in ('语气', '活泼', '简短', '标题', '温柔')):
-        patch['style'] = text[:1000]
+    style = reusable_style(text)
+    if style:patch['style'] = style
     bare = re.fullmatch(r'\s*(\d+(?:\.\d+)?)\s*(?:元|杯|组)?[。！]?\s*', text)
-    if bare and pending_field in ('budget_minor', 'spend_minor', 'scenario_qty','promotion_pairs', 'variable_cost_override_minor', 'min_contribution_override_minor'):
+    if bare and pending_field in ('budget_minor', 'spend_minor', 'scenario_qty','promotion_pairs', 'min_contribution_override_minor'):
         patch[pending_field] = int(Decimal(bare[1])*(1 if pending_field in ('scenario_qty','promotion_pairs') else 100))
     if pending_field == 'spend_minor' and '按预算' in text and brief and brief.get('budget_minor') is not None:
         patch['spend_minor'] = brief['budget_minor']
@@ -188,8 +192,18 @@ def decide(state, initial=False):
     if USE_MOCK:
         if initial and state['brief'].get('brand_id') and any(w in state['text'] for w in ('品牌定位：','品牌定位:', '品牌介绍：','品牌介绍:', '表达风格：','表达风格:', '产品名称：','产品名称:')):
             return Decision(intent='knowledge', action='knowledge')
-        patch = demo_patch(state['text'], (state.get('pending_fields') or [None])[0], state.get('brief')) if initial else {}
-        intent = 'revise' if patch and set(patch) <= {'style'} and state.get('artifacts') else 'plan'
+        from .offline import title_edit, reusable_style, specified_title
+        # A quoted new title is creative data, not a product/offer/amount update.
+        parse_text = state['text']
+        target = specified_title(parse_text)
+        if target is not None:
+            marker = re.search(r'标题\s*(?:改成|改为|换成|替换为|设为|改\s*[:：])',parse_text)
+            start = parse_text.find(target,marker.end())
+            parse_text = parse_text[:start]+parse_text[start+len(target):]
+        patch = demo_patch(parse_text, (state.get('pending_fields') or [None])[0], state.get('brief')) if initial else {}
+        editing = title_edit(state['text']) or reusable_style(state['text']) is not None
+        changes = {k:v for k,v in patch.items() if v != state['brief'].get(k)}
+        intent = 'revise' if editing and set(changes) <= {'style'} and state.get('artifacts') else 'plan'
         if initial:
             return Decision(intent=intent, patch=patch, action='revise' if intent == 'revise' else 'tool', tool='get_sales_summary', revision_scope=revision_scope(state['text']))
         b, tools = state['brief'], state.get('tool_results', {})
