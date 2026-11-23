@@ -76,6 +76,18 @@ def envelope(tool, result, missing=None, assumptions=None, warnings=None):
 
 def get_sales_summary(request: SalesRequest):
     if request.brand_id:
+        # Prefer confirmed order-level operating facts. The dashboard uses the same
+        # calculator, while the legacy aggregate CSV remains a compatible fallback.
+        from .. import operations
+        order_summary = operations.sales_summary_for_agent(request.brand_id, request.sku_id)
+        if order_summary is not None:
+            provenance = operations.orders_provenance(request.brand_id)
+            result = envelope('get_sales_summary', order_summary,
+                              assumptions=['订单级经营数据按日期左闭右开聚合。'],
+                              warnings=['销量与贡献变化是描述性比较，不构成严格因果归因。'])
+            result.update(data_kind=provenance['data_kind'], data_version=provenance['data_version'],
+                          source_refs=provenance['source_refs'])
+            return validate_tool(result)
         from .data import snapshot, business_row
         snap = snapshot(request.brand_id)
         metrics, missing = [], []

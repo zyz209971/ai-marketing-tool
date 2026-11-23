@@ -55,7 +55,7 @@ def main():
     for brand, name, points, price, category in rows:
         db.upsert_product(name=name, brand=brand, selling_points=points, price=price, category=category)
 
-    print(f"✅ 已覆盖导入 {len(rows)} 条产品 → {db.DB_PATH}")
+    print(f"已覆盖导入 {len(rows)} 条产品 -> {db.DB_PATH}")
 
 
 if __name__ == "__main__":

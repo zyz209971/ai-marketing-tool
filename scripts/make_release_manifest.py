@@ -31,7 +31,11 @@ def run(*args):
 
 
 def tracked_files():
-    return run("git", "ls-files").splitlines()
+    # NUL-delimited output keeps spaces and non-ASCII paths unquoted. Plain
+    # `git ls-files` may emit C-style quoted Chinese paths on Windows, which
+    # pathlib then mistakes for a literal filename.
+    raw = subprocess.check_output(("git", "ls-files", "-z"), cwd=ROOT)
+    return [name for name in raw.decode("utf-8").split("\0") if name]
 
 
 def inventory(files):

@@ -23,6 +23,8 @@ node --test frontend/tests/*.test.mjs            # 前端纯逻辑测试
 # 数据（源文件在 Git，数据库是本地生成物）
 python scripts/import_csv.py ../产品知识库.csv                       # 改了产品 CSV 后
 python scripts/update_marketing.py ../marketing                      # 改了营销案例后（--append 追加）
+python scripts/import_operations_dataset.py "../合成数据+人工答案+商品图片+csv+json" --brand-id <品牌ID>  # 改了经营源数据后
+python scripts/generate_dashboard_fixtures.py                         # 看板派生案例只写入 .local-data
 
 # 发布快照基线
 python scripts/make_release_manifest.py          # 重新生成 RELEASE_MANIFEST.json
@@ -33,7 +35,7 @@ python scripts/make_release_manifest.py          # 重新生成 RELEASE_MANIFEST
 ## 铁律（红线）
 
 1. **密钥与生成物不进 Git**：`.env*`、`*.db`、私钥、日志、上传文件。CI 有门禁拦截。
-2. **源文件/生成物分离**：改数据只改 `产品知识库.csv` 和 `marketing/`，改完跑导入脚本；不要手改数据库。
+2. **源文件/生成物分离**：产品价格/卖点只改 `产品知识库.csv`；营销案例只改 `marketing/`；经营 SKU 映射、成本、订单只改 `合成数据+人工答案+商品图片+csv+json/`。改完运行对应导入/生成脚本；不要手改数据库，也不要提交 `.local-data` 中的派生案例。
 3. **单 API 进程**：任务执行所有权不是分布式设计，禁止加 worker/多副本/`replicas>1`。
 4. **生产模型是百炼，本地可能不同**：模型配置只走环境变量（`AGENT_*`/`WORD_*`/`COPY_*`/`EMBED_*`），代码里不写默认端点；**更换 embedding 模型后必须重建 RAG 索引**（旧模型向量会被自动忽略并降级为词法检索）。
 5. **前端不引入构建链**：保持静态托管。
