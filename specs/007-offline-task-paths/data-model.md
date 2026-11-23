@@ -1,0 +1,5 @@
+# Data Model
+
+无新数据库表或外部数据结构。品牌草稿沿用brand_candidate及missing_fields，原文仍保存为证据。单位检查沿用Brief.task_kind=unit_economics、roi_mode=unit_only、成本override与assess_minimum。一次性改写沿用当前text、revision_scope及父artifact；不写入Brief.style。实际新版本仍使用既有artifact字段、父版本及归档来源；没有实际变化时不创建artifact。长期偏好保存仍使用现有显式确认接口。若实现中需要额外内部临时信息，优先从当前text解析，不增加持久字段。
+
+EvaluationData增加可选pair_variable_cost_minor，仅补充既有单位计算的输出展示，不新增业务事实或改变公式。

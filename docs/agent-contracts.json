@@ -170,6 +170,20 @@
         "default": null,
         "title": "Brand Id"
       },
+      "sku_id": {
+        "anyOf": [
+          {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Sku Id"
+      },
       "demo": {
         "default": false,
         "title": "Demo",
@@ -1336,6 +1350,18 @@
           ],
           "default": null,
           "title": "Pair Revenue Minor"
+        },
+        "pair_variable_cost_minor": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pair Variable Cost Minor"
         },
         "pair_contribution_minor": {
           "anyOf": [

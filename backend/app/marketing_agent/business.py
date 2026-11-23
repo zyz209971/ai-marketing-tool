@@ -184,7 +184,7 @@ def evaluate_promotion(request: EvaluationRequest):
     if b.spend_minor is not None and b.budget_minor is not None and b.spend_minor > b.budget_minor:
         violations.append('预计支出超过预算上限。')
     result = {'feasible': (not violations if minimum is not None else None), 'violations': violations, 'pair_revenue_minor': pair_revenue,
-              'pair_contribution_minor': pair_contribution, 'average_contribution_minor': pair_contribution/2,
+              'pair_variable_cost_minor': 2*cost, 'pair_contribution_minor': pair_contribution, 'average_contribution_minor': pair_contribution/2,
               'min_average_price_minor': cost+minimum if minimum is not None else None,
               'roi_reason': 'UNIT_ONLY' if b.roi_mode == 'unit_only' else None}
     # Binary-search integer basis points using the same cent-rounding as actual quotes.

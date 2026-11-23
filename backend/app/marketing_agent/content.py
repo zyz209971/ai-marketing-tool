@@ -62,6 +62,17 @@ def generate(state, revision=False, ordinary=False):
         if previous and '简短' in b['style']:
             intro = f"{brand['name']} · {p['name']}，欢迎到店。"
         creative = {'title': title, 'body': intro, 'summary': '', 'hashtags': ['茶饮日常']}
+        if previous:
+            from .offline import specified_title, reusable_style, OfflineEditUnsupported
+            target = specified_title(state.get('text',''))
+            if scope == 'title':
+                if target is not None:
+                    if re.search(r'[0-9¥￥%]|半价|买.{0,5}送|折|优惠|免费|赠|减肥|治疗|降糖|无糖|零糖|成本|利润|销量|ROI|元|活动时间', target, re.I):
+                        raise OfflineEditUnsupported('离线模式不能执行含交易条件或功效的标题修改，请使用普通标题；优惠变化需要重新确认策略。')
+                    creative['title'] = target
+                elif reusable_style(state.get('text','')) is None:
+                    raise OfflineEditUnsupported('离线模式暂不支持这类标题改写。请明确写“标题改为：具体标题”，或使用“标题活泼一点”等有限风格。原文案未修改。')
+
     else:
         import json
         prompt = ('只写文案的非交易性正文，约80字。不要写数字、金额、日期、折扣、赠品、销量、健康功效或任何额外优惠。'+
@@ -82,6 +93,9 @@ def generate(state, revision=False, ordinary=False):
     if previous:
         # Server owns the edit boundary, regardless of what the model returned.
         creative = {k: (creative[k] if scope == 'all' or k == scope else original[k]) for k in ('title','body','summary','hashtags')}
+    if previous and USE_MOCK and all(creative[k] == original[k] for k in ('title','body','summary','hashtags')):
+        from .offline import UnchangedEdit
+        raise UnchangedEdit('本次结果与当前版本相同，无需修改；保留原版本，没有新增作品。')
     locked = '' if ordinary else terms(b)
     return {**creative, 'id': uuid4().hex, 'kind':'content' if ordinary else 'campaign', 'body': creative['body']+('\n\n'+locked if locked else ''),
             'locked_terms': locked, 'platform': b['platform'], 'strategy_id': None if ordinary else strategy['id'],

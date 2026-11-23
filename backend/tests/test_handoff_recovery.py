@@ -1,6 +1,23 @@
 """Product entry and submission recovery contracts in an isolated runtime."""
 from test_marketing_agent import client, brand_setup, wait
 from uuid import uuid4
+from test_marketing_agent import message
+
+
+def test_initial_product_binding_works_with_offline_unit_and_title_paths(client):
+    b,p,_=brand_setup(client)
+    created=client.post('/api/agent/conversations',json={'brand_id':b['id'],'sku_id':p['id']})
+    assert created.status_code==201
+    t=created.json()
+    t=message(client,t,'只展示两杯收入、成本和贡献收益，第二杯半价，单杯变动成本：8元。')
+    assert t['state']['brief']['sku_id']==p['id']
+    assert t['state']['unit_result']['result']['pair_contribution_minor']==1100
+    t=message(client,t,'写一篇小红书普通商品介绍，不做优惠活动')
+    before=t['state']['artifacts'][-1]
+    t=message(client,t,'只把标题改为“桂花遇见乌龙，日常一杯茶”，正文保持不变。')
+    after=t['state']['artifacts'][-1]
+    assert after['title']=='桂花遇见乌龙，日常一杯茶'
+    assert after['body']==before['body']
 
 
 def test_product_bound_before_first_message_and_survives_reload(client):

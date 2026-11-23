@@ -20,7 +20,7 @@
 | 恢复服务→刷新→文字仍在→检查接收状态→按原内容重试 | 浏览器实测通过 |
 | 重试完成只显示一条用户消息，再刷新旧草稿不重现 | 浏览器实测通过 |
 
-截图：[失败草稿保留](evidence/network-failure-draft.png)、[重试完成](evidence/retry-completed.png)。本次暂停并恢复的仅是自启离线本地进程；当前服务继续运行于 http://127.0.0.1:8021/ 。
+截图：[失败草稿保留](evidence/network-failure-draft.jpg)、[重试完成](evidence/retry-completed.jpg)。本次暂停并恢复的仅是自启离线本地进程；当前服务继续运行于 http://127.0.0.1:8021/ 。
 
 ## Manual acceptance
 
@@ -32,10 +32,17 @@
 ## Automated checks
 
 2026-11-23：按 AGENTS.md 分模块运行后端测试，原有113项全部通过；新增 test_handoff_recovery.py 最终5项通过，合计118项。前端 node --test frontend/tests/*.test.mjs 最新32项通过（含本轮新增UUID兼容6项）。git diff --check通过。
-后端出现现有 Starlette / anyio 弃用警告，无失败。后端本地 SQLite 验证，未验证生产 PostgreSQL 实例。真实模型与Embedding未启用、未产生收费调用；未测试模型表达质量。本次没有提交、推送、PR、合并或部署。
+后端出现现有 Starlette / anyio 弃用警告，无失败。后端本地 SQLite 验证，未验证生产 PostgreSQL 实例。真实模型与Embedding未启用、未产生收费调用；未测试模型表达质量。以上为初次验收记录；本轮用户已确认通过，交付状态见下方收尾记录；服务器未部署。
 
 ## Snapshot and release status
 
 分支 fix/product-context-handoff；基线与验收前最新 origin/main 均为 f9af22cca1ed00062fcfefdaa8a646d89be6603a。验收提交内容使用临时Git index记录tree，不改变实际暂存区；完整tree记录在本仓库忽略目录 .local-data/acceptance-snapshot.json，避免在树内自引用。
-截图仅为本地验收证据，受仓库 *.png 排除规则保护，不强行加入Git；后续PR可附图。运行数据、私有配置和截图不在拟提交tree内。
-用户尚未亲自确认，人工验收状态为待验收。之后如修改代码，需更新相关验证和快照；只有用户明确回复“验收通过”后才进入提交流程。
+用户已允许将合成截图作为验收文档提交，本次按第一轮收尾任务补齐同类3张证据，不修改通用忽略规则。截图原始编码为JPEG，按真实格式命名.jpg，画面字节未修改。运行数据、私有配置和截图不在拟提交tree内。
+用户已在会话明确回复“验收通过”，人工验收已通过。之后如修改代码，需更新相关验证和快照；只有用户明确回复“验收通过”后才进入提交流程。
+
+## 收尾与两轮整合
+
+用户已验收第一轮，并明确要求收尾PR #3：https://github.com/zyz209971/ai-marketing-tool/pull/3。
+在第一轮分支整合main c6101b5d154683a5c6b723e2317d155d5cccef03（第二轮PR #4）。业务代码自动合并，唯一冲突是backlog并行新增条目，已同时保留。接口文档重新导出，确保可选sku_id与单位成本字段同时存在。
+新增初始商品绑定→单位测算→精确标题改写的联合回归；完整分模块后端143项、前端32项通过。初次验收树a56f51dd50a25b44c61881656fea62d5cefebc56保留用于追溯，整合后的交付tree单独记录在.local-data/acceptance-snapshot.json。
+本次没有新增第三轮产品行为，剩余项只做代码定位与记录，见docs/remaining-issues-review.md。生产部署、缓存及运行版本由Owner负责；本轮未操作服务器。

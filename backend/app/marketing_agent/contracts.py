@@ -223,6 +223,7 @@ class EvaluationData(Contract):
     feasible: bool | None
     violations: list[str]
     pair_revenue_minor: int | None = None
+    pair_variable_cost_minor: int | None = None
     pair_contribution_minor: int | None = None
     average_contribution_minor: float | None = None
     scenario_qty: int | None = None

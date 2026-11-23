@@ -299,7 +299,11 @@ def generate(state):
     current = state.get('strategy')
     if not current or current['status'] != 'approved' or current['dependency'] != dependency(state['brief']):
         raise ValueError('策略未确认或已失效，请重新确认。')
-    artifact = content.generate(state, revision=state.get('operation') != 'confirm')
+    from .offline import OfflineEditUnsupported, UnchangedEdit
+    try:
+        artifact = content.generate(state, revision=state.get('operation') != 'confirm')
+    except (OfflineEditUnsupported, UnchangedEdit) as exc:
+        return {'stage':'completed','pending_fields':[],'reply':str(exc)}
     if current['dependency'] != dependency(state['brief']):
         raise ValueError('生成期间资料已变化，请重新确认策略。')
     return {'artifacts': [*state['artifacts'], artifact], 'stage': 'completed',
@@ -309,7 +313,11 @@ def generate(state):
 
 def revise(state):
     if state['brief'].get('task_kind')=='content' and state.get('artifacts'):
-        artifact=content.generate(state,revision=True,ordinary=True)
+        from .offline import OfflineEditUnsupported, UnchangedEdit
+        try:
+            artifact=content.generate(state,revision=True,ordinary=True)
+        except (OfflineEditUnsupported, UnchangedEdit) as exc:
+            return {'stage':'completed','pending_fields':[],'reply':str(exc)}
         return {'artifacts':[*state['artifacts'],artifact],'stage':'completed','pending_fields':[],'reply':'已按你的意见调整普通文案，并保留此前版本。'}
     if not state.get('artifacts') or not state.get('strategy') or state['strategy']['status'] != 'approved':
         return {'reply': '请先确认当前策略并生成文案，再修改表达。', 'stage': 'collecting'}
