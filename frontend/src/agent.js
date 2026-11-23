@@ -1,3 +1,4 @@
+import {createSendState,prepareAttempt,restoredDraft,acceptedDraft,submissionPath} from './send-state.js';
 import {request, verifyAccess} from './services/api.js';
 import {attachmentCards,bindAttachmentCards,setupWorkspace} from './agent-workspace.js';
 const $=id=>document.getElementById(id);
@@ -12,6 +13,7 @@ const names={T001:'茉莉鲜奶茶',T002:'乌龙鲜奶茶',T003:'红茶鲜奶茶
 const platforms={xiaohongshu:'小红书',douyin:'抖音',wechat_official_account:'微信公众号'};
 let task=null,busy=false;
 let selectedAnswers={};
+const sends=createSendState({getItem:k=>sessionStorage.getItem(k),setItem:(k,v)=>sessionStorage.setItem(k,v),removeItem:k=>sessionStorage.removeItem(k)},()=>fail(Error('浏览器暂时无法保存草稿，当前文字仍保留在页面中；刷新前请复制备份。')));
 function fail(e){$('error').hidden=false;$('error').textContent=e.message||String(e);}
 function bottom(){if($('chatRoot')?.hidden)return;requestAnimationFrame(()=>{$('scrollArea').scrollTo({top:$('scrollArea').scrollHeight,behavior:'instant'});});}
 function setBusy(value){busy=value;($('chatRoot')||document).querySelectorAll('button:not(#toggleSidebar):not(#mode):not(#settings):not(.close)').forEach(b=>b.disabled=value||b.dataset.incomplete==='true'||(b.dataset.option!==undefined&&!task?.state.options?.[Number(b.dataset.option)]?.evaluation.result.feasible));$('message').disabled=value;$('thinking').hidden=!value;$('suggestions').hidden=value;if(value)bottom();document.dispatchEvent(new CustomEvent('workbench:busy',{detail:{busy:value,task}}));}
@@ -48,10 +50,10 @@ function render(){
  const options=(s.options||[]).map((o,i)=>`<section class="card"><h3>${escape(o.name)}</h3><p>${escape(o.rationale)}</p><p>平均每杯贡献 ${money(o.evaluation.result.average_contribution_minor)}；情景增量贡献 ${money(o.evaluation.result.incremental_contribution_minor)}</p><p>${escape(o.evaluation.result.violations.join('；'))}</p><button class="primary" data-option="${i}" ${o.evaluation.result.feasible?'':'disabled'}>${o.evaluation.result.feasible?'选择这个方案':'暂不可行'}</button></section>`).join('');
  const q=s.input_request;
  const savedKey=q?'agent-batch:'+task.id+':'+q.id:null;
- try{selectedAnswers=savedKey?JSON.parse(sessionStorage.getItem(savedKey)||'{}'):{};}catch{selectedAnswers={};}
+ try{selectedAnswers=savedKey?JSON.parse(sends.read(savedKey)||'{}'):{};}catch{selectedAnswers={};}
  const questions=q?(q.questions?.length?q.questions:[{id:q.id,question:q.question,fields:q.fields,choices:q.choices||[]}]):[];
  const question=q?`<section class="card" id="inputRequest" aria-label="一起确认"><h2>一起确认 ${questions.length} 件事</h2><p class="note">${escape(q.reason)}</p>${questions.map((item,i)=>`<div class="question-item"><p><strong>${i+1}. ${escape(item.question)}</strong></p><div>${item.choices.map(c=>`<button type="button" data-question="${escape(item.id)}" data-answer="${escape(c.id)}" aria-pressed="${selectedAnswers[item.id]?.choice_id===c.id}">${escape(c.label)}</button>`).join('')}</div>${!item.choices.length?'<small>在下方对话框回答即可，可以一句话补充多项。</small>':''}</div>`).join('')}<button id="submitBatch" class="primary">提交本组回答</button><p class="note">也可以只回答已知部分，或告诉我暂时不知道、想换个目标。</p></section>`:'';
- const summary=s.brief.brand_id?`<details class="card task-summary"><summary>${escape(taskNames[s.brief.task_kind]||'当前任务')} · ${escape(task.brand_name||'品牌资料整理中')}</summary><p>${escape(s.brief.goal)} · ${escape(platforms[s.brief.platform]||'平台待定')}</p><p>已选择商品：${escape(names[s.brief.sku_id]||'待确定')}；${s.strategy?'策略 v'+s.strategy.version:'尚未确认策略'}</p></details>`:'';
+ const summary=s.brief.brand_id?`<details class="card task-summary" ${s.brief.sku_id?'open':''}><summary>${escape(taskNames[s.brief.task_kind]||'当前任务')} · ${escape(task.brand_name||'品牌资料整理中')}</summary><p>${escape(s.brief.goal)} · ${escape(platforms[s.brief.platform]||'平台待定')}</p><p>已选择商品：${escape(names[s.brief.sku_id]||'待确定')}${task.catalog?.[s.brief.sku_id]?.spec?' · '+escape(task.catalog[s.brief.sku_id].spec):''}；${s.strategy?'策略 v'+s.strategy.version:'尚未确认策略'}</p></details>`:'';
  const u=s.unit_result?.result;
  const unit=u?`<section class="card" id="unitResult"><h2>单位优惠检查</h2><div class="metrics"><div class="metric"><small>同单两杯收入</small><strong>${money(u.pair_revenue_minor)}</strong></div><div class="metric"><small>同单两杯变动成本</small><strong>${money(u.pair_variable_cost_minor)}</strong></div><div class="metric"><small>同单两杯贡献收益</small><strong>${money(u.pair_contribution_minor)}</strong></div><div class="metric"><small>平均每杯贡献</small><strong>${money(u.average_contribution_minor)}</strong></div></div><p>${u.feasible===null?'未指定最低标准，仅展示计算结果':u.feasible?'达到已提供的最低贡献标准':'未达到当前约束'}</p><p>${escape((u.violations||[]).join('；'))}</p><p class="note">贡献扣除变动成本，不等于净利润；不预测活动销量。</p><details><summary>查看假设和来源</summary><p>${escape(s.unit_result.assumptions.join('；'))}</p></details></section>`:'';
  $('messages').innerHTML=summary+messages.join('')+unit+options+attachmentCards(task)+question;
@@ -59,7 +61,7 @@ function render(){
  document.querySelectorAll('[data-question]').forEach(b=>b.onclick=()=>{
   const id=b.dataset.question,choice=b.dataset.answer;
   if(selectedAnswers[id]?.choice_id===choice)delete selectedAnswers[id];else selectedAnswers[id]={choice_id:choice};
-  sessionStorage.setItem(savedKey,JSON.stringify(selectedAnswers));
+  sends.write(savedKey,JSON.stringify(selectedAnswers));
   document.querySelectorAll('[data-question]').forEach(x=>x.setAttribute('aria-pressed',String(selectedAnswers[x.dataset.question]?.choice_id===x.dataset.answer)));
  });
  if($('submitBatch'))$('submitBatch').onclick=()=>$('chat').requestSubmit();
@@ -73,24 +75,85 @@ function render(){
  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{try{const a=artifacts.get(b.dataset.copy);await navigator.clipboard.writeText(a.title+'\n\n'+a.body);b.textContent='已复制';}catch(e){fail(e);}});
  $('suggestions').innerHTML=(s.suggestions||[]).map(text=>`<button>${escape(text)}</button>`).join('');
  $('suggestions').querySelectorAll('button').forEach(b=>b.onclick=()=>send('message',{text:b.textContent}));
- setBusy(busy);bottom();document.dispatchEvent(new CustomEvent('workbench:task',{detail:task}));
+ renderRecovery();setBusy(busy);bottom();document.dispatchEvent(new CustomEvent('workbench:task',{detail:task}));
 }
 async function load(){task=await get('/conversations/'+task.id);render();await history();}
 async function poll(runId){for(;;){const run=await get('/runs/'+runId);if(['succeeded','failed'].includes(run.status)){await load();if(run.status==='failed')fail(Error(run.error));return;}await new Promise(r=>setTimeout(r,800));}}
-async function open(id){if(busy){if(task?.id===id)return;throw Error('当前对话仍在执行。可以浏览资料，完成后再切换对话。');}const previous=task;if(task?.id)sessionStorage.setItem('compose:'+task.id,$('message').value);setBusy(true);try{task={id};$('message').value=sessionStorage.getItem('compose:'+id)||'';document.body.classList.remove('sidebar-open');await load();localStorage.setItem('marketing-agent-task',id);if(task.active_run)await poll(task.active_run);}catch(e){task=previous;if(previous?.state){$('message').value=sessionStorage.getItem('compose:'+previous.id)||'';render();}throw e;}finally{setBusy(false);}}
+function renderRecovery(){
+ $('sendRecovery')?.remove();
+ const a=task?.id?sends.attempt(task.id):null;if(!a)return;
+ const accepted=a.state==='accepted',rejected=a.state==='rejected';
+ const box=document.createElement('section');box.id='sendRecovery';box.className='card warning';
+ box.innerHTML='<p>'+ (accepted?'消息已接收，正在保留执行记录。无需再次发送。':rejected?'本次提交未被接收，草稿已保留。请核对最新问题后修改或重新发送。':'上次发送结果尚未确认，草稿和原请求已保留。先检查接收状态，避免重复发送。')+'</p>'+(a.payload.text?'<p class="prose">'+escape(a.payload.text)+'</p>':'')+(!rejected?'<button id="checkSubmission">'+(accepted?'查看执行结果':'检查接收状态')+'</button>':'');
+ $('chat').before(box);
+ if(!rejected)$('checkSubmission').onclick=()=>recoverSubmission(false);
+ if(a.state==='unknown'&&a.checkedAbsent){const button=document.createElement('button');button.textContent='按原内容重试';button.onclick=()=>recoverSubmission(true);box.append(button);}
+}
+function saveAttempt(a){sends.saveAttempt(task.id,a);renderRecovery();}
+function acceptAttempt(a,runId){
+ a.state='accepted';a.runId=runId;saveAttempt(a);
+ $('message').value=acceptedDraft($('message').value,a);sends.saveDraft(task.id,$('message').value);
+ if(a.action==='answer'&&a.payload.question_id){sends.write('agent-batch:'+task.id+':'+a.payload.question_id,null);selectedAnswers={};}
+}
+async function finishAttempt(a){await poll(a.runId);sends.clearAttempt(task.id);renderRecovery();}
+async function recoverSubmission(retry=false){
+ if(busy||!task)return;const a=sends.attempt(task.id);if(!a||a.state==='rejected')return;
+ setBusy(true);
+ try{
+  if(a.state!=='accepted'){
+   const receipt=await get('/conversations/'+task.id+'/submissions/'+encodeURIComponent(a.payload.request_id));
+   if(receipt.found)acceptAttempt(a,receipt.run_id);
+   else if(retry){await transmitAttempt(a);return;}
+   else{a.state='unknown';a.checkedAbsent=true;saveAttempt(a);return;}
+  }
+  await finishAttempt(a);
+ }catch(e){fail(e);}
+ finally{setBusy(false);renderRecovery();}
+}
+async function open(id){
+ if(busy){if(task?.id===id)return;throw Error('当前对话仍在执行。可以浏览资料，完成后再切换对话。');}
+ const previous=task;if(task?.id)sends.saveDraft(task.id,$('message').value);setBusy(true);
+ try{
+  task={id};$('message').value=sends.draft(id);document.body.classList.remove('sidebar-open');await load();localStorage.setItem('marketing-agent-task',id);
+  const a=sends.attempt(id);
+  if(a&&a.state!=='rejected'){
+   if(a.state==='accepted'){acceptAttempt(a,a.runId);await finishAttempt(a);}
+   else{a.state='unknown';saveAttempt(a);$('message').value=restoredDraft($('message').value,a);sends.saveDraft(id,$('message').value);}
+  }else if(task.active_run)await poll(task.active_run);
+ }catch(e){if(!task?.state&&previous?.state){task=previous;$('message').value=sends.draft(previous.id);render();}throw e;}
+ finally{setBusy(false);renderRecovery();}
+}
+async function transmitAttempt(a){
+ a.state='submitting';saveAttempt(a);
+ try{
+  const result=await post('/conversations/'+task.id+'/'+submissionPath(a.action),a.payload);
+  if(typeof result?.run_id!=='string'||!result.run_id)throw Error('未收到有效接收记录，请先检查发送状态。');
+  acceptAttempt(a,result.run_id);
+ }catch(e){
+  // 4xx rejects this operation; a lost/5xx response cannot prove non-acceptance.
+  a.state=e.status>=400&&e.status<500?'rejected':'unknown';a.checkedAbsent=false;saveAttempt(a);
+  $('message').value=restoredDraft($('message').value,a);sends.saveDraft(task.id,$('message').value);
+  fail(e);try{await load();}catch{}return;
+ }
+ // Poll failure is different from a failed POST: keep the accepted receipt.
+ try{await finishAttempt(a);}catch(e){fail(e);}
+}
 async function send(action,body){
  if(busy||!task||action==='message'&&!body.text?.trim())return;
+ const pending=sends.attempt(task.id);
+ if(pending&&pending.state!=='rejected'){renderRecovery();fail(Error('请先检查上次发送的接收状态，再继续发送。'));return;}
  $('error').hidden=true;
- if(action==='message'){const context=JSON.parse(sessionStorage.getItem('compose-context:'+task.id)||'null');if(context?.text===body.text)body.patch={...body.patch,sku_id:context.skuId};sessionStorage.removeItem('compose-context:'+task.id);$('messages').insertAdjacentHTML('beforeend',`<article class="message user"><div class="message-content"><div class="message-text">${escape(body.text)}</div></div></article>`);$('message').value='';sessionStorage.removeItem('compose:'+task.id);}
- setBusy(true);
- try{const r=await post('/conversations/'+task.id+'/'+(action==='confirm'?'confirm':action==='answer'?'answers':'messages'),{...body,request_id:key(),expected_revision:task.revision});await poll(r.run_id);}
- catch(e){fail(e);try{await load();if(task.active_run)await poll(task.active_run);}catch{}}
- finally{setBusy(false);if(!$('chatRoot')?.hidden)$('message').focus();bottom();}
+ // Persist input before generating an ID or making a request. Never clear optimistically.
+ const draft=$('message').value;sends.saveDraft(task.id,draft||body.text||'');
+ let a;try{a=prepareAttempt(action,{...body,request_id:key(),expected_revision:task.revision},draft,selectedAnswers);}catch(e){fail(e);return;}
+ saveAttempt(a);setBusy(true);
+ try{await transmitAttempt(a);}
+ finally{setBusy(false);renderRecovery();if(!$('chatRoot')?.hidden)$('message').focus();bottom();}
 }
 $('chat').onsubmit=e=>{e.preventDefault();const text=$('message').value.trim();const q=task?.state.input_request;
  if(q&&(Object.keys(selectedAnswers).length||text)){
   if(!Object.keys(selectedAnswers).length){send('message',{text});return;}
-  $('message').value='';send('answer',{question_id:q.id,...(q.questions?.length?{answers:selectedAnswers}:{choice_id:Object.values(selectedAnswers)[0]?.choice_id}),text});
+  send('answer',{question_id:q.id,...(q.questions?.length?{answers:selectedAnswers}:{choice_id:Object.values(selectedAnswers)[0]?.choice_id}),text});
  }else if(text)send('message',{text});};
 $('message').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();$('chat').requestSubmit();}};
 $('newTask').onclick=async()=>{if(busy)return;setBusy(true);try{const created=await post('/conversations',{brand_id:task?.state.brief.brand_id||null,demo:!!task?.state.demo_mode});setBusy(false);await open(created.id);$('message').focus();}catch(e){fail(e);}finally{setBusy(false);}};
@@ -108,6 +171,6 @@ $('unlock').onclick=async()=>{try{await verifyAccess($('accessKey').value);$('co
 setupWorkspace({getTask:()=>task,load,open,fail,setBusy,isBusy:()=>busy,resumeAttachment:()=>send('message',{text:'继续补资料'})});
 export {initialize as initializeAgent,open as openAgent};
 export const currentAgent=()=>({task,busy});
-export function prefillAgent(value){if(!task?.state)return;$('message').value=value;sessionStorage.setItem('compose:'+task.id,value);sessionStorage.removeItem('compose-context:'+task.id);if(!$('chatRoot')?.hidden)$('message').focus();}
-export async function createAgent(brandId=null,{demo=false,skuId=null,text=''}={}){if(busy)throw Error('请等待当前任务完成后再开启另一段对话。');setBusy(true);let created;try{created=await post('/conversations',{brand_id:brandId,demo});}finally{setBusy(false);}await open(created.id);if(text){prefillAgent(text);if(skuId)sessionStorage.setItem('compose-context:'+created.id,JSON.stringify({skuId,text}));}return created;}
-$('message').addEventListener('input',()=>{if(task?.id)sessionStorage.setItem('compose:'+task.id,$('message').value);});
+export function prefillAgent(value){if(!task?.state)return;$('message').value=value;sends.saveDraft(task.id,value);if(!$('chatRoot')?.hidden)$('message').focus();}
+export async function createAgent(brandId=null,{demo=false,skuId=null,text=''}={}){if(busy)throw Error('请等待当前任务完成后再开启另一段对话。');setBusy(true);let created;try{created=await post('/conversations',{brand_id:brandId,demo,sku_id:skuId});}finally{setBusy(false);}await open(created.id);if(text)prefillAgent(text);return created;}
+$('message').addEventListener('input',()=>{if(task?.id)sends.saveDraft(task.id,$('message').value);});
