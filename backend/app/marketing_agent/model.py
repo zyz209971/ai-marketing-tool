@@ -204,6 +204,10 @@ def decide(state, initial=False):
         editing = title_edit(state['text']) or reusable_style(state['text']) is not None
         changes = {k:v for k,v in patch.items() if v != state['brief'].get(k)}
         intent = 'revise' if editing and set(changes) <= {'style'} and state.get('artifacts') else 'plan'
+        # 离线演示：识别"联网搜索"意图，演示模型自主决定调用搜索工具（可迭代）。
+        _search_words = ('搜', '查一下', '竞品', '热点', '节气', '行业趋势', '平台规则', '实时')
+        if any(w in state['text'] for w in _search_words) and 'web_search' not in state.get('tool_results', {}):
+            return Decision(action='tool', tool='web_search', tool_query=state['text'])
         if initial:
             return Decision(intent=intent, patch=patch, action='revise' if intent == 'revise' else 'tool', tool='get_sales_summary', revision_scope=revision_scope(state['text']))
         b, tools = state['brief'], state.get('tool_results', {})
@@ -229,7 +233,8 @@ platform必须为xiaohongshu（小红书）、douyin（抖音）、wechat_offici
 金额单位分，日期 YYYY-MM-DD，end_date 不包含。用户说日期包含末日时转换为次日并在回复明确；相对日期依据提供的 today。
 offer={type:second_cup_discount|percentage|none,pay_bps:0到10000整数}。第二杯半价 pay_bps=5000，同SKU同单每两杯重复不叠加。
 预算上限不等于预计花费；销量是假设，不能从历史自动填 scenario_qty。roi_mode=scenario 或明确选择 unit_only。
-后续调用只选择工具或答复，patch必须为空。工具只能选 get_sales_summary/get_business_constraints/evaluate_promotion。
+后续调用只选择工具或答复，patch必须为空。工具只能选 get_sales_summary/get_business_constraints/evaluate_promotion/web_search。
+web_search 用于需要外部实时信息时（如竞品行情、节气热点、平台规则、行业趋势），把要检索的问题写入 tool_query；不要用搜索替代本地经营数据查询。
 先按需要查询销量或商品成本；查询成本需要sku；测算需要sku和offer。缺失信息可以ask，够信息可propose；后端统一检查可行性并要求确认。缺项由后端依赖检查组成最多三题的问题批次；reply只解释为何需要这些信息，不重复题目，不要求用户填表。结合上一轮问题理解“200元”“160杯”等简短回答。
 禁止通过文字确认或直接调用工具绕过策略确认。用户仅要求标题/语气改写时 intent=revise,action=revise；优惠/价格/商品/时间/预算修改必须plan。
 修改表达时意图选择revise，revision_scope=title/body/all，只有明确全部重写才all；仅改标题用title。style由独立提取步骤保存。

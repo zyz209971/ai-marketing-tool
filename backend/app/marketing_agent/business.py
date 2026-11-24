@@ -5,7 +5,8 @@ from hashlib import sha256
 import json
 from uuid import uuid4
 from .contracts import (Brief, Offer, SalesRequest, ConstraintsRequest, EvaluationRequest,
-                        ToolResult, validate_tool)
+                        WebSearchRequest, ToolResult, validate_tool)
+from .. import config
 
 PRODUCTS = {
     'T001': {'name': '茉莉鲜奶茶', 'spec': '标准杯', 'price': 1600, 'ingredient': 450, 'packaging': 100, 'other': 50, 'selling': ['茉莉茶香', '鲜奶茶饮']},
@@ -265,10 +266,50 @@ def evaluate_promotion(request: EvaluationRequest):
     return answer
 
 
-TOOL_NAMES = ('get_sales_summary', 'get_business_constraints', 'evaluate_promotion')
+def web_search(request):
+    """Agent 自主联网搜索：需要外部实时信息（竞品、节气热点、平台规则）时由模型决定调用。
+
+    默认 mock 返回确定性结果，避免演示时产生外部网络依赖；配置 TAVILY_API_KEY 后走真实搜索。
+    与其它经营工具一致，返回 ToolResult 统一信封，供模型在下一轮决策中继续选择工具或给出答复。
+    """
+    q = WebSearchRequest.model_validate(request) if isinstance(request, dict) else request
+    provider = 'tavily' if config.TAVILY_API_KEY else 'mock'
+    if provider == 'tavily':
+        return _tavily_search(q.query)
+    # 确定性 mock：不编造"实时"事实，明确标注为演示样例，供模型演示"自主调用搜索"的决策链路。
+    result = {
+        'query': q.query,
+        'results': [
+            {'title': '（演示样例）搜索能力占位结果', 'url': 'https://example.com/search-demo',
+             'snippet': '当前为离线演示模式，联网搜索未接入真实数据源。配置 TAVILY_API_KEY 后返回真实搜索结果。'},
+        ],
+        'provider': 'mock',
+    }
+    return envelope('web_search', result,
+                    assumptions=['演示模式返回占位结果，不代表真实检索内容。'],
+                    warnings=['联网搜索需在部署环境配置搜索服务密钥，否则仅返回占位样例。'])
 
 
-def call_tool(name, brief):
+def _tavily_search(query):
+    import urllib.request
+    from ..config import TAVILY_API_KEY
+    body = json.dumps({'query': query, 'max_results': 5, 'include_answer': False}).encode()
+    req = urllib.request.Request('https://api.tavily.com/search', data=body,
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ' + TAVILY_API_KEY})
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        payload = json.load(resp)
+    results = [{'title': r.get('title', ''), 'url': r.get('url', ''),
+                'snippet': r.get('content', '')[:500]} for r in payload.get('results', [])]
+    return envelope('web_search', {'query': query, 'results': results, 'provider': 'tavily'},
+                    assumptions=['搜索结果来自外部公开来源，仅作参考，不代表事实核验。'],
+                    warnings=['联网信息可能过时或有偏，引用前应二次确认。'])
+
+
+TOOL_NAMES = ('get_sales_summary', 'get_business_constraints', 'evaluate_promotion', 'web_search')
+
+
+def call_tool(name, brief, query=''):
     b = Brief.model_validate(brief)
     if name == 'get_sales_summary':
         return get_sales_summary(SalesRequest(sku_id=b.sku_id, brand_id=b.brand_id))
@@ -276,4 +317,6 @@ def call_tool(name, brief):
         return get_business_constraints(ConstraintsRequest(sku_id=b.sku_id, brand_id=b.brand_id))
     if name == 'evaluate_promotion':
         return evaluate_promotion(EvaluationRequest(brief=b))
+    if name == 'web_search':
+        return web_search(WebSearchRequest(brand_id=b.brand_id, query=query))
     raise ValueError('不允许调用该工具。')

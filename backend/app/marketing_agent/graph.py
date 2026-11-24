@@ -183,7 +183,8 @@ def route(state):
 
 def tool(state):
     name = state['decision']['tool']
-    result = business.call_tool(name, state['brief'])
+    query = state['decision'].get('tool_query', '') if name == 'web_search' else ''
+    result = business.call_tool(name, state['brief'], query)
     return {'tool_results': {**state['tool_results'], name: result},
             'trace': [*state['trace'], {'tool': name, 'status': result['status'], 'snapshot_id': result['snapshot_id']} ]}
 

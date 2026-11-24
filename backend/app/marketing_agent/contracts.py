@@ -69,7 +69,8 @@ class Decision(Contract):
     intent: Literal['plan', 'revise', 'question', 'knowledge'] = 'plan'
     patch: dict = Field(default_factory=dict)
     action: Literal['ask', 'tool', 'propose', 'revise', 'answer', 'knowledge']
-    tool: Literal['get_sales_summary', 'get_business_constraints', 'evaluate_promotion'] | None = None
+    tool: Literal['get_sales_summary', 'get_business_constraints', 'evaluate_promotion', 'web_search'] | None = None
+    tool_query: str = Field(default='', max_length=500)
     reply: str = Field(default='', max_length=2000)
     revision_scope: Literal['title', 'body', 'all'] = 'body'
 
@@ -186,6 +187,24 @@ class EvaluationRequest(Contract):
     brief: Brief
 
 
+class WebSearchRequest(Contract):
+    store_id: Literal['demo-store'] = 'demo-store'
+    brand_id: str | None = None
+    query: str
+
+
+class WebSearchHit(Contract):
+    title: str
+    url: str
+    snippet: str
+
+
+class WebSearchData(Contract):
+    query: str
+    results: list[WebSearchHit]
+    provider: Literal['mock', 'tavily'] = 'mock'
+
+
 class SalesMetric(Contract):
     sku_id: str
     name: str
@@ -241,7 +260,7 @@ class EvaluationData(Contract):
 
 
 RESULT_TYPES = {'get_sales_summary': SalesData, 'get_business_constraints': ConstraintsData,
-                'evaluate_promotion': EvaluationData}
+                'evaluate_promotion': EvaluationData, 'web_search': WebSearchData}
 
 
 def validate_tool(result: dict) -> dict:

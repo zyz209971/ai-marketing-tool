@@ -62,6 +62,11 @@ except (TypeError, ValueError):
 # 反向解析模型（多模态视觉）
 VISION_MODEL = os.getenv("VISION_MODEL", "qwen-vl-max")
 
+# 联网搜索（Agent 工具 web_search）。默认 mock 返回确定性假结果，不产生外部网络调用；
+# 配置 TAVILY_API_KEY 后走真实联网搜索。WEB_SEARCH_PROVIDER 支持 mock / tavily。
+WEB_SEARCH_PROVIDER = os.getenv("WEB_SEARCH_PROVIDER", "mock")
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY", "")
+
 # 是否强制 mock。文字和图片分别判断，避免只有其中一个 key 时相互影响。
 FORCE_MOCK = os.getenv("USE_MOCK", "").lower() == "true"
 USE_MOCK = FORCE_MOCK or not WORD_API_KEY
