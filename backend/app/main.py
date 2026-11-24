@@ -19,6 +19,7 @@ from . import studio
 from . import materials, jobs
 from . import workspace, auth
 from .marketing_agent import api as agent_api
+from . import operations, operations_api
 
 app_logger = logging.getLogger("app")
 app_logger.setLevel(logging.INFO)
@@ -36,7 +37,9 @@ app.include_router(materials.router)
 app.include_router(jobs.router)
 app.include_router(workspace.router)
 app.include_router(agent_api.router)
+app.include_router(operations_api.router)
 app.add_event_handler('startup', agent_api.startup)
+app.add_event_handler('startup', operations.init_db)
 app.add_event_handler('shutdown', agent_api.shutdown)
 auth.init_db()
 app.include_router(auth.router)
@@ -45,7 +48,7 @@ app.add_event_handler('shutdown', jobs.stop)
 
 @app.middleware('http')
 async def check_knowledge_origin(request: Request, call_next):
-    if request.method not in ('GET', 'HEAD', 'OPTIONS') and request.url.path.startswith(('/api/knowledge', '/api/v2', '/api/agent')):
+    if request.method not in ('GET', 'HEAD', 'OPTIONS') and request.url.path.startswith(('/api/knowledge', '/api/v2', '/api/agent', '/api/operations')):
         origin = request.headers.get('origin')
         if origin:
             from urllib.parse import urlsplit

@@ -29,6 +29,8 @@ node --test frontend/tests/*.test.mjs   # 前端纯逻辑（*-browser.mjs 为本
 
 - 改产品（价格/卖点）：改 `产品知识库.csv` → `cd backend && python scripts/import_csv.py ../产品知识库.csv`
 - 改营销案例：案例放入 `marketing/` → `python scripts/update_marketing.py ../marketing`（追加加 `--append`）
+- 改经营数据：改 `合成数据+人工答案+商品图片+csv+json/` 中的 SKU 映射、成本或订单 → `python scripts/import_operations_dataset.py "../合成数据+人工答案+商品图片+csv+json" --brand-id <品牌ID>`
+- 生成看板案例：`python scripts/generate_dashboard_fixtures.py`，输出在 `.local-data/dashboard-fixtures/`，不进 Git
 - 数据库（`*.db`）是本地生成物，不进 Git；谁改源文件谁重建。
 
 ## 部署
