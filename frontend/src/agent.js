@@ -160,11 +160,12 @@ $('newTask').onclick=async()=>{if(busy)return;setBusy(true);try{const created=aw
 $('toggleSidebar').onclick=()=>{if(innerWidth<=700){document.body.classList.toggle('sidebar-open');document.body.classList.remove('sidebar-hidden');}else document.body.classList.toggle('sidebar-hidden');};
 $('scrollArea').onclick=()=>{if(innerWidth<=700)document.body.classList.remove('sidebar-open');};
 $('settings').onclick=$('mode').onclick=()=>$('connection').showModal();
-async function initialize({taskId=null}={}){try{
+async function initialize({taskId=null,createIfMissing=true}={}){try{
  const c=await get('/config'),live=c.mode==='llm';$('mode').textContent=live?'已配置模型':'未连接模型 · 演示';$('mode').classList.toggle('connected',live);
  $('connectionStatus').textContent=live?'当前使用已配置的模型进行对话和工具决策；经营数据取决于所选品牌，来源会在结果中标明。':'当前没有启用真实模型，仅能识别有限的演示表达。配置密钥后才能测试完整的自然语言理解。';
  $('settings').textContent=live?'模型连接设置':'连接模型';$('access').hidden=true;$('error').hidden=true;
  const previous=taskId||new URLSearchParams(location.search).get('task')||localStorage.getItem('marketing-agent-task');if(previous){try{await open(previous);return;}catch(e){if(e.status!==404)throw e;}}
+ if(!createIfMissing)return;
  const created=await post('/conversations',{});await open(created.id);
  }catch(e){if(e.status===403){$('access').hidden=false;$('connection').showModal();}fail(e);}}
 $('unlock').onclick=async()=>{try{await verifyAccess($('accessKey').value);$('connection').close();await initialize();}catch(e){fail(e);}};

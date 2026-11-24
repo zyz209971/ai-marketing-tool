@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>营销助手 · 品牌工作台</title><link rel="stylesheet" href="./src/agent.css"><link rel="stylesheet" href="./src/management.css"><link rel="stylesheet" href="./src/workbench.css"></head>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>营销助手 · 品牌工作台</title><link rel="stylesheet" href="./src/agent.css"><link rel="stylesheet" href="./src/management.css"><link rel="stylesheet" href="./src/workbench.css"><link rel="stylesheet" href="./src/analytics.css"></head>
 <body class="workbench"><div class="workspace-shell">
 <aside class="workspace-nav" id="workspaceNav">
  <a class="workspace-logo" href="#/chat"><span>✳</span><div>营销助手<small>你的智能营销创作伙伴</small></div></a>
@@ -26,6 +26,7 @@
  <aside class="context-panel" id="contextPanel" aria-label="品牌与任务上下文"></aside>
  <section id="managementRoot" class="management" hidden><div hidden><span id="crumb"></span><span id="modeStatus"></span><span id="quotaStatus"></span><span id="workspaceStatus"></span><nav id="nav"></nav></div><div class="wrap" id="app"></div><div id="modal"></div><div id="toast" hidden class="toast" role="status"></div></section>
  <section id="conversationRoot" class="records-pane" hidden></section>
+ <section id="analyticsRoot" class="analytics-pane" hidden></section>
 </div></div></div>
 <dialog id="connection"><form method="dialog"><button class="close" aria-label="关闭">×</button></form><h2>模型连接</h2><p id="connectionStatus"></p><p>密钥只由后端读取，不在这个页面填写或保存。</p><p>沿用现有仓库的文字模型配置即可。可在本机 <code>backend/.env.local</code> 配置，或启动时指定已有私有配置文件。</p><p>配置后重启后端，页面会自动切换到模型模式；实际可用性以调用结果为准。</p><details><summary>开发者配置说明</summary><pre>WORD_API_KEY=你的密钥
 QWEN_BASE_URL=服务的基础地址

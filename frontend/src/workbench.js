@@ -5,12 +5,13 @@ import {icon} from './icons.js';
 
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const nav=[['chat','chat','与 Agent 对话'],['brands','layers','品牌资料'],['products','box','产品库'],['creations','spark','营销创作记录'],['conversations','clock','对话记录']];
+const nav=[['chat','chat','与 Agent 对话'],['analytics','chart','经营看板'],['brands','layers','品牌资料'],['products','box','产品库'],['creations','spark','营销创作记录'],['conversations','clock','对话记录']];
 const stageNames={collecting:'待补充 / 继续对话',analyzing:'正在分析',awaiting_confirmation:'待确认策略',generating:'正在创作',completed:'已完成',blocked:'待调整',failed:'需重试'};
 const commands=[['layers','建立品牌资料','上传资料，边聊边完善','我想建立品牌资料，请引导我上传需要的文件'],['pencil','写营销文案','商品介绍 / 品牌表达','帮我写一篇普通商品介绍文案，不做优惠活动'],['chart','检查优惠收益','售价 / 成本 / 优惠边界','我想只检查优惠是否满足成本，请帮我做单位收益测算'],['target','制定活动策略','经营分析 / 方案 / 文案','请结合我的销售情况制定下一步营销活动策略']];
 let route=parseRoute(location.hash),task=null,busy=false,workspace={brands:[],products:[],works:[]},recent=[];
 let selectedBrand=sessionStorage.getItem('workbench-brand')||'',routeToken=0,refreshTimer,refreshToken=0;
 let managementPromise,managementQueue=Promise.resolve(),managementKey='',managementDirty=true;
+let analyticsPromise;
 let conversationQuery='',conversationBrand='',conversationOffset=0,conversationRequest=0;
 let ready;
 
@@ -21,7 +22,7 @@ function updateHeader(){
  $('pageCaption').textContent=route.view==='chat'?'从创意到落地，一站式智能营销助手':nav.find(n=>n[0]===route.view)?.[2]||'营销助手';
  $('workspaceBrand').innerHTML='<option value="">新品牌 / 选择品牌</option>'+workspace.brands.map(b=>`<option value="${esc(b.id)}">${esc(b.name)}</option>`).join('')+'<option value="__demo__">模拟门店 · 示例数据</option>';
  $('workspaceBrand').value=route.view==='chat'?brandValue():selectedBrand;
- $('workspaceBrand').disabled=route.view==='chat'&&busy;
+ $('workspaceBrand').disabled=route.view==='analytics'||(route.view==='chat'&&busy);
  $('newTask').disabled=busy;
  $('toggleContext').hidden=route.view!=='chat';
 }
@@ -69,14 +70,24 @@ async function showRoute(){
  $('chatRoot').hidden=route.view!=='chat';$('contextPanel').hidden=route.view!=='chat';
  $('managementRoot').hidden=!['brands','products','creations'].includes(route.view);
  $('conversationRoot').hidden=route.view!=='conversations';updateHeader();
+ $('analyticsRoot').hidden=route.view!=='analytics';
  if(route.view==='chat'){
   await ready;if(token!==routeToken)return;
+  if(!task){const value=brandValue();await createAgent(value==='__demo__'?null:value||null,{demo:value==='__demo__'});if(token!==routeToken)return;}
   if(route.taskId&&route.taskId!==task?.id){try{await openAgent(route.taskId);}catch(e){alert(e.message);history.replaceState(null,'',routeHref('chat',task?.id));route=parseRoute(location.hash);}}
   if(token!==routeToken)return;
   if(task){rememberBrand(brandValue());history.replaceState(null,'',routeHref('chat',task.id));route=parseRoute(location.hash);}
   updateHeader();renderContext();return;
  }
  if(route.view==='conversations'){conversationBrand=selectedBrand==='__demo__'?'':selectedBrand;renderConversationPage();return;}
+ if(route.view==='analytics'){
+  await ready;if(token!==routeToken)return;
+  analyticsPromise??=import('./analytics.js');
+  const module=await analyticsPromise;
+  if(token!==routeToken)return;
+  await module.showAnalytics();
+  return;
+ }
  const target={brands:'brand',products:'products',creations:'history'}[route.view],bid=selectedBrand==='__demo__'?null:selectedBrand||null;
  const key=target+':'+(bid||'');
  if(key===managementKey&&!managementDirty)return;
@@ -132,5 +143,5 @@ $('workspaceBody').addEventListener('click',()=>{if(innerWidth<=760)document.bod
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeContext();document.body.classList.remove('nav-open');}});
 window.addEventListener('hashchange',()=>showRoute().catch(e=>alert(e.message)));
 updateHeader();renderContext();
-ready=initializeAgent({taskId:route.taskId});
+ready=initializeAgent({taskId:route.taskId,createIfMissing:route.view==='chat'});
 await refreshData();await showRoute();

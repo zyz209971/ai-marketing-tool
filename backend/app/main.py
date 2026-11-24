@@ -18,6 +18,7 @@ from . import knowledge
 from . import studio
 from . import materials, jobs
 from . import workspace, auth
+from . import analytics
 from .marketing_agent import api as agent_api
 
 app_logger = logging.getLogger("app")
@@ -36,6 +37,8 @@ app.include_router(materials.router)
 app.include_router(jobs.router)
 app.include_router(workspace.router)
 app.include_router(agent_api.router)
+app.include_router(analytics.router)
+app.add_event_handler('startup', analytics.startup)
 app.add_event_handler('startup', agent_api.startup)
 app.add_event_handler('shutdown', agent_api.shutdown)
 auth.init_db()
