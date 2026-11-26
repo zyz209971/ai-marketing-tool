@@ -44,3 +44,9 @@ def test_decision_accepts_web_search():
     enums = schema['properties']['tool']['anyOf'][0]['enum']
     assert 'web_search' in enums
     assert 'tool_query' in schema['properties']
+
+
+def test_message_input_web_search_default_on():
+    from app.marketing_agent.contracts import MessageInput
+    m = MessageInput(request_id='abcdefgh', expected_revision=0)
+    assert m.web_search is True

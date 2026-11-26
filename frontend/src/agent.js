@@ -13,6 +13,35 @@ const names={T001:'茉莉鲜奶茶',T002:'乌龙鲜奶茶',T003:'红茶鲜奶茶
 const platforms={xiaohongshu:'小红书',douyin:'抖音',wechat_official_account:'微信公众号'};
 let task=null,busy=false;
 let selectedAnswers={};
+let webSearchOn=localStorage.getItem('agent-web-search')!=='0';
+let recognize=null,listening=false,voiceBase='';
+const SpeechRecognition=globalThis.SpeechRecognition||globalThis.webkitSpeechRecognition;
+function saveDraft(value){if(task?.id)sends.saveDraft(task.id,value);}
+function toggleWebSearch(){webSearchOn=!webSearchOn;localStorage.setItem('agent-web-search',webSearchOn?'1':'0');const b=$('webSearchToggle');if(b)b.setAttribute('aria-pressed',String(webSearchOn));}
+function setupComposer(){
+ const toggle=$('webSearchToggle'),mic=$('mic');
+ if(toggle){toggle.setAttribute('aria-pressed',String(webSearchOn));toggle.onclick=toggleWebSearch;}
+ if(mic){
+  mic.onclick=()=>{
+   if(!SpeechRecognition){$('error').hidden=false;$('error').textContent='当前浏览器不支持语音输入，请使用 Chrome 或 Edge。';return;}
+   if(listening){recognize.stop();return;}
+   recognize=new SpeechRecognition();recognize.lang='zh-CN';recognize.continuous=true;recognize.interimResults=true;
+   voiceBase=$('message').value;
+   recognize.onstart=()=>{listening=true;mic.classList.add('recording');mic.setAttribute('aria-pressed','true');if($('voiceHint'))$('voiceHint').hidden=false;};
+   recognize.onend=()=>{listening=false;mic.classList.remove('recording');mic.setAttribute('aria-pressed','false');if($('voiceHint'))$('voiceHint').hidden=true;};
+   recognize.onerror=e=>{listening=false;mic.classList.remove('recording');mic.setAttribute('aria-pressed','false');if($('voiceHint'))$('voiceHint').hidden=true;if(e.error!=='aborted'&&e.error!=='no-speech'){$('error').hidden=false;$('error').textContent='语音识别出现问题：'+e.error+'。已输入的文字仍然保留。';}};
+   recognize.onresult=e=>{
+    let final='',interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)final+=t;else interim+=t;}
+    if(final)voiceBase+=final;
+    // 追加而不覆盖：语音内容拼在原有文字后面，用户之前打字和上一段语音都不受影响。
+    $('message').value=voiceBase+interim;
+    saveDraft($('message').value);
+   };
+   try{recognize.start();}catch(e){listening=false;$('error').hidden=false;$('error').textContent='语音输入未能启动，请再试一次。';}
+  };
+ }
+}
 const sends=createSendState({getItem:k=>sessionStorage.getItem(k),setItem:(k,v)=>sessionStorage.setItem(k,v),removeItem:k=>sessionStorage.removeItem(k)},()=>fail(Error('浏览器暂时无法保存草稿，当前文字仍保留在页面中；刷新前请复制备份。')));
 function fail(e){$('error').hidden=false;$('error').textContent=e.message||String(e);}
 function bottom(){if($('chatRoot')?.hidden)return;requestAnimationFrame(()=>{$('scrollArea').scrollTo({top:$('scrollArea').scrollHeight,behavior:'instant'});});}
@@ -169,6 +198,7 @@ async function initialize({taskId=null}={}){try{
  }catch(e){if(e.status===403){$('access').hidden=false;$('connection').showModal();}fail(e);}}
 $('unlock').onclick=async()=>{try{await verifyAccess($('accessKey').value);$('connection').close();await initialize();}catch(e){fail(e);}};
 setupWorkspace({getTask:()=>task,load,open,fail,setBusy,isBusy:()=>busy,resumeAttachment:()=>send('message',{text:'继续补资料'})});
+setupComposer();
 export {initialize as initializeAgent,open as openAgent};
 export const currentAgent=()=>({task,busy});
 export function prefillAgent(value){if(!task?.state)return;$('message').value=value;sends.saveDraft(task.id,value);if(!$('chatRoot')?.hidden)$('message').focus();}

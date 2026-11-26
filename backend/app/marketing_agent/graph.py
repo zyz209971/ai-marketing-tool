@@ -15,6 +15,7 @@ from .contracts import Brief
 class State(TypedDict, total=False):
     task_id: str
     text: str
+    web_search: bool
     input_patch: dict
     operation: str
     brief: dict

@@ -152,7 +152,7 @@ def enqueue(ident, request, operation):
                 raise HTTPException(422, '请填写消息或补充资料。')
             # Validate explicit patches synchronously so malformed UI input is actionable.
             Brief.model_validate({**state['brief'], **request.patch})
-            state.update(text=request.text, input_patch=request.patch)
+            state.update(text=request.text, input_patch=request.patch, web_search=bool(getattr(request, 'web_search', True)))
             state['messages'].append({'role': 'user', 'content': request.text or '已通过表单补充资料',
                                       'patch': request.patch, 'at': now()})
         run_id = uuid4().hex

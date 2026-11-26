@@ -94,6 +94,7 @@ class MessageInput(Contract):
     text: str = Field(default='', max_length=5000)
     patch: dict = Field(default_factory=dict)
     expected_revision: int = Field(ge=0)
+    web_search: bool = Field(default=True)
 
 
 class CreateConversation(Contract):
