@@ -87,18 +87,24 @@ def clarification(state, missing):
         if falling:
             item = falling[0]
             prefix = f"所选数据中，{item['name']}本期销量较上期下降了 {abs(item['change_ratio'])*100:.0f}%。可以优先考虑它，但这只是变化，暂时不能据此判断原因。\n\n"
-    # 优惠缺失时，自动生成带方案的选项，让用户点选而不是手动输入折扣。
+    # 优惠缺失时，用本地规则生成候选方案（不调模型），让用户点选而不是手动输入折扣。
     options = []
     if first == 'offer':
-        try:
-            for proposal in model.propose_offers(state).candidates:
-                offer = proposal.offer.model_dump()
-                label = '原价推广' if offer['type']=='none' else ('第二杯' if offer['type']=='second_cup_discount' else '每杯')+f"{offer['pay_bps']/1000:g}折"
+        # 候选优惠机制是固定的三类，直接本地生成，省去一次模型调用；成本校验是纯本地计算。
+        candidates = [
+            {'offer': {'type': 'second_cup_discount', 'pay_bps': 5000}, 'rationale': '鼓励同单购买两杯，让利最明显。'},
+            {'offer': {'type': 'second_cup_discount', 'pay_bps': 7000}, 'rationale': '让利更小，作为半价的保守备选。'},
+            {'offer': {'type': 'none', 'pay_bps': 10000}, 'rationale': '不降价，侧重商品卖点；作为原价对照。'},
+        ]
+        for cand in candidates:
+            offer = cand['offer']
+            label = '原价推广' if offer['type'] == 'none' else f"第二杯{offer['pay_bps']/1000:g}折"
+            try:
                 evaluation = business.call_tool('evaluate_promotion', {**state['brief'], 'offer': offer})
-                if evaluation['status'] == 'ok' and not evaluation['missing_fields']:
-                    options.append({'name': label, 'offer': offer, 'rationale': proposal.rationale, 'evaluation': evaluation})
-        except Exception:
-            options = []
+            except Exception:
+                evaluation = None
+            if evaluation and evaluation['status'] == 'ok' and not evaluation['missing_fields']:
+                options.append({'name': label, 'offer': offer, 'rationale': cand['rationale'], 'evaluation': evaluation})
     return {'stage': 'collecting', 'reply': prefix+question, 'pending_fields': [first], 'clarification_fields': missing,
             'suggestions': suggestions if not options else [], 'options': options}
 
@@ -263,15 +269,17 @@ def finalize(state):
             first = probe['missing_fields'][0]
             return {'reply':first['reason'], 'stage':'collecting', 'pending_fields':[first['path']], 'options':[], 'suggestions':[]}
         options = []
-        proposals = model.propose_offers(state)
-        for proposal in proposals.candidates:
-            offer = proposal.offer.model_dump()
-            label = '原价推广' if offer['type']=='none' else ('第二杯' if offer['type']=='second_cup_discount' else '每杯')+f"{offer['pay_bps']/1000:g}折"
+        # 候选优惠机制固定三类，本地生成（不调模型）；成本校验是纯本地计算。
+        for offer, rationale in [
+                ({'type': 'second_cup_discount', 'pay_bps': 5000}, '鼓励同单购买两杯，让利最明显。'),
+                ({'type': 'second_cup_discount', 'pay_bps': 7000}, '让利更小，作为半价的保守备选。'),
+                ({'type': 'none', 'pay_bps': 10000}, '不降价，侧重商品卖点；作为原价对照。')]:
+            label = '原价推广' if offer['type']=='none' else f"第二杯{offer['pay_bps']/1000:g}折"
             evaluation = business.call_tool('evaluate_promotion', {**b, 'offer': offer})
             if evaluation['missing_fields']:
                 first = evaluation['missing_fields'][0]
                 return {'reply': first['reason'], 'stage': 'collecting', 'pending_fields': [first['path']], 'options': [], 'suggestions': []}
-            options.append({'name': label, 'offer': offer, 'rationale':proposal.rationale, 'evaluation': evaluation})
+            options.append({'name': label, 'offer': offer, 'rationale': rationale, 'evaluation': evaluation})
         if state['source_version'] != business.source_version(b):
             raise ValueError('比较期间资料已变化，请重新发送需求。')
         return {'stage': 'collecting', 'options': options, 'pending_fields': ['offer'], 'suggestions': [],
