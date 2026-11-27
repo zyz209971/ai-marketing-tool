@@ -14,4 +14,14 @@ def public_message(exc):
         return '模型服务没有可用路由，请检查模型 ID、服务地址及账户路由限制。资料已保留。'
     if status == 429:
         return '模型服务暂时限流，请稍后重试。资料已保留。'
+    if 'timed out' in message or 'timeout' in message:
+        return '模型响应超时（可能是网络波动或服务繁忙）。已自动重试仍失败，请稍后再发一次。资料已保留。'
+    if 'connection' in message:
+        return '连接模型服务失败，请检查网络后重试。资料已保留。'
+    # 超时/连接类异常没有 HTTP body，从异常文本兜底识别。
+    raw = str(exc).lower()
+    if 'timed out' in raw or 'timeout' in raw:
+        return '模型响应超时（可能是网络波动或服务繁忙）。已自动重试仍失败，请稍后再发一次。资料已保留。'
+    if 'connection' in raw:
+        return '连接模型服务失败，请检查网络后重试。资料已保留。'
     return '模型服务调用失败，请检查服务配置或稍后重试。资料已保留。'
