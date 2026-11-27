@@ -110,10 +110,10 @@ async function load(){task=await get('/conversations/'+task.id);render();await h
 async function poll(runId){for(;;){const run=await get('/runs/'+runId);if(['succeeded','failed'].includes(run.status)){await load();if(run.status==='failed')fail(Error(run.error));return;}await new Promise(r=>setTimeout(r,800));}}
 function renderRecovery(){
  $('sendRecovery')?.remove();
- const a=task?.id?sends.attempt(task.id):null;if(!a)return;
- const accepted=a.state==='accepted',rejected=a.state==='rejected';
+ const a=task?.id?sends.attempt(task.id):null;if(!a||a.state==='accepted')return;
+ const rejected=a.state==='rejected';
  const box=document.createElement('section');box.id='sendRecovery';box.className='card warning';
- box.innerHTML='<p>'+ (accepted?'消息已接收，正在保留执行记录。无需再次发送。':rejected?'本次提交未被接收，草稿已保留。请核对最新问题后修改或重新发送。':'上次发送结果尚未确认，草稿和原请求已保留。先检查接收状态，避免重复发送。')+'</p>'+(a.payload.text?'<p class="prose">'+escape(a.payload.text)+'</p>':'')+(!rejected?'<button id="checkSubmission">'+(accepted?'查看执行结果':'检查接收状态')+'</button>':'');
+ box.innerHTML='<p>'+ (rejected?'本次提交未被接收，草稿已保留。请核对最新问题后修改或重新发送。':'上次发送结果尚未确认，草稿和原请求已保留。先检查接收状态，避免重复发送。')+'</p>'+(a.payload.text?'<p class="prose">'+escape(a.payload.text)+'</p>':'')+(!rejected?'<button id="checkSubmission">检查接收状态</button>':'');
  $('chat').before(box);
  if(!rejected)$('checkSubmission').onclick=()=>recoverSubmission(false);
  if(a.state==='unknown'&&a.checkedAbsent){const button=document.createElement('button');button.textContent='按原内容重试';button.onclick=()=>recoverSubmission(true);box.append(button);}
