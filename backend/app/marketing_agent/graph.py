@@ -87,7 +87,20 @@ def clarification(state, missing):
         if falling:
             item = falling[0]
             prefix = f"所选数据中，{item['name']}本期销量较上期下降了 {abs(item['change_ratio'])*100:.0f}%。可以优先考虑它，但这只是变化，暂时不能据此判断原因。\n\n"
-    return {'stage': 'collecting', 'reply': prefix+question, 'pending_fields': [first], 'clarification_fields': missing, 'suggestions': []}
+    # 优惠缺失时，自动生成带方案的选项，让用户点选而不是手动输入折扣。
+    options = []
+    if first == 'offer':
+        try:
+            for proposal in model.propose_offers(state).candidates:
+                offer = proposal.offer.model_dump()
+                label = '原价推广' if offer['type']=='none' else ('第二杯' if offer['type']=='second_cup_discount' else '每杯')+f"{offer['pay_bps']/1000:g}折"
+                evaluation = business.call_tool('evaluate_promotion', {**state['brief'], 'offer': offer})
+                if evaluation['status'] == 'ok' and not evaluation['missing_fields']:
+                    options.append({'name': label, 'offer': offer, 'rationale': proposal.rationale, 'evaluation': evaluation})
+        except Exception:
+            options = []
+    return {'stage': 'collecting', 'reply': prefix+question, 'pending_fields': [first], 'clarification_fields': missing,
+            'suggestions': suggestions if not options else [], 'options': options}
 
 
 def dependency(brief):
