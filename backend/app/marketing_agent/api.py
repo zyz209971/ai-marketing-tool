@@ -152,5 +152,10 @@ def run(run_id: str):
     return store.get_run(run_id)
 
 
+@router.post('/runs/{run_id}/cancel')
+def cancel(run_id: str):
+    return store.cancel_run(run_id)
+
+
 from .attachments import register
 register(router)

@@ -97,6 +97,30 @@ def get_run(ident):
     return {k: result[k] for k in ('id', 'task_id', 'status', 'error', 'created')}
 
 
+def cancel_run(ident):
+    """Mark a queued/running run as cancelled and release the task lock.
+
+    The worker thread checks ``task.active_run != run_id`` before writing any
+    result, so flipping the lock here makes the in-flight execution a no-op
+    without killing the thread or risking a partial write.
+    """
+    with kb.engine.begin() as c:
+        kb.lock_workspace(c)
+        run = c.execute(text('SELECT id,task_id,status FROM agent_runs WHERE id=:id'), {'id': ident}).mappings().first()
+        if not run:
+            raise HTTPException(404, '执行记录不存在。')
+        task = c.execute(text('SELECT id FROM agent_tasks WHERE id=:id'), {'id': run['task_id']}).mappings().first()
+        if not task:
+            raise HTTPException(404, '对话不存在。')
+        if run['status'] not in ('queued', 'running'):
+            return {'run_id': ident, 'status': run['status'], 'cancelled': False}
+        # Only clear the lock if this run still owns it, so we never clobber a newer run.
+        c.execute(text("UPDATE agent_tasks SET active_run=NULL WHERE id=:id AND active_run=:run"),
+                  {'id': run['task_id'], 'run': ident})
+        c.execute(text("UPDATE agent_runs SET status='cancelled', error='' WHERE id=:id"), {'id': ident})
+    return {'run_id': ident, 'status': 'cancelled', 'cancelled': True}
+
+
 def submission_receipt(ident, request_id):
     with kb.engine.connect() as c:
         row(c, ident)  # Authorize the conversation before looking up a receipt.

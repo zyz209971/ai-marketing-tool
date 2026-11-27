@@ -12,6 +12,7 @@ const stages={collecting:'正在聊需求',analyzing:'正在分析',awaiting_con
 const names={T001:'茉莉鲜奶茶',T002:'乌龙鲜奶茶',T003:'红茶鲜奶茶'};
 const platforms={xiaohongshu:'小红书',douyin:'抖音',wechat_official_account:'微信公众号'};
 let task=null,busy=false;
+let activeRunId=null;
 let selectedAnswers={};
 let webSearchOn=localStorage.getItem('agent-web-search')!=='0';
 let recognize=null,listening=false,voiceBase='';
@@ -45,7 +46,7 @@ function setupComposer(){
 const sends=createSendState({getItem:k=>sessionStorage.getItem(k),setItem:(k,v)=>sessionStorage.setItem(k,v),removeItem:k=>sessionStorage.removeItem(k)},()=>fail(Error('浏览器暂时无法保存草稿，当前文字仍保留在页面中；刷新前请复制备份。')));
 function fail(e){$('error').hidden=false;$('error').textContent=e.message||String(e);}
 function bottom(){if($('chatRoot')?.hidden)return;requestAnimationFrame(()=>{$('scrollArea').scrollTo({top:$('scrollArea').scrollHeight,behavior:'instant'});});}
-function setBusy(value){busy=value;($('chatRoot')||document).querySelectorAll('button:not(#toggleSidebar):not(#mode):not(#settings):not(.close)').forEach(b=>b.disabled=value||b.dataset.incomplete==='true'||(b.dataset.option!==undefined&&!task?.state.options?.[Number(b.dataset.option)]?.evaluation.result.feasible));$('message').disabled=value;$('thinking').hidden=!value;$('suggestions').hidden=value;if(value)bottom();document.dispatchEvent(new CustomEvent('workbench:busy',{detail:{busy:value,task}}));}
+function setBusy(value){busy=value;($('chatRoot')||document).querySelectorAll('button:not(#toggleSidebar):not(#mode):not(#settings):not(.close)').forEach(b=>b.disabled=value||b.dataset.incomplete==='true'||(b.dataset.option!==undefined&&!task?.state.options?.[Number(b.dataset.option)]?.evaluation.result.feasible));$('message').disabled=value;$('thinking').hidden=!value;$('suggestions').hidden=value;if($('stopGeneration'))$('stopGeneration').hidden=!value;if(value)bottom();document.dispatchEvent(new CustomEvent('workbench:busy',{detail:{busy:value,task}}));}
 async function history(){const {conversations}=await get('/conversations');$('history').innerHTML=conversations.map(c=>`<button class="task ${c.id===task?.id?'active':''}" data-id="${escape(c.id)}" title="${escape(c.title||'营销对话')}">${escape(c.title||'营销对话')}<small>${escape(new Date(c.updated).toLocaleDateString())}</small></button>`).join('');$('history').querySelectorAll('button').forEach(b=>{b.disabled=busy;b.onclick=()=>open(b.dataset.id).catch(fail);});}
 function period(b){const end=new Date(b.end_date+'T12:00:00');end.setDate(end.getDate()-1);return `${b.start_date} 至 ${end.getFullYear()}-${String(end.getMonth()+1).padStart(2,'0')}-${String(end.getDate()).padStart(2,'0')}（含）`;}
 function strategyCard(strategy,s){
@@ -107,7 +108,7 @@ function render(){
  renderRecovery();setBusy(busy);bottom();document.dispatchEvent(new CustomEvent('workbench:task',{detail:task}));
 }
 async function load(){task=await get('/conversations/'+task.id);render();await history();}
-async function poll(runId){for(;;){const run=await get('/runs/'+runId);if(['succeeded','failed'].includes(run.status)){await load();if(run.status==='failed')fail(Error(run.error));return;}await new Promise(r=>setTimeout(r,800));}}
+async function poll(runId){for(;;){const run=await get('/runs/'+runId);if(['succeeded','failed','cancelled'].includes(run.status)){await load();if(run.status==='failed')fail(Error(run.error));return;}await new Promise(r=>setTimeout(r,800));}}
 function renderRecovery(){
  $('sendRecovery')?.remove();
  const a=task?.id?sends.attempt(task.id):null;if(!a||a.state==='accepted')return;
@@ -125,6 +126,12 @@ function acceptAttempt(a,runId){
  if(a.action==='answer'&&a.payload.question_id){sends.write('agent-batch:'+task.id+':'+a.payload.question_id,null);selectedAnswers={};}
 }
 async function finishAttempt(a){await poll(a.runId);sends.clearAttempt(task.id);renderRecovery();}
+async function cancelActive(){
+ if(!activeRunId)return;
+ const runId=activeRunId;activeRunId=null;
+ try{await post('/runs/'+runId+'/cancel');}catch{}
+ await load();
+}
 async function recoverSubmission(retry=false){
  if(busy||!task)return;const a=sends.attempt(task.id);if(!a||a.state==='rejected')return;
  setBusy(true);
@@ -155,9 +162,9 @@ async function open(id){
 async function transmitAttempt(a){
  a.state='submitting';saveAttempt(a);
  try{
-  const result=await post('/conversations/'+task.id+'/'+submissionPath(a.action),a.payload);
-  if(typeof result?.run_id!=='string'||!result.run_id)throw Error('未收到有效接收记录，请先检查发送状态。');
-  acceptAttempt(a,result.run_id);
+   const result=await post('/conversations/'+task.id+'/'+submissionPath(a.action),a.payload);
+   if(typeof result?.run_id!=='string'||!result.run_id)throw Error('未收到有效接收记录，请先检查发送状态。');
+   activeRunId=result.run_id;acceptAttempt(a,result.run_id);
  }catch(e){
   // 4xx rejects this operation; a lost/5xx response cannot prove non-acceptance.
   a.state=e.status>=400&&e.status<500?'rejected':'unknown';a.checkedAbsent=false;saveAttempt(a);
@@ -177,8 +184,8 @@ async function send(action,body){
  const draft=$('message').value;sends.saveDraft(task.id,draft||body.text||'');
  let a;try{a=prepareAttempt(action,{...body,request_id:key(),expected_revision:task.revision},draft,selectedAnswers);}catch(e){fail(e);return;}
  saveAttempt(a);setBusy(true);
- try{await transmitAttempt(a);}
- finally{setBusy(false);renderRecovery();if(!$('chatRoot')?.hidden)$('message').focus();bottom();}
+  try{await transmitAttempt(a);}
+  finally{activeRunId=null;setBusy(false);renderRecovery();if(!$('chatRoot')?.hidden)$('message').focus();bottom();}
 }
 $('chat').onsubmit=e=>{e.preventDefault();const text=$('message').value.trim();const q=task?.state.input_request;
  if(q&&(Object.keys(selectedAnswers).length||text)){
@@ -201,6 +208,7 @@ async function initialize({taskId=null,createIfMissing=true}={}){try{
 $('unlock').onclick=async()=>{try{await verifyAccess($('accessKey').value);$('connection').close();await initialize();}catch(e){fail(e);}};
 setupWorkspace({getTask:()=>task,load,open,fail,setBusy,isBusy:()=>busy,resumeAttachment:()=>send('message',{text:'继续补资料'})});
 setupComposer();
+$('stopGeneration')?.addEventListener('click',()=>{cancelActive();});
 export {initialize as initializeAgent,open as openAgent};
 export const currentAgent=()=>({task,busy});
 export function prefillAgent(value){if(!task?.state)return;$('message').value=value;sends.saveDraft(task.id,value);if(!$('chatRoot')?.hidden)$('message').focus();}
