@@ -1,4 +1,4 @@
-const views=new Set(['chat','brands','products','creations','conversations']);
+const views=new Set(['chat','analytics','brands','products','creations','conversations']);
 export function parseRoute(hash=''){
  const [raw,id]=hash.replace(/^#\/?/,'').split('/');
  const view=views.has(raw)?raw:'chat';

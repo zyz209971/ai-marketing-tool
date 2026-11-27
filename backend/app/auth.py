@@ -134,7 +134,7 @@ async def middleware(request, call_next):
     if not row:
         return JSONResponse({'detail':'请登录后继续。'},status_code=401)
     # Legacy generation writes to a global catalogue. Keep it local until migrated.
-    if not request.url.path.startswith(('/api/auth/', '/api/agent/', '/api/knowledge/', '/api/v2/')) and request.url.path not in ('/api/quota','/api/verify_key'):
+    if not request.url.path.startswith(('/api/auth/', '/api/agent/', '/api/knowledge/', '/api/v2/', '/api/analytics/')) and request.url.path not in ('/api/quota','/api/verify_key'):
         return JSONResponse({'detail':'此旧版共享接口在账号模式下已关闭，请使用品牌工作空间。'},status_code=404)
     with workspace_scope(row[0]):
         response = await call_next(request)

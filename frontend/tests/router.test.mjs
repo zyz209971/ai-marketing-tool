@@ -9,6 +9,8 @@ test('default view is chat and task links retain task identifiers',()=>{
 test('unknown routes fall back safely and management routes have no task',()=>{
  assert.deepEqual(parseRoute('#/products'),{view:'products',taskId:null});
  assert.deepEqual(parseRoute('#/conversations'),{view:'conversations',taskId:null});
+ assert.deepEqual(parseRoute('#/analytics'),{view:'analytics',taskId:null});
+ assert.equal(routeHref('analytics'),'#/analytics');
  assert.equal(parseRoute('#/invalid').view,'chat');
  assert.equal(parseRoute('#/chat/%3Cscript%3E').taskId,null);
 });

@@ -18,6 +18,8 @@ python backend/scripts/run_agent_local.py                     # Windows 也可�
 
 打开 http://127.0.0.1:8021/ 。没有模型 Key 时自动进入演示模式（模板文案 + 占位图）。新环境默认无品牌数据：从页面上传品牌资料建档，或按 [docs/marketing-data-guide.md](docs/marketing-data-guide.md) 准备。
 
+经营看板（订单级合成演示数据）：首次先运行 `python backend/scripts/import_analytics.py`，再打开 `http://127.0.0.1:8021/#/analytics`。数据与范围说明见 [docs/operating-dashboard-report.md](docs/operating-dashboard-report.md)。
+
 ## 测试
 
 ```bash
@@ -46,7 +48,7 @@ docker compose --env-file .env.deploy up --build -d
 
 ## 文档地图
 
-[AGENTS.md](AGENTS.md) 开发约束 · [docs/product-requirements.md](docs/product-requirements.md) 功能边界 · [docs/marketing-data-guide.md](docs/marketing-data-guide.md) 数据准备 · [docs/model-configuration.md](docs/model-configuration.md) 模型配置 · [docs/deployment.md](docs/deployment.md) 部署 · [specs/](specs/) SDD 规格档案 · [docs/history/](docs/history/) 历史文档 · [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json) 本轮导入基线（生成脚本 `scripts/make_release_manifest.py`）
+[AGENTS.md](AGENTS.md) 开发约束 · [docs/product-requirements.md](docs/product-requirements.md) 功能边界 · [docs/marketing-data-guide.md](docs/marketing-data-guide.md) 数据准备 · [docs/model-configuration.md](docs/model-configuration.md) 模型配置 · [docs/deployment.md](docs/deployment.md) 部署 · [docs/operating-dashboard-report.md](docs/operating-dashboard-report.md) 经营看板实现报告 · [specs/](specs/) SDD 规格档案 · [docs/history/](docs/history/) 历史文档 · [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json) 本轮导入基线（生成脚本 `scripts/make_release_manifest.py`）
 
 ## 协作方式
 
