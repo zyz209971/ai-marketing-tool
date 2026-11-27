@@ -17,6 +17,11 @@ let selectedAnswers={};
 let webSearchOn=localStorage.getItem('agent-web-search')!=='0';
 let recognize=null,listening=false,voiceBase='';
 const SpeechRecognition=globalThis.SpeechRecognition||globalThis.webkitSpeechRecognition;
+function showMicPermissionHelp(){
+ $('error').hidden=false;
+ const isSecure=location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname);
+ $('error').innerHTML='麦克风权限被拒绝，语音输入无法启动。请在地址栏左侧的锁形图标上点击，把「麦克风」权限改为「允许」，然后刷新页面重试。'+(isSecure?'':'<br>注意：非 HTTPS 页面（'+escape(location.hostname)+'）浏览器可能不允许使用麦克风，建议改用 <code>http://127.0.0.1:8000</code> 或 <code>http://localhost:8000</code> 访问。');
+}
 function saveDraft(value){if(task?.id)sends.saveDraft(task.id,value);}
 function toggleWebSearch(){webSearchOn=!webSearchOn;localStorage.setItem('agent-web-search',webSearchOn?'1':'0');const b=$('webSearchToggle');if(b)b.setAttribute('aria-pressed',String(webSearchOn));}
 function setupComposer(){
@@ -30,7 +35,9 @@ function setupComposer(){
    voiceBase=$('message').value;
    recognize.onstart=()=>{listening=true;mic.classList.add('recording');mic.setAttribute('aria-pressed','true');if($('voiceHint'))$('voiceHint').hidden=false;};
    recognize.onend=()=>{listening=false;mic.classList.remove('recording');mic.setAttribute('aria-pressed','false');if($('voiceHint'))$('voiceHint').hidden=true;};
-   recognize.onerror=e=>{listening=false;mic.classList.remove('recording');mic.setAttribute('aria-pressed','false');if($('voiceHint'))$('voiceHint').hidden=true;if(e.error!=='aborted'&&e.error!=='no-speech'){$('error').hidden=false;$('error').textContent='语音识别出现问题：'+e.error+'。已输入的文字仍然保留。';}};
+   recognize.onerror=e=>{listening=false;mic.classList.remove('recording');mic.setAttribute('aria-pressed','false');if($('voiceHint'))$('voiceHint').hidden=true;
+    if(e.error==='not-allowed'||e.error==='service-not-allowed'){showMicPermissionHelp();return;}
+    if(e.error!=='aborted'&&e.error!=='no-speech'){$('error').hidden=false;$('error').textContent='语音识别出现问题：'+e.error+'。已输入的文字仍然保留。';}};
    recognize.onresult=e=>{
     let final='',interim='';
     for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)final+=t;else interim+=t;}
@@ -39,7 +46,7 @@ function setupComposer(){
     $('message').value=voiceBase+interim;
     saveDraft($('message').value);
    };
-   try{recognize.start();}catch(e){listening=false;$('error').hidden=false;$('error').textContent='语音输入未能启动，请再试一次。';}
+   try{recognize.start();}catch(e){listening=false;if(e.name==='NotAllowedError'||e.name==='SecurityError'||String(e).includes('not-allowed')){showMicPermissionHelp();}else{$('error').hidden=false;$('error').textContent='语音输入未能启动，请再试一次。';}}
   };
  }
 }
@@ -59,7 +66,25 @@ function artifactEvidence(a){
  const sources=(a.source_refs||[]).map(id=>task.attachments?.find(x=>x.payload.document_id===id)?.payload.filename||('已确认品牌资料 · '+id.slice(0,8)));
  return `<details><summary>查看依据与检查结果</summary><p>${a.kind==='content'?'普通文案：使用已确认品牌事实，不含优惠承诺。':`依据已确认策略 v${a.strategy_version}；交易条件${a.validation?.terms_match?'已核对':'待核对'}。`}</p><p>商品事实：${escape(sources.join('、')||'已确认商品目录')}。</p><p>写作参考：${(a.retrieval?.marketing_refs||[]).length} 条；品牌偏好：${(a.retrieval?.memory_refs||[]).length} 条。参考案例仅用于写作结构。</p><p class="note">语义与品牌表达仍需人工复核，当前没有自动证明每句话准确。</p></details>`;
 }
-function artifactCard(a){return `<section class="card artifact ${a.stale?'stale':''}" data-artifact="${escape(a.id)}"><div class="row"><h2>为你准备的文案</h2><span class="pill">v${a.version}${a.stale?' · 历史版本':''}</span></div><h3>${escape(a.title)}</h3><div class="prose">${escape(a.body)}</div><p class="note">${a.mock?'离线演示文案 · ':''}${a.kind==='content'?'普通品牌 / 商品文案':'基于活动方案 v'+a.strategy_version}，发布前请核对。${task.state.brief.brand_id?'已归档至品牌与作品管理。':''}</p>${artifactEvidence(a)}<button class="copy" data-copy="${escape(a.id)}">复制文案</button></section>`;}
+function posterImage(a){
+ // 后端 image provider 返回三种格式：url / png(base64) / svg+xml(mock 占位)。
+ const img=a.image||{};
+ let src='';
+ if(img.format==='url'&&img.url)src=img.url;
+ else if(img.base64){
+  const mime=img.format==='svg+xml'?'image/svg+xml':(img.format==='png'?'image/png':'image/jpeg');
+  src=`data:${mime};base64,${img.base64}`;
+ }
+ if(!src)return '<p class="note">海报图片未返回，请重试。</p>';
+ const zoom=img.format==='url'&&img.url?`<a class="poster-zoom" href="${escape(img.url)}" target="_blank" rel="noopener">查看原图 ↗</a>`:'';
+ return `<figure class="poster-figure ${img.mock?'mock':''}"><img src="${escape(src)}" alt="${escape(a.title||'产品海报')}" loading="lazy"><figcaption>${img.mock?'<span class="note">离线占位图 · 配置生图密钥后出真实图片</span>':zoom}</figcaption></figure>`;
+}
+function artifactCard(a){
+ if(a.kind==='poster'){
+  return `<section class="card artifact poster-card ${a.stale?'stale':''}" data-artifact="${escape(a.id)}"><div class="row"><h2>产品海报</h2><span class="pill">v${a.version}${a.stale?' · 历史版本':''}</span></div><h3>${escape(a.title)}</h3>${posterImage(a)}<p class="note">${a.mock?'离线演示海报 · ':''}已结合知识库产品资料生成。${a.prompt?'<details><summary>查看生图提示词</summary><p class="prose">'+escape(a.prompt)+'</p></details>':''}</p></section>`;
+ }
+ return `<section class="card artifact ${a.stale?'stale':''}" data-artifact="${escape(a.id)}"><div class="row"><h2>为你准备的文案</h2><span class="pill">v${a.version}${a.stale?' · 历史版本':''}</span></div><h3>${escape(a.title)}</h3><div class="prose">${escape(a.body)}</div><p class="note">${a.mock?'离线演示文案 · ':''}${a.kind==='content'?'普通品牌 / 商品文案':'基于活动方案 v'+a.strategy_version}，发布前请核对。${task.state.brief.brand_id?'已归档至品牌与作品管理。':''}</p>${artifactEvidence(a)}<button class="copy" data-copy="${escape(a.id)}">复制文案</button></section>`;
+}
 function render(){
  const s=task.state;$('stage').textContent=stages[s.stage]||s.stage;
  Object.entries(task.catalog||{}).forEach(([id,p])=>names[id]=p.name);
@@ -181,9 +206,17 @@ async function send(action,body){
  if(pending&&pending.state!=='rejected'){renderRecovery();fail(Error('请先检查上次发送的接收状态，再继续发送。'));return;}
  $('error').hidden=true;
  // Persist input before generating an ID or making a request. Never clear optimistically.
- const draft=$('message').value;sends.saveDraft(task.id,draft||body.text||'');
- let a;try{a=prepareAttempt(action,{...body,request_id:key(),expected_revision:task.revision},draft,selectedAnswers);}catch(e){fail(e);return;}
- saveAttempt(a);setBusy(true);
+  const draft=$('message').value;sends.saveDraft(task.id,draft||body.text||'');
+  // 乐观上屏：用户发出的消息立即显示，不等待后端返回（尤其生图/生文案等待期间，不再"隐藏"）。
+  if(action==='message'&&body.text?.trim()){
+    if(!task.state.messages.some(m=>m.role==='user'&&m.content===body.text&&!m.__optimistic)){
+      const opt={role:'user',content:body.text,at:new Date().toISOString(),__optimistic:true};
+      task.state.messages.push(opt);
+    }
+    render();
+  }
+  let a;try{a=prepareAttempt(action,{...body,request_id:key(),expected_revision:task.revision},draft,selectedAnswers);}catch(e){fail(e);return;}
+  saveAttempt(a);setBusy(true);
   try{await transmitAttempt(a);}
   finally{activeRunId=null;setBusy(false);renderRecovery();if(!$('chatRoot')?.hidden)$('message').focus();bottom();}
 }

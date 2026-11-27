@@ -20,6 +20,11 @@ def checkpointer():
 
 
 def invoke(state):
+    # 店长 Agent + 专家团队编排（薄思考）。默认走 team.py，避免旧的逐字段追问
+    # 与多轮模型调用。若显式设置 AGENT_LEGACY_GRAPH 才回退到旧 LangGraph 编排。
+    if not os.getenv('AGENT_LEGACY_GRAPH', '').lower() in ('1', 'true'):
+        from .team import invoke as team_invoke
+        return team_invoke(state)
     from .graph import build_graph
     config = {'configurable':{'thread_id':state['task_id']},'recursion_limit':30}
     with checkpointer() as saver:

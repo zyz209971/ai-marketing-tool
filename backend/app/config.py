@@ -23,14 +23,18 @@ WORD_API_KEY = os.getenv("WORD_API_KEY") or os.getenv("QWEN_API_KEY") or os.gete
 QWEN_API_KEY = WORD_API_KEY
 
 # 生图服务可以使用独立的地址和 key；未配置地址时沿用文字接口地址。
+# 未单独配置 IMAGE_API_KEY 时，沿用文字接口的 key（同一 MaaS 端点通常共用同一个 key，
+# 已验证通义万相可用同一个 sk-ws-* key 生图）。
 IMAGE_BASE_URL = os.getenv("IMAGE_BASE_URL") or QWEN_BASE_URL
-IMAGE_API_KEY = os.getenv("IMAGE_API_KEY", "")
+IMAGE_API_KEY = os.getenv("IMAGE_API_KEY") or WORD_API_KEY
 
 # Embedding 使用独立配置。未配置时 RAG 自动使用中文 FTS5 / n-gram，
 # 不会错误地拿只支持聊天的 WORD_API_KEY 调用 embeddings 接口。
+# 同一千问 MaaS 端点下，embedding 与文案/生图常共用同一个 key（已验证 text-embedding-v3/v4 可用），
+# 因此 EMBED_API_KEY 缺省时沿用 WORD_API_KEY，让「只填一个 QWEN_API_KEY」即可全部生效。
 EMBED_BASE_URL = os.getenv("EMBED_BASE_URL") or QWEN_BASE_URL
-EMBED_API_KEY = os.getenv("EMBED_API_KEY") or os.getenv("EMBEDDING_API_KEY", "")
-EMBED_MODEL = os.getenv("EMBED_MODEL", "")
+EMBED_API_KEY = os.getenv("EMBED_API_KEY") or os.getenv("EMBEDDING_API_KEY", "") or WORD_API_KEY
+EMBED_MODEL = os.getenv("EMBED_MODEL", "text-embedding-v3")
 EMBED_DIMENSIONS = int(os.getenv("EMBED_DIMENSIONS", "1024"))
 
 # 生图模型（可通过 IMAGE_MODEL 切换为图片服务实际支持的模型 ID）
